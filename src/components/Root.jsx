@@ -1,29 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route } from 'react-router-dom';
-import routes from '../routes';
-
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import App from './App';
 
-export default class Root extends Component {
-  render() {
-    const { store } = this.props;
-
-    if (!this.routes) this.routes = routes;
-
-    return (
-      <Provider store={store}>
-        <BrowserRouter>
-          <div>
-            <Route exact path="/" component={App} />
-          </div>
-        </BrowserRouter>
-      </Provider>
-    );
-  }
-}
+const Root = ({ store }) => (
+  <Provider store={store}>
+    <Router>
+      <div>
+        <Route exact path="/" component={App} />
+      </div>
+    </Router>
+  </Provider>
+);
 
 Root.propTypes = {
   store: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
+
+export default Root;
