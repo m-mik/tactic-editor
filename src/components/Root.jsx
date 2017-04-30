@@ -2,16 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import App from './App';
 
+
 const Root = ({ store }) => (
-  <Provider store={store}>
-    <Router>
-      <div>
-        <Route exact path="/" component={App} />
-      </div>
-    </Router>
-  </Provider>
+  <MuiThemeProvider>
+    <Provider store={store}>
+      <Router>
+        <div>
+          <Route exact path="/" component={App} />
+        </div>
+      </Router>
+    </Provider>
+  </MuiThemeProvider>
 );
 
 Root.propTypes = {
