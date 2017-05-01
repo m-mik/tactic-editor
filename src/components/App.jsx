@@ -1,11 +1,15 @@
 import React from 'react';
 
 import SideBar from './SideBar';
+import Main from './Main';
+import TacticList from '../containers/TacticList';
 
 const App = () => (
   <div className="container">
-    <SideBar />
-    <div>test</div>
+    <SideBar>
+      <TacticList />
+    </SideBar>
+    <Main />
   </div>
 );
 

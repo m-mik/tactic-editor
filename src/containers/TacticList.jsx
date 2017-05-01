@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { List, ListItem, makeSelectable } from 'material-ui/List';
 import { RaisedButton } from 'material-ui';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { fetchTactics } from '../actions/tactics';
 
 const SelectableList = makeSelectable(List);
 
-export default class TacticList extends Component {
+class TacticList extends Component {
   constructor() {
     super();
 
@@ -13,6 +16,10 @@ export default class TacticList extends Component {
     };
 
     this.handleRequestChange = this.handleRequestChange.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.fetchTactics();
   }
 
   handleRequestChange(event, index) {
@@ -42,3 +49,9 @@ export default class TacticList extends Component {
     );
   }
 }
+
+TacticList.propTypes = {
+  fetchTactics: PropTypes.func.isRequired,
+};
+
+export default connect(null, { fetchTactics })(TacticList);
