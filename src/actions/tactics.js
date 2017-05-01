@@ -1,10 +1,18 @@
-import types from '../constants/ActionTypes';
+import * as types from '../constants/ActionTypes';
 import * as mockApi from '../api';
 
-export const requestTactics = () => {
-};
-
 export const fetchTactics = () => (dispatch) => {
-  dispatch(requestTactics);
-  mockApi.fetchTactics().then(tactics => console.log(tactics));
+  dispatch({ type: types.FETCH_TACTICS_REQUEST });
+
+  mockApi.fetchTactics().then((response) => {
+    dispatch({
+      type: types.FETCH_TACTICS_SUCCESS,
+      tactics: response.data.tactics,
+    });
+  }).catch((response) => {
+    dispatch({
+      type: types.FETCH_TACTICS_FAILURE,
+      error: response.data.error,
+    });
+  });
 };
