@@ -4,6 +4,8 @@ import { RaisedButton } from 'material-ui';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchTactics } from '../actions/tactics';
+import { tacticsSelector } from '../selectors/tactics';
+import Loading from '../components/Loading';
 
 const SelectableList = makeSelectable(List);
 
@@ -26,32 +28,45 @@ class TacticList extends Component {
     this.setState({ selectedIndex: index });
   }
 
+  renderTactics() {
+    return this.props.tactics.map(tactic =>
+      <ListItem value={tactic.id} primaryText={tactic.name} key={tactic.id} />,
+    );
+  }
+
   render() {
+    const { isFetching } = this.props;
+
     return (
-      <SelectableList
-        value={this.state.selectedIndex}
-        onChange={this.handleRequestChange}
-      >
+      <div>
         <RaisedButton fullWidth label="New Tactic" />
-        <ListItem
-          value={1}
-          primaryText="Item 1"
-        />
-        <ListItem
-          value={2}
-          primaryText="Item 2"
-        />
-        <ListItem
-          value={3}
-          primaryText="Item 3"
-        />
-      </SelectableList>
+        <SelectableList
+          value={this.state.selectedIndex}
+          onChange={this.handleRequestChange}
+        >
+          {isFetching && <Loading />}
+          {this.renderTactics()}
+        </SelectableList>
+      </div>
     );
   }
 }
 
 TacticList.propTypes = {
   fetchTactics: PropTypes.func.isRequired,
+  tactics: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+  })).isRequired,
+  isFetching: PropTypes.bool.isRequired,
 };
 
-export default connect(null, { fetchTactics })(TacticList);
+const mapStateToProps = (state) => {
+  const { tactics } = state.entities;
+  return {
+    tactics: tacticsSelector(state),
+    isFetching: tactics.isFetching,
+  };
+};
+
+export default connect(mapStateToProps, { fetchTactics })(TacticList);
