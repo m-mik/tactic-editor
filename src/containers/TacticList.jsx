@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { List, ListItem, makeSelectable } from 'material-ui/List';
 import { RaisedButton } from 'material-ui';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchTactics } from '../actions/tactics';
+import { fetchTactics, selectTactic } from '../actions/tactics';
 import { tacticsSelector } from '../selectors/tactics';
 import Loading from '../components/Loading';
 
@@ -13,10 +13,6 @@ class TacticList extends Component {
   constructor() {
     super();
 
-    this.state = {
-      selectedIndex: 1,
-    };
-
     this.handleRequestChange = this.handleRequestChange.bind(this);
   }
 
@@ -25,7 +21,7 @@ class TacticList extends Component {
   }
 
   handleRequestChange(event, index) {
-    this.setState({ selectedIndex: index });
+    this.props.selectTactic(index);
   }
 
   renderTactics() {
@@ -41,7 +37,7 @@ class TacticList extends Component {
       <div>
         <RaisedButton fullWidth label="New Tactic" />
         <SelectableList
-          value={this.state.selectedIndex}
+          value={this.props.selectedTacticId}
           onChange={this.handleRequestChange}
         >
           {isFetching && <Loading />}
@@ -54,19 +50,22 @@ class TacticList extends Component {
 
 TacticList.propTypes = {
   fetchTactics: PropTypes.func.isRequired,
+  selectTactic: PropTypes.func.isRequired,
   tactics: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
   })).isRequired,
   isFetching: PropTypes.bool.isRequired,
+  selectedTacticId: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => {
-  const { tactics } = state.entities;
+  const { entities: { tactics }, ui } = state;
   return {
     tactics: tacticsSelector(state),
     isFetching: tactics.status.isFetching,
+    selectedTacticId: ui.selectedTacticId,
   };
 };
 
-export default connect(mapStateToProps, { fetchTactics })(TacticList);
+export default connect(mapStateToProps, { fetchTactics, selectTactic })(TacticList);
