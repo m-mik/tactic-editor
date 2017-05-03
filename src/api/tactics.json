@@ -1,4 +1,78 @@
 [
-  { "id": 1, "name": "Tactic 1" },
-  { "id": 2, "name": "Tactic 2" }
+  {
+    "id": 1,
+    "name": "Tactic 1",
+    "teams": [
+      {
+        "id": 1,
+        "name": "Team A",
+        "players": [
+          {
+            "id": 1,
+            "name": "Player11252",
+            "position": 1
+          },
+          {
+            "id": 2,
+            "name": "Player215225",
+            "position": 2
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Team B",
+        "players": [
+          {
+            "id": 3,
+            "name": "Player251",
+            "position": 1
+          },
+          {
+            "id": 4,
+            "name": "Player41252",
+            "position": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Tactic 2",
+    "teams": [
+      {
+        "id": 3,
+        "name": "Team A",
+        "players": [
+          {
+            "id": 4,
+            "name": "Player235",
+            "position": 1
+          },
+          {
+            "id": 5,
+            "name": "Player232",
+            "position": 2
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Team B",
+        "players": [
+          {
+            "id": 6,
+            "name": "Player1253",
+            "position": 1
+          },
+          {
+            "id": 7,
+            "name": "Player215",
+            "position": 2
+          }
+        ]
+      }
+    ]
+  }
 ]
