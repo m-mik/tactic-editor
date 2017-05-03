@@ -1,50 +1,33 @@
-import merge from 'lodash/merge';
+import { combineReducers } from 'redux';
 import * as types from '../constants/ActionTypes';
-
-const INITIAL_STATE = {
-  isFetching: false,
-  byId: {},
-  allIds: [],
-};
 
 const byId = (state = {}, action) => {
   switch (action.type) {
     default:
-      if (action.entities && action.entities.tactics) {
-        return merge({}, state, action.entities.tactics);
-      }
       return state;
   }
 };
 
-const allIds = (state = [], action) => {
+const items = (state = [], action) => {
   switch (action.type) {
     case types.FETCH_TACTICS_SUCCESS:
-      return [...state, ...action.ids];
+      return [...state, ...action.response.tactics];
     default:
       return state;
   }
 };
 
-const tactics = (state = INITIAL_STATE, action) => {
+const status = (state = { isFetching: false, error: '' }, action) => {
   switch (action.type) {
     case types.FETCH_TACTICS_REQUEST:
       return { ...state, isFetching: true };
     case types.FETCH_TACTICS_FAILURE:
-      return { ...state, isFetching: false, error: action.error };
+      return { ...state, isFetching: false, error: action.response.error };
     case types.FETCH_TACTICS_SUCCESS:
-      return { ...state,
-        byId: byId(state.byId, action),
-        allIds: allIds(state.allIds, action),
-        isFetching: false,
-      };
+      return { ...state, isFetching: false, error: '' };
     default:
-      return {
-        ...state,
-        byId: byId(state.byId, action),
-        allIds: allIds(state.allIds, action),
-      };
+      return state;
   }
 };
 
-export default tactics;
+export default combineReducers({ byId, items, status });

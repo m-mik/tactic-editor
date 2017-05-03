@@ -65,7 +65,7 @@ const mapStateToProps = (state) => {
   const { tactics } = state.entities;
   return {
     tactics: tacticsSelector(state),
-    isFetching: tactics.isFetching,
+    isFetching: tactics.status.isFetching,
   };
 };
 

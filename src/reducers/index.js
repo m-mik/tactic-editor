@@ -1,8 +1,6 @@
 import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
-import tactics from './tactics';
-
-const entities = combineReducers({ tactics });
+import entities from './entities';
 
 const rootReducer = combineReducers({
   entities,

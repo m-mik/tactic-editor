@@ -7,23 +7,22 @@ const fetchTacticsRequest = () => ({
   type: types.FETCH_TACTICS_REQUEST,
 });
 
-const fetchTacticsSuccess = (ids, entities) => ({
+const fetchTacticsSuccess = (entities, tactics) => ({
   type: types.FETCH_TACTICS_SUCCESS,
-  ids,
-  entities,
+  response: { entities, tactics },
 });
 
 const fetchTacticsError = error => ({
   type: types.FETCH_TACTICS_FAILURE,
-  error,
+  response: { error },
 });
 
 export const fetchTactics = () => (dispatch) => {
-  dispatch(fetchTacticsRequest);
+  dispatch(fetchTacticsRequest());
   mockApi.fetchTactics().then((response) => {
     const normalizedData = normalize(response.data, { tactics: [tacticSchema] });
-    const { entities, result } = normalizedData;
-    dispatch(fetchTacticsSuccess(result.tactics, entities));
+    const { entities, result: { tactics } } = normalizedData;
+    dispatch(fetchTacticsSuccess(entities, tactics));
   }).catch((response) => {
     dispatch(fetchTacticsError(response.error));
   });
