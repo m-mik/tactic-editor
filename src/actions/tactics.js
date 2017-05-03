@@ -27,3 +27,5 @@ export const fetchTactics = () => (dispatch) => {
     dispatch(fetchTacticsError(response.error));
   });
 };
+
+export const selectTactic = id => ({ type: types.SELECT_TACTIC, id });
