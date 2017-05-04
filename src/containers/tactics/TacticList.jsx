@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { List, ListItem, makeSelectable } from 'material-ui/List';
 import { RaisedButton } from 'material-ui';
+import { List, ListItem, makeSelectable } from 'material-ui/List';
+import FontIcon from 'material-ui/FontIcon';
 import PropTypes from 'prop-types';
-import { fetchTactics, selectTactic } from '../../actions/tactics';
+import * as tacticActions from '../../actions/tactics';
 import { tacticsSelector } from '../../selectors/tactics';
 import Loading from '../../components/Loading';
+import NewTacticDialog from '../../components/tactics/NewTacticDialog';
 
 const SelectableList = makeSelectable(List);
 
@@ -35,18 +37,32 @@ class TacticList extends Component {
   }
 
   render() {
-    const { isFetching } = this.props;
+    const {
+      isFetching,
+      selectedTacticId,
+      newTacticDialogOpen,
+      openNewTacticDialog,
+      closeNewTacticDialog,
+    } = this.props;
 
     return (
       <div>
-        <RaisedButton fullWidth label="New Tactic" />
+        <RaisedButton
+          fullWidth label="New Tactic"
+          icon={<FontIcon className="material-icons">face</FontIcon>}
+          onTouchTap={openNewTacticDialog}
+        />
         <SelectableList
-          value={this.props.selectedTacticId}
+          value={selectedTacticId}
           onChange={this.handleRequestChange}
         >
           {isFetching && <Loading />}
           {this.renderTactics()}
         </SelectableList>
+        <NewTacticDialog
+          onClose={closeNewTacticDialog}
+          open={newTacticDialogOpen}
+        />
       </div>
     );
   }
@@ -61,22 +77,23 @@ TacticList.propTypes = {
   })).isRequired,
   isFetching: PropTypes.bool.isRequired,
   selectedTacticId: PropTypes.number.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({ id: PropTypes.string.isRequired }),
-  }).isRequired,
+  newTacticDialogOpen: PropTypes.bool.isRequired,
+  openNewTacticDialog: PropTypes.func.isRequired,
+  closeNewTacticDialog: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 const mapStateToProps = (state) => {
   const { entities: { tactics }, ui } = state;
+  const { selectedTacticId, newTacticDialogOpen } = ui;
   return {
     tactics: tacticsSelector(state),
     isFetching: tactics.status.isFetching,
-    selectedTacticId: ui.selectedTacticId,
+    selectedTacticId,
+    newTacticDialogOpen,
   };
 };
 
-const ConnectedTacticList = connect(mapStateToProps, { fetchTactics, selectTactic })(TacticList);
+const ConnectedTacticList = connect(mapStateToProps, tacticActions)(TacticList);
 export default withRouter(ConnectedTacticList);
