@@ -1,17 +1,23 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import App from './App';
-
+import SideBar from './SideBar';
+import Main from './Main';
+import TacticList from '../containers/tactics/TacticList';
 
 const Root = ({ store }) => (
   <MuiThemeProvider>
     <Provider store={store}>
       <Router>
-        <div>
-          <Route exact path="/" component={App} />
+        <div className="container">
+          <SideBar>
+            <Route path="/(tactic/)?:id?" component={TacticList} />
+          </SideBar>
+          <div>
+            <Route path="/tactic/:id" component={Main} />
+          </div>
         </div>
       </Router>
     </Provider>
