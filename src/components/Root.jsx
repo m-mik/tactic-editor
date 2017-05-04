@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import SideBar from './SideBar';
-import Main from './Main';
 import TacticList from '../containers/tactics/TacticList';
+import TacticPanel from '../containers/tactics/TacticPanel';
 
 const Root = ({ store }) => (
   <MuiThemeProvider>
@@ -16,7 +16,7 @@ const Root = ({ store }) => (
             <Route path="/(tactic/)?:id?" component={TacticList} />
           </SideBar>
           <div>
-            <Route path="/tactic/:id" component={Main} />
+            <Route path="/tactic/:id" component={TacticPanel} />
           </div>
         </div>
       </Router>
