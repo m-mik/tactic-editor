@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { RaisedButton } from 'material-ui';
 import { List, ListItem, makeSelectable } from 'material-ui/List';
-import FontIcon from 'material-ui/FontIcon';
 import PropTypes from 'prop-types';
 import * as tacticActions from '../../actions/tactics';
 import { tacticsSelector } from '../../selectors/tactics';
 import Loading from '../../components/Loading';
+import NewTacticButton from '../../components/tactics/NewTacticButton';
 import NewTacticDialog from '../../components/tactics/NewTacticDialog';
+
 
 const SelectableList = makeSelectable(List);
 
@@ -47,11 +47,7 @@ class TacticList extends Component {
 
     return (
       <div>
-        <RaisedButton
-          fullWidth label="New Tactic"
-          icon={<FontIcon className="material-icons">face</FontIcon>}
-          onTouchTap={openNewTacticDialog}
-        />
+        <NewTacticButton openNewTacticDialog={openNewTacticDialog} />
         <SelectableList
           value={selectedTacticId}
           onChange={this.handleRequestChange}
