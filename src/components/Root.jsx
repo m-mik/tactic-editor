@@ -3,19 +3,21 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import theme from './../assets/theme/main';
 import SideBar from './SideBar';
 import TacticList from '../containers/tactics/TacticList';
 import TacticPanel from '../containers/tactics/TacticPanel';
 
 const Root = ({ store }) => (
-  <MuiThemeProvider>
+  <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
     <Provider store={store}>
       <Router>
         <div className="container">
           <SideBar>
             <Route path="/(tactic/)?:id?" component={TacticList} />
           </SideBar>
-          <div>
+          <div className="main">
             <Route path="/tactic/:id" component={TacticPanel} />
           </div>
         </div>
