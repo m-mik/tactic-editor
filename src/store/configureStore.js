@@ -2,13 +2,15 @@
 /* global DEVELOPMENT */
 
 import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
+import thunkMiddleware from 'redux-thunk';
+import promiseMiddleware from 'redux-promise-middleware';
 import reducers from '../reducers/index';
 
 const configureStore = preloadedState => createStore(reducers,
     preloadedState,
     compose(
-      applyMiddleware(thunk),
+      applyMiddleware(thunkMiddleware),
+      applyMiddleware(promiseMiddleware),
       DEVELOPMENT && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
     ),
   );
