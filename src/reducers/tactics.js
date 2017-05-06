@@ -10,21 +10,21 @@ const byId = (state = {}, action) => {
 
 const items = (state = [], action) => {
   switch (action.type) {
-    case types.FETCH_TACTICS_SUCCESS:
-      return [...state, ...action.response.tactics];
+    case types.FETCH_TACTICS_FULFILLED:
+      return [...state, ...action.payload.tactics];
     default:
       return state;
   }
 };
 
-const status = (state = { isFetching: false, error: '' }, action) => {
+const status = (state = { isFetching: false, error: false }, action) => {
   switch (action.type) {
-    case types.FETCH_TACTICS_REQUEST:
+    case types.FETCH_TACTICS_PENDING:
       return { ...state, isFetching: true };
-    case types.FETCH_TACTICS_FAILURE:
-      return { ...state, isFetching: false, error: action.response.error };
-    case types.FETCH_TACTICS_SUCCESS:
-      return { ...state, isFetching: false, error: '' };
+    case types.FETCH_TACTICS_REJECTED:
+      return { ...state, isFetching: false, error: true };
+    case types.FETCH_TACTICS_FULFILLED:
+      return { ...state, isFetching: false, error: false };
     default:
       return state;
   }

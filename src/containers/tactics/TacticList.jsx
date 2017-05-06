@@ -58,6 +58,7 @@ class TacticList extends Component {
         <NewTacticDialog
           onClose={closeNewTacticDialog}
           open={newTacticDialogOpen}
+          onSubmit={() => console.log('create tactic action')}
         />
       </div>
     );

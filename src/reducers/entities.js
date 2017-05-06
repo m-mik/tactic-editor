@@ -2,8 +2,6 @@ import { combineReducers } from 'redux';
 import merge from 'lodash/merge';
 import tactics from './tactics';
 
-const actionContainsEntities = action => action.response && action.response.entities;
-
 const mapEntitiesToState = (entities) => {
   const entityKeys = Object.keys(entities);
   return entityKeys.map(key => (
@@ -13,9 +11,10 @@ const mapEntitiesToState = (entities) => {
 
 const entities = (state = {}, action) => {
   let newState = { ...state };
+  const payloadEntities = action.payload && action.payload.entities;
 
-  if (actionContainsEntities(action)) {
-    const mappedEntities = mapEntitiesToState(action.response.entities);
+  if (payloadEntities) {
+    const mappedEntities = mapEntitiesToState(payloadEntities);
     newState = merge({}, newState, ...mappedEntities);
   }
 
