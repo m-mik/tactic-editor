@@ -1,10 +1,10 @@
+import axios from 'axios';
 import * as types from '../constants/ActionTypes';
-import * as mockApi from '../api';
 import { tacticSchema } from '../constants/Schemas';
 
 export const fetchTactics = () => ({
   type: types.FETCH_TACTICS,
-  payload: mockApi.fetchTactics(),
+  payload: axios.get('/tactics'),
   meta: {
     schema: { tactics: [tacticSchema] },
   },
@@ -12,7 +12,7 @@ export const fetchTactics = () => ({
 
 export const createTactic = data => ({
   type: types.CREATE_TACTIC,
-  payload: mockApi.createTactic(data),
+  payload: axios.post('/tactics', data),
   meta: {
     schema: tacticSchema,
   },

@@ -5,6 +5,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import Root from './components/Root';
 import configureStore from './store/configureStore';
 import './assets/styles/main.scss';
+import './api/mock';
 
 injectTapEventPlugin();
 const store = configureStore();
