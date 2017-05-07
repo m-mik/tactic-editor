@@ -6,14 +6,9 @@ import FlatButton from 'material-ui/FlatButton';
 import { TextField } from 'redux-form-material-ui';
 
 const NewTacticDialog = (props) => {
-  const { reset, open, onClose, handleSubmit, onSubmit } = props;
+  const { open, onClose, handleSubmit, onSubmit } = props;
 
-  const handleNewTacticSubmit = handleSubmit((values) => {
-    const { name } = values;
-    onSubmit({ name });
-    onClose();
-    reset();
-  });
+  const handleNewTacticSubmit = handleSubmit(onSubmit);
 
   const actions = [
     <FlatButton
