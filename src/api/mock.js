@@ -2,8 +2,18 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import tactics from './tactics.json';
 
-const mock = new MockAdapter(axios, { delayResponse: 1000 });
+const mockApi = (store) => {
+  const mock = new MockAdapter(axios, { delayResponse: 500 });
 
-mock.onGet('/tactics').reply(200, { tactics });
+  const getNextIdForEntity = (entityName) => {
+    const state = store.getState();
+    const items = state.entities[entityName].items;
+    return Math.max(...items) + 1;
+  };
 
-mock.onPost('/tactics').reply(config => [201, config.data]);
+  mock.onGet('/tactics').reply(200, { tactics });
+
+  mock.onPost('/tactics').reply(() => [201, { id: getNextIdForEntity('tactics') }]);
+};
+
+export default mockApi;

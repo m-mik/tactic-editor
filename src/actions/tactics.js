@@ -13,9 +13,7 @@ export const fetchTactics = () => ({
 export const createTactic = data => ({
   type: types.CREATE_TACTIC,
   payload: axios.post('/tactics', data),
-  meta: {
-    schema: tacticSchema,
-  },
+  meta: { data },
 });
 
 export const selectTactic = id => ({ type: types.SELECT_TACTIC, id });
