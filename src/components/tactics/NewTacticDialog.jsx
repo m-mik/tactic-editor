@@ -6,12 +6,14 @@ import FlatButton from 'material-ui/FlatButton';
 import { TextField } from 'redux-form-material-ui';
 
 const NewTacticDialog = (props) => {
-  const { open, onClose, handleSubmit, onSubmit } = props;
+  const { reset, open, onClose, handleSubmit, onSubmit } = props;
 
-  const handleNewTactic = (values) => {
-    console.log(values);
-    onSubmit(values);
-  };
+  const handleNewTacticSubmit = handleSubmit((values) => {
+    const { name } = values;
+    onSubmit({ name });
+    onClose();
+    reset();
+  });
 
   const actions = [
     <FlatButton
@@ -23,9 +25,19 @@ const NewTacticDialog = (props) => {
       label="Create"
       primary
       type="submit"
-      onTouchTap={handleSubmit(handleNewTactic)}
+      onTouchTap={handleNewTacticSubmit}
     />,
   ];
+
+  const TacticNameField = () => (
+    <Field
+      autoFocus
+      fullWidth
+      name="name"
+      component={TextField}
+      floatingLabelText="Tactic name"
+    />
+  );
 
   return (
     <Dialog
@@ -35,21 +47,17 @@ const NewTacticDialog = (props) => {
       open={open}
       onRequestClose={onClose}
     >
-      <Field
-        autoFocus
-        fullWidth
-        name="tacticName"
-        component={TextField}
-        floatingLabelText="Tactic name"
-      />
+      <form onSubmit={handleNewTacticSubmit}>
+        <TacticNameField />
+      </form>
     </Dialog>
   );
 };
 
 const validate = (values) => {
   const errors = {};
-  if (!values.tacticName) {
-    errors.tacticName = 'Tactic name cannot be empty';
+  if (!values.name) {
+    errors.name = 'Tactic name cannot be empty';
   }
   return errors;
 };

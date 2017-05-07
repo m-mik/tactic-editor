@@ -43,6 +43,7 @@ class TacticList extends Component {
       newTacticDialogOpen,
       openNewTacticDialog,
       closeNewTacticDialog,
+      createTactic,
     } = this.props;
 
     return (
@@ -58,7 +59,7 @@ class TacticList extends Component {
         <NewTacticDialog
           onClose={closeNewTacticDialog}
           open={newTacticDialogOpen}
-          onSubmit={() => console.log('create tactic action')}
+          onSubmit={createTactic}
         />
       </div>
     );
