@@ -3,7 +3,7 @@ import MockAdapter from 'axios-mock-adapter';
 import tactics from './tactics.json';
 
 const mockApi = (store) => {
-  const mock = new MockAdapter(axios, { delayResponse: 1000 });
+  const mock = new MockAdapter(axios, { delayResponse: 500 });
 
   const getNextIdForEntity = (entityName) => {
     const state = store.getState();
