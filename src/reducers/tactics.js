@@ -1,8 +1,21 @@
 import { combineReducers } from 'redux';
 import * as types from '../constants/ActionTypes';
 
+const tactic = (state = { teams: {} }, action) => {
+  switch (action.type) {
+    case types.CREATE_TACTIC_FULFILLED: {
+      const id = action.payload.data.id;
+      return { [id]: { id, ...action.meta.data } };
+    }
+    default:
+      return state;
+  }
+};
+
 const byId = (state = {}, action) => {
   switch (action.type) {
+    case types.CREATE_TACTIC_FULFILLED:
+      return { ...state, ...tactic(state, action) };
     default:
       return state;
   }
@@ -10,6 +23,8 @@ const byId = (state = {}, action) => {
 
 const items = (state = [], action) => {
   switch (action.type) {
+    case types.CREATE_TACTIC_FULFILLED:
+      return [action.payload.data.id, ...state];
     case types.FETCH_TACTICS_FULFILLED:
       return [...state, ...action.payload.tactics];
     default:
