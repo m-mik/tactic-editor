@@ -1,0 +1,10 @@
+.create-tactic-dialog {
+  &__body {
+    height: 80px !important;
+  }
+
+  &__loading {
+    position: absolute !important;
+    left: 50% !important;
+  }
+}

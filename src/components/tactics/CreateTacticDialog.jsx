@@ -40,14 +40,15 @@ const CreateTacticDialog = (props) => {
 
   return (
     <Dialog
-      title="Create New Tactic"
+      bodyClassName="create-tactic-dialog__body"
+      title="Create Tactic"
       actions={actions}
       modal={false}
       open={open}
       onRequestClose={onClose}
     >
       <form onSubmit={handleCreateTacticSubmit}>
-        {createTacticPending && <Loading />}
+        {createTacticPending && <Loading className="create-tactic-dialog__loading" />}
         <TacticNameField />
       </form>
     </Dialog>
