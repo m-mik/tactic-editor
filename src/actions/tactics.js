@@ -5,8 +5,8 @@ import { tacticSchema } from '../constants/Schemas';
 import { handleError } from './index';
 
 export const selectTactic = id => ({ type: types.SELECT_TACTIC, id });
-export const openNewTacticDialog = () => ({ type: types.OPEN_NEW_TACTIC_DIALOG });
-export const closeNewTacticDialog = () => ({ type: types.CLOSE_NEW_TACTIC_DIALOG });
+export const openCreateTacticDialog = () => ({ type: types.OPEN_CREATE_TACTIC_DIALOG });
+export const closeCreateTacticDialog = () => ({ type: types.CLOSE_CREATE_TACTIC_DIALOG });
 
 const createTactic = data => ({
   type: types.CREATE_TACTIC,
@@ -24,10 +24,10 @@ export const fetchTactics = () => dispatch =>
   }).catch(error => dispatch(handleError(error)));
 
 export const createAndSelectTactic = data => (dispatch) => {
-  dispatch(createTactic(data)).then(response =>
-      dispatch(selectTactic(response.value.data.id)),
-  ).catch(error => dispatch(handleError(error)));
-
-  dispatch(closeNewTacticDialog());
-  dispatch(reset('newTacticForm'));
+  dispatch(createTactic(data)).then((response) => {
+    dispatch(selectTactic(response.value.data.id));
+    dispatch(closeCreateTacticDialog());
+    dispatch(reset('createTacticForm'));
+  })
+  .catch(error => dispatch(handleError(error)));
 };

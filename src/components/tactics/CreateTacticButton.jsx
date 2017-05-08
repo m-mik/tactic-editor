@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import { RaisedButton } from 'material-ui';
 import FontIcon from 'material-ui/FontIcon';
 
-const NewTacticButton = ({ openNewTacticDialog }) => (
+const CreateTacticButton = ({ openCreateTacticDialog }) => (
   <RaisedButton
-    fullWidth label="New Tactic"
+    fullWidth label="Create Tactic"
     primary
     icon={<FontIcon className="material-icons">add_circle</FontIcon>}
-    onTouchTap={openNewTacticDialog}
+    onTouchTap={openCreateTacticDialog}
   />
 );
 
-export default NewTacticButton;
+export default CreateTacticButton;
 
-NewTacticButton.propTypes = {
-  openNewTacticDialog: PropTypes.func.isRequired,
+CreateTacticButton.propTypes = {
+  openCreateTacticDialog: PropTypes.func.isRequired,
 };

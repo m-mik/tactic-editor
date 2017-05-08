@@ -6,9 +6,8 @@ import PropTypes from 'prop-types';
 import * as tacticActions from '../../actions/tactics';
 import { tacticsSelector } from '../../selectors/tactics';
 import Loading from '../../components/Loading';
-import NewTacticButton from '../../components/tactics/NewTacticButton';
-import NewTacticDialog from '../../components/tactics/NewTacticDialog';
-
+import CreateTacticButton from '../../components/tactics/CreateTacticButton';
+import CreateTacticDialog from '../../components/tactics/CreateTacticDialog';
 
 const SelectableList = makeSelectable(List);
 
@@ -39,16 +38,17 @@ class TacticList extends Component {
   render() {
     const {
       isFetching,
+      createTacticPending,
       selectedTacticId,
-      newTacticDialogOpen,
-      openNewTacticDialog,
-      closeNewTacticDialog,
+      createTacticDialogOpen,
+      openCreateTacticDialog,
+      closeCreateTacticDialog,
       createAndSelectTactic,
     } = this.props;
 
     return (
       <div>
-        <NewTacticButton openNewTacticDialog={openNewTacticDialog} />
+        <CreateTacticButton openCreateTacticDialog={openCreateTacticDialog} />
         <SelectableList
           value={selectedTacticId}
           onChange={this.handleRequestChange}
@@ -56,10 +56,11 @@ class TacticList extends Component {
           {isFetching && <Loading />}
           {this.renderTactics()}
         </SelectableList>
-        <NewTacticDialog
-          onClose={closeNewTacticDialog}
-          open={newTacticDialogOpen}
+        <CreateTacticDialog
+          onClose={closeCreateTacticDialog}
           onSubmit={createAndSelectTactic}
+          open={createTacticDialogOpen}
+          createTacticPending={createTacticPending}
         />
       </div>
     );
@@ -69,27 +70,30 @@ class TacticList extends Component {
 TacticList.propTypes = {
   fetchTactics: PropTypes.func.isRequired,
   selectTactic: PropTypes.func.isRequired,
+  createAndSelectTactic: PropTypes.func.isRequired,
+  openCreateTacticDialog: PropTypes.func.isRequired,
+  closeCreateTacticDialog: PropTypes.func.isRequired,
   tactics: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
   })).isRequired,
   isFetching: PropTypes.bool.isRequired,
+  createTacticPending: PropTypes.bool.isRequired,
   selectedTacticId: PropTypes.number.isRequired,
-  newTacticDialogOpen: PropTypes.bool.isRequired,
-  openNewTacticDialog: PropTypes.func.isRequired,
-  closeNewTacticDialog: PropTypes.func.isRequired,
+  createTacticDialogOpen: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 const mapStateToProps = (state) => {
   const { entities: { tactics }, ui } = state;
-  const { selectedTacticId, newTacticDialogOpen } = ui;
+  const { selectedTacticId, createTacticDialogOpen, createTacticPending } = ui;
   return {
     tactics: tacticsSelector(state),
     isFetching: tactics.status.isFetching,
+    createTacticPending,
     selectedTacticId,
-    newTacticDialogOpen,
+    createTacticDialogOpen,
   };
 };
 

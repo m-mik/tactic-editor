@@ -4,23 +4,26 @@ import { reduxForm, Field, propTypes } from 'redux-form';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { TextField } from 'redux-form-material-ui';
+import Loading from '../../components/Loading';
 
-const NewTacticDialog = (props) => {
+const CreateTacticDialog = (props) => {
   const { onSubmit, onClose, open, createTacticPending, handleSubmit } = props;
 
-  const handleNewTacticSubmit = handleSubmit(onSubmit);
+  const handleCreateTacticSubmit = handleSubmit(onSubmit);
 
   const actions = [
     <FlatButton
       label="Cancel"
       primary
+      disabled={createTacticPending}
       onTouchTap={onClose}
     />,
     <FlatButton
       label="Create"
       primary
       type="submit"
-      onTouchTap={handleNewTacticSubmit}
+      disabled={createTacticPending}
+      onTouchTap={handleCreateTacticSubmit}
     />,
   ];
 
@@ -42,8 +45,9 @@ const NewTacticDialog = (props) => {
       modal={false}
       open={open}
       onRequestClose={onClose}
-    >{createTacticPending}
-      <form onSubmit={handleNewTacticSubmit}>
+    >
+      <form onSubmit={handleCreateTacticSubmit}>
+        {createTacticPending && <Loading />}
         <TacticNameField />
       </form>
     </Dialog>
@@ -58,13 +62,13 @@ const validate = (values) => {
   return errors;
 };
 
-NewTacticDialog.propTypes = {
+CreateTacticDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   ...propTypes,
 };
 
 export default reduxForm({
-  form: 'newTacticForm',
+  form: 'createTacticForm',
   validate,
-})(NewTacticDialog);
+})(CreateTacticDialog);
