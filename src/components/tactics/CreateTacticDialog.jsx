@@ -6,7 +6,7 @@ import FlatButton from 'material-ui/FlatButton';
 import { TextField } from 'redux-form-material-ui';
 
 const NewTacticDialog = (props) => {
-  const { open, onClose, handleSubmit, onSubmit } = props;
+  const { onSubmit, onClose, open, createTacticPending, handleSubmit } = props;
 
   const handleNewTacticSubmit = handleSubmit(onSubmit);
 
@@ -31,6 +31,7 @@ const NewTacticDialog = (props) => {
       name="name"
       component={TextField}
       floatingLabelText="Tactic name"
+      disabled={createTacticPending}
     />
   );
 
@@ -41,7 +42,7 @@ const NewTacticDialog = (props) => {
       modal={false}
       open={open}
       onRequestClose={onClose}
-    >
+    >{createTacticPending}
       <form onSubmit={handleNewTacticSubmit}>
         <TacticNameField />
       </form>
