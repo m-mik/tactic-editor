@@ -1,4 +1,5 @@
 import axios from 'axios';
+import omit from 'lodash/omit';
 import MockAdapter from 'axios-mock-adapter';
 import tactics from './tactics.json';
 
@@ -11,7 +12,7 @@ const mockApi = (store) => {
     return Math.max(...items) + 1;
   };
 
-  mock.onGet('/tactics').reply(200, { tactics });
+  mock.onGet('/tactics').reply(200, tactics.map(tactic => omit(tactic, ['teams'])));
 
   mock.onPost('/tactics').reply(() => [201, { id: getNextIdForEntity('tactics') }]);
 };
