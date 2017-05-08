@@ -1,15 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm, Field, propTypes } from 'redux-form';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import { TextField } from 'redux-form-material-ui';
 import Loading from '../../components/Loading';
+import CreateTacticForm from './CreateTacticForm';
 
 const CreateTacticDialog = (props) => {
-  const { onSubmit, onClose, open, createTacticPending, handleSubmit } = props;
-
-  const handleCreateTacticSubmit = handleSubmit(onSubmit);
+  const { onSubmit, onClose, open, createTacticPending } = props;
 
   const actions = [
     <FlatButton
@@ -23,20 +20,9 @@ const CreateTacticDialog = (props) => {
       primary
       type="submit"
       disabled={createTacticPending}
-      onTouchTap={handleCreateTacticSubmit}
+      onTouchTap={() => { this.form.submit(); }}
     />,
   ];
-
-  const TacticNameField = () => (
-    <Field
-      autoFocus
-      fullWidth
-      name="name"
-      component={TextField}
-      floatingLabelText="Tactic name"
-      disabled={createTacticPending}
-    />
-  );
 
   return (
     <Dialog
@@ -47,29 +33,22 @@ const CreateTacticDialog = (props) => {
       open={open}
       onRequestClose={onClose}
     >
-      <form onSubmit={handleCreateTacticSubmit}>
-        {createTacticPending && <Loading className="create-tactic-dialog__loading" />}
-        <TacticNameField />
-      </form>
+      {createTacticPending && <Loading className="create-tactic-dialog__loading" />}
+      <CreateTacticForm
+        ref={(form) => { this.form = form; }}
+        open={open}
+        onSubmit={onSubmit}
+        createTacticPending={createTacticPending}
+      />
     </Dialog>
   );
 };
 
-const validate = (values) => {
-  const errors = {};
-  if (!values.name) {
-    errors.name = 'Tactic name cannot be empty';
-  }
-  return errors;
-};
-
 CreateTacticDialog.propTypes = {
   open: PropTypes.bool.isRequired,
+  createTacticPending: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  ...propTypes,
+  onSubmit: PropTypes.func.isRequired,
 };
 
-export default reduxForm({
-  form: 'createTacticForm',
-  validate,
-})(CreateTacticDialog);
+export default CreateTacticDialog;
