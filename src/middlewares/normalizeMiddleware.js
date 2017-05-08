@@ -8,8 +8,7 @@ const normalizeMiddleware = () => next => (action) => {
 
   if (schema && data) {
     const normalized = normalize(data, schema);
-    const { entities, result } = normalized;
-    return next({ ...actionWithoutMeta, payload: { entities, ...result } });
+    return next({ ...actionWithoutMeta, payload: normalized });
   }
 
   return next(action);

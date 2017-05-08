@@ -19,7 +19,7 @@ export const fetchTactics = () => dispatch =>
     type: types.FETCH_TACTICS,
     payload: axios.get('/tactics'),
     meta: {
-      schema: { tactics: [tacticSchema] },
+      schema: [tacticSchema],
     },
   }).catch(error => dispatch(handleError(error)));
 

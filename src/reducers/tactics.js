@@ -26,7 +26,7 @@ const items = (state = [], action) => {
     case types.CREATE_TACTIC_FULFILLED:
       return [action.payload.data.id, ...state];
     case types.FETCH_TACTICS_FULFILLED:
-      return [...state, ...action.payload.tactics];
+      return [...state, ...action.payload.result];
     default:
       return state;
   }

@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
 import merge from 'lodash/merge';
 import tactics from './tactics';
+import teams from './teams';
+import players from './players';
 
 const mapEntitiesToState = (entities) => {
   const entityKeys = Object.keys(entities);
@@ -20,6 +22,8 @@ const entities = (state = {}, action) => {
 
   return combineReducers({
     tactics,
+    teams,
+    players,
   })(newState, action);
 };
 
