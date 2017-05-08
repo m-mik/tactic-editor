@@ -1,5 +1,13 @@
 import { schema } from 'normalizr';
 
-const tactic = new schema.Entity('tactics');
+const player = new schema.Entity('players');
 
-export const tacticSchema = tactic;
+const team = new schema.Entity('teams', {
+  players: [player],
+});
+
+const tactic = new schema.Entity('tactics', {
+  teams: [team],
+});
+
+export { team as teamSchema, tactic as tacticSchema };
