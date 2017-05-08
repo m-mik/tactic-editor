@@ -1,9 +1,9 @@
 import * as types from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
-  selectedTacticId: -1,
-  createTacticDialogOpen: false,
-  createTacticPending: false,
+  selectedTacticId: 0,
+  isCreateTacticDialogOpen: false,
+  isCreateTacticPending: false,
 };
 
 const ui = (state = INITIAL_STATE, action) => {
@@ -11,14 +11,14 @@ const ui = (state = INITIAL_STATE, action) => {
     case types.SELECT_TACTIC:
       return { ...state, selectedTacticId: action.id };
     case types.OPEN_CREATE_TACTIC_DIALOG:
-      return { ...state, createTacticDialogOpen: true };
+      return { ...state, isCreateTacticDialogOpen: true };
     case types.CLOSE_CREATE_TACTIC_DIALOG:
-      return { ...state, createTacticDialogOpen: false };
+      return { ...state, isCreateTacticDialogOpen: false };
     case types.CREATE_TACTIC_PENDING:
-      return { ...state, createTacticPending: true };
+      return { ...state, isCreateTacticPending: true };
     case types.CREATE_TACTIC_FULFILLED:
     case types.CREATE_TACTIC_REJECTED:
-      return { ...state, createTacticPending: false };
+      return { ...state, isCreateTacticPending: false };
     default:
       return state;
   }

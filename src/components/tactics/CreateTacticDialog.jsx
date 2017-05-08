@@ -6,20 +6,20 @@ import Loading from '../../components/Loading';
 import CreateTacticForm from './CreateTacticForm';
 
 const CreateTacticDialog = (props) => {
-  const { onSubmit, onClose, open, createTacticPending } = props;
+  const { onSubmit, onClose, open, pending } = props;
 
   const actions = [
     <FlatButton
       label="Cancel"
       primary
-      disabled={createTacticPending}
+      disabled={pending}
       onTouchTap={onClose}
     />,
     <FlatButton
       label="Create"
       primary
       type="submit"
-      disabled={createTacticPending}
+      disabled={pending}
       onTouchTap={() => { this.form.submit(); }}
     />,
   ];
@@ -33,12 +33,12 @@ const CreateTacticDialog = (props) => {
       open={open}
       onRequestClose={onClose}
     >
-      {createTacticPending && <Loading className="create-tactic-dialog__loading" />}
+      {pending && <Loading className="create-tactic-dialog__loading" />}
       <CreateTacticForm
         ref={(form) => { this.form = form; }}
         open={open}
         onSubmit={onSubmit}
-        createTacticPending={createTacticPending}
+        pending={pending}
       />
     </Dialog>
   );
@@ -46,7 +46,7 @@ const CreateTacticDialog = (props) => {
 
 CreateTacticDialog.propTypes = {
   open: PropTypes.bool.isRequired,
-  createTacticPending: PropTypes.bool.isRequired,
+  pending: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
