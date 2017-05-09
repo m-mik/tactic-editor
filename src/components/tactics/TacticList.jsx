@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { List, ListItem, makeSelectable } from 'material-ui/List';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Loading from '../Loading';
 
 const SelectableList = makeSelectable(List);
@@ -18,7 +19,12 @@ export default class TacticList extends Component {
     } = this.props;
 
     const renderTactics = () => this.props.tactics.map(tactic =>
-      <ListItem value={tactic.id} primaryText={tactic.name} key={tactic.id} />,
+      <ListItem
+        key={tactic.id}
+        value={tactic.id}
+        primaryText={tactic.name}
+        containerElement={<Link to={`/tactic/${tactic.id}`} />}
+      />,
     );
 
     return (
