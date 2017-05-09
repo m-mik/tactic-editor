@@ -5,21 +5,22 @@ import PropTypes from 'prop-types';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import theme from './../assets/theme/main';
-import SideBar from './SideBar';
-import TacticContainer from '../containers/tactics/TacticContainer';
-import TacticEditorContainer from '../containers/tactics/TacticEditorContainer';
+import Sidebar from './layout/Sidebar';
+import Main from './layout/Main';
+import TacticListContainer from '../containers/tactics/TacticListContainer';
+import TacticDetailContainer from '../containers/tactics/TacticDetailContainer';
 
 const Root = ({ store }) => (
   <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
     <Provider store={store}>
       <Router>
         <div className="container">
-          <SideBar>
-            <Route path="/(tactic/)?:id?" component={TacticContainer} />
-          </SideBar>
-          <div className="main">
-            <Route path="/tactic/:id" component={TacticEditorContainer} />
-          </div>
+          <Sidebar>
+            <Route path="/(tactic/)?:id?" component={TacticListContainer} />
+          </Sidebar>
+          <Main>
+            <Route path="/tactic/:id" component={TacticDetailContainer} />
+          </Main>
         </div>
       </Router>
     </Provider>

@@ -1,6 +1,6 @@
 @import
 'abstracts/variables',
-'abstracts/_mixins.scss';
+'abstracts/mixins';
 
 @import
 'base/base',
@@ -8,8 +8,7 @@
 'base/typography';
 
 @import
-'layout/SideBar';
-
-@import
+'components/layout/Sidebar',
+'components/layout/Main',
 'components/Loading',
 'components/tactics/CreateTacticDialog';

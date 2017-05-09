@@ -8,7 +8,7 @@ import CreateTacticButton from '../../components/tactics/CreateTacticButton';
 import CreateTacticDialog from '../../components/tactics/CreateTacticDialog';
 import TacticList from '../../components/tactics/TacticList';
 
-class TacticContainer extends Component {
+class TacticListContainer extends Component {
   constructor() {
     super();
 
@@ -56,7 +56,7 @@ class TacticContainer extends Component {
   }
 }
 
-TacticContainer.propTypes = {
+TacticListContainer.propTypes = {
   fetchTactics: PropTypes.func.isRequired,
   selectTactic: PropTypes.func.isRequired,
   createAndSelectTactic: PropTypes.func.isRequired,
@@ -80,11 +80,11 @@ const mapStateToProps = (state) => {
   return {
     tactics: tacticsSelector(state),
     isFetchingTactics: tactics.status.isFetching,
+    isCreateTacticDialogOpen,
     isCreateTacticPending,
     selectedTacticId,
-    isCreateTacticDialogOpen,
   };
 };
 
-const ConnectedTacticList = connect(mapStateToProps, tacticActions)(TacticContainer);
+const ConnectedTacticList = connect(mapStateToProps, tacticActions)(TacticListContainer);
 export default withRouter(ConnectedTacticList);

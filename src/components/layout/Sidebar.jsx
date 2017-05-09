@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const SideBar = ({ children }) => (
-  <aside>
+const Sidebar = ({ children }) => (
+  <aside className="sidebar">
     {children}
   </aside>
 );
 
-SideBar.defaultProps = {
+Sidebar.defaultProps = {
   children: null,
 };
 
-SideBar.propTypes = {
+Sidebar.propTypes = {
   children: PropTypes.node,
 };
 
-export default SideBar;
+export default Sidebar;
