@@ -1,18 +1,29 @@
 import { reset } from 'redux-form';
 import axios from 'axios';
 import * as types from '../constants/ActionTypes';
-import { tacticSchema } from '../constants/Schemas';
+import { tacticSchema, tacticDetailSchema } from '../constants/Schemas';
 import { handleError } from './index';
 
 export const selectTactic = id => ({ type: types.SELECT_TACTIC, id });
 export const openCreateTacticDialog = () => ({ type: types.OPEN_CREATE_TACTIC_DIALOG });
 export const closeCreateTacticDialog = () => ({ type: types.CLOSE_CREATE_TACTIC_DIALOG });
 
-const createTactic = data => ({
-  type: types.CREATE_TACTIC,
-  payload: axios.post('/tactics', data),
-  meta: { data },
-});
+const createTactic = data => dispatch =>
+  dispatch({
+    type: types.CREATE_TACTIC,
+    payload: axios.post('/tactics', data),
+    meta: { data },
+  }).catch(error => dispatch(handleError(error)));
+
+export const fetchTactic = id => dispatch =>
+  dispatch({
+    type: types.FETCH_TACTIC,
+    payload: axios.get(`/tactics/${id}`),
+    meta: {
+      schema: tacticDetailSchema,
+      data: { id },
+    },
+  }).catch(error => dispatch(handleError(error)));
 
 export const fetchTactics = () => dispatch =>
   dispatch({
@@ -23,11 +34,24 @@ export const fetchTactics = () => dispatch =>
     },
   }).catch(error => dispatch(handleError(error)));
 
-export const createAndSelectTactic = data => (dispatch) => {
+const shouldFetchTactic = tactic => !tactic || !tactic.teams;
+
+export const fetchTacticIfNeeded = id => (dispatch, getState) => {
+  const tactic = getState().entities.tactics.byId[id];
+  if (shouldFetchTactic(tactic)) {
+    return dispatch(fetchTactic(id));
+  }
+  return Promise.resolve();
+};
+
+export const createAndSelectTactic = data => dispatch =>
   dispatch(createTactic(data)).then((response) => {
     dispatch(selectTactic(response.value.data.id));
     dispatch(closeCreateTacticDialog());
     dispatch(reset('createTacticForm'));
-  })
-  .catch(error => dispatch(handleError(error)));
+  });
+
+export const selectAndFetchTactic = id => (dispatch) => {
+  dispatch(selectTactic(id));
+  dispatch(fetchTacticIfNeeded(id));
 };
