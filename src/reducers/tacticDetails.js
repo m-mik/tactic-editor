@@ -16,6 +16,8 @@ const fetching = (state = [], action) => {
 
 const errors = (state = [], action) => {
   switch (action.type) {
+    case types.CREATE_TACTIC_FULFILLED:
+      return [];
     case types.FETCH_TACTIC_PENDING:
       return state.filter(id => id !== action.meta.data.id);
     case types.FETCH_TACTIC_FULFILLED:
