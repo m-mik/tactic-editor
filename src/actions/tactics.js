@@ -3,10 +3,15 @@ import axios from 'axios';
 import * as types from '../constants/ActionTypes';
 import { tacticSchema, tacticDetailSchema } from '../constants/Schemas';
 import { handleError } from './index';
+import history from '../history';
 
-export const selectTactic = id => ({ type: types.SELECT_TACTIC, id });
 export const openCreateTacticDialog = () => ({ type: types.OPEN_CREATE_TACTIC_DIALOG });
 export const closeCreateTacticDialog = () => ({ type: types.CLOSE_CREATE_TACTIC_DIALOG });
+
+export const selectTactic = (id, redirect = false) => {
+  if (redirect) history.push(`/tactics/${id}`);
+  return { type: types.SELECT_TACTIC, id };
+};
 
 const createTactic = data => dispatch =>
   dispatch({
@@ -52,7 +57,8 @@ export const fetchTacticIfNeeded = id => (dispatch, getState) => {
 
 export const createAndSelectTactic = data => dispatch =>
   dispatch(createTactic(data)).then((response) => {
-    dispatch(selectTactic(response.value.data.id));
+    const id = response.value.data.id;
+    dispatch(selectTactic(id, true));
     dispatch(closeCreateTacticDialog());
     dispatch(reset('createTacticForm'));
   });
