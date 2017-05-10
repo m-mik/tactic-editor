@@ -34,11 +34,17 @@ export const fetchTactics = () => dispatch =>
     },
   }).catch(error => dispatch(handleError(error)));
 
-const shouldFetchTactic = tactic => !tactic || !tactic.teams;
+const shouldFetchTactic = ({ entities }, id) => {
+  const { tacticDetails } = entities;
+  const { status, byId } = tacticDetails;
+  const isFetching = status.fetching.indexOf(id) !== -1;
+  const tacticDetail = byId[id];
+  const tacticDetailExists = !!tacticDetail;
+  return !tacticDetailExists && !isFetching;
+};
 
 export const fetchTacticIfNeeded = id => (dispatch, getState) => {
-  const tactic = getState().entities.tactics.byId[id];
-  if (shouldFetchTactic(tactic)) {
+  if (shouldFetchTactic(getState(), id)) {
     return dispatch(fetchTactic(id));
   }
   return Promise.resolve();
