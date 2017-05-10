@@ -23,7 +23,7 @@ export default class TacticList extends Component {
         key={tactic.id}
         value={tactic.id}
         primaryText={tactic.name}
-        containerElement={<Link to={`/tactic/${tactic.id}`} />}
+        containerElement={<Link to={`/tactics/${tactic.id}`} />}
       />,
     );
 

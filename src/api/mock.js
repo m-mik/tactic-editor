@@ -5,7 +5,7 @@ import MockAdapter from 'axios-mock-adapter';
 import tactics from './tactics.json';
 
 const mockApi = (store) => {
-  const mock = new MockAdapter(axios, { delayResponse: 1000 });
+  const mock = new MockAdapter(axios, { delayResponse: 500 });
 
   const getNextIdForEntity = (entityName) => {
     const state = store.getState();
@@ -18,6 +18,9 @@ const mockApi = (store) => {
   mock.onGet(/\/tactics\/\d+/).reply((config) => {
     const id = +config.url.split('/').pop();
     const tactic = tactics.filter(t => t.id === id).shift();
+    if (!tactic) {
+      return [404, []];
+    }
     return [200, pick(tactic, ['id', 'teams'])];
   });
 

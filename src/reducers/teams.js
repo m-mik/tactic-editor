@@ -15,11 +15,4 @@ const items = (state = [], action) => {
   }
 };
 
-const status = (state = { isFetching: false, error: false }, action) => {
-  switch (action.type) {
-    default:
-      return state;
-  }
-};
-
-export default combineReducers({ byId, items, status });
+export default combineReducers({ byId, items });

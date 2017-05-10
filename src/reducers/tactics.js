@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import * as types from '../constants/ActionTypes';
 
-const tactic = (state = { teams: [] }, action) => {
+const tactic = (state, action) => {
   switch (action.type) {
     case types.CREATE_TACTIC_FULFILLED: {
       const id = action.payload.data.id;

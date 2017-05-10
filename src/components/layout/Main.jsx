@@ -5,7 +5,6 @@ import { Paper } from 'material-ui';
 const Main = props => (
   <div className="main">
     <Paper zDepth={1}>
-      text
       {props.children}
     </Paper>
   </div>

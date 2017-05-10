@@ -16,10 +16,10 @@ const Root = ({ store }) => (
       <Router>
         <div className="container">
           <Sidebar>
-            <Route path="/(tactic/)?:id?" component={TacticListContainer} />
+            <Route path="/(tactics/)?:id?" component={TacticListContainer} />
           </Sidebar>
           <Main>
-            <Route path="/tactic/:id" component={TacticDetailContainer} />
+            <Route path="/tactics/:id" component={TacticDetailContainer} />
           </Main>
         </div>
       </Router>
