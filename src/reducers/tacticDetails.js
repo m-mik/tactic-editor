@@ -31,7 +31,7 @@ const byId = (state = {}, action) => {
   switch (action.type) {
     case types.CREATE_TACTIC_FULFILLED: {
       const id = action.payload.data.id;
-      return { [id]: { id, teams: [], ...state } };
+      return { ...state, [id]: { id, teams: [] } };
     }
     default:
       return state;
