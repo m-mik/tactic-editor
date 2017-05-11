@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import theme from '../assets/theme/main';
-import App from '../containers/App';
+import AppContainer from '../containers/AppContainer';
 import Sidebar from './layout/Sidebar';
 import Main from './layout/Main';
 import TacticListContainer from '../containers/tactics/TacticListContainer';
@@ -15,14 +15,14 @@ const Root = ({ store }) => (
   <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
     <Provider store={store}>
       <BrowserRouter>
-        <App>
+        <AppContainer>
           <Sidebar>
             <Route path="/(tactics/)?:id?" component={TacticListContainer} />
           </Sidebar>
           <Main>
             <Route path="/tactics/:id" component={TacticDetailContainer} />
           </Main>
-        </App>
+        </AppContainer>
       </BrowserRouter>
     </Provider>
   </MuiThemeProvider>
