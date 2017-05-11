@@ -2,6 +2,7 @@ import { reset } from 'redux-form';
 import axios from 'axios';
 import * as types from '../constants/ActionTypes';
 import { tacticSchema, tacticDetailSchema } from '../constants/Schemas';
+import { isFetchingSelector } from '../selectors';
 import { handleError } from './index';
 import history from '../history';
 
@@ -39,17 +40,19 @@ export const fetchTactics = () => dispatch =>
     },
   }).catch(error => dispatch(handleError(error)));
 
-const shouldFetchTactic = ({ entities }, id) => {
+const shouldFetchTactic = (state, id) => {
+  const { entities } = state;
   const { tacticDetails } = entities;
-  const { status, byId } = tacticDetails;
-  const isFetching = status.fetching.indexOf(id) !== -1;
-  const tacticDetail = byId[id];
+  const isFetching = isFetchingSelector(state);
+  const tacticDetail = tacticDetails.byId[id];
   const tacticDetailExists = !!tacticDetail;
   return !tacticDetailExists && !isFetching;
 };
 
 export const fetchTacticIfNeeded = id => (dispatch, getState) => {
+  console.log('fetchTacticIfNeeded');
   if (shouldFetchTactic(getState(), id)) {
+    console.log('fetch');
     return dispatch(fetchTactic(id));
   }
   return Promise.resolve();

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as tacticActions from '../../actions/tactics';
-import { tacticsSelector } from '../../selectors/tactics';
+import { tacticsSelector } from '../../selectors';
 import CreateTacticButton from '../../components/tactics/CreateTacticButton';
 import CreateTacticDialog from '../../components/tactics/CreateTacticDialog';
 import TacticList from '../../components/tactics/TacticList';

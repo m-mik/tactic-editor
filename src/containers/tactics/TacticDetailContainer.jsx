@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { isFetchingSelector, hasErrorSelector } from '../../selectors';
 import * as tacticActions from '../../actions/tactics';
 import Loading from '../../components/Loading';
 
@@ -20,27 +21,25 @@ class TacticDetailContainer extends Component {
   }
 
   render() {
-    const { errorOccurred, isFetching, selectedTacticId } = this.props;
+    const { hasError, isFetching, selectedTacticId } = this.props;
     return (
       <section className="tactic-panel">
+        Tactic detail:
         {isFetching && <Loading />}
-        {errorOccurred && <span className="error">Selected tactic does not exist</span>}
+        {hasError && <span className="error">Selected tactic does not exist</span>}
         <div>selectedTacticId: {selectedTacticId}</div>
       </section>
     );
   }
 }
 
-const mapStateToProps = ({ ui, entities }) => {
-  const { tacticDetails } = entities;
-  const { status } = tacticDetails;
-  const { fetching, errors } = status;
-  const selectedTacticId = ui.selectedTacticId;
+const mapStateToProps = (state) => {
+  const selectedTacticId = state.ui.selectedTacticId;
 
   return {
     selectedTacticId,
-    isFetching: fetching.indexOf(selectedTacticId) !== -1,
-    errorOccurred: errors.indexOf(selectedTacticId) !== -1,
+    isFetching: isFetchingSelector(state),
+    hasError: hasErrorSelector(state),
   };
 };
 
@@ -48,7 +47,7 @@ TacticDetailContainer.propTypes = {
   selectedTacticId: PropTypes.number.isRequired,
   fetchTacticIfNeeded: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  errorOccurred: PropTypes.bool.isRequired,
+  hasError: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
