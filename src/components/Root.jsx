@@ -1,35 +1,35 @@
 import React from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import theme from '../assets/theme/main';
-import Sidebar from '../components/layout/Sidebar';
-import Main from '../components/layout/Main';
-import TacticListContainer from './tactics/TacticListContainer';
-import TacticDetailContainer from './tactics/TacticDetailContainer';
+import App from '../containers/App';
+import Sidebar from './layout/Sidebar';
+import Main from './layout/Main';
+import TacticListContainer from '../containers/tactics/TacticListContainer';
+import TacticDetailContainer from '../containers/tactics/TacticDetailContainer';
 
-const App = ({ store }) => (
+const Root = ({ store }) => (
   <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
     <Provider store={store}>
       <BrowserRouter>
-        <div className="container">
+        <App>
           <Sidebar>
             <Route path="/(tactics/)?:id?" component={TacticListContainer} />
           </Sidebar>
           <Main>
             <Route path="/tactics/:id" component={TacticDetailContainer} />
           </Main>
-        </div>
+        </App>
       </BrowserRouter>
     </Provider>
   </MuiThemeProvider>
 );
 
-App.propTypes = {
+Root.propTypes = {
   store: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-export default App;
-//export default withRouter(App);
+export default Root;

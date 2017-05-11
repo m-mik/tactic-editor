@@ -10,9 +10,9 @@ import TacticList from '../../components/tactics/TacticList';
 
 class TacticListContainer extends Component {
   componentDidMount() {
-    const { fetchTactics, selectTactic, match } = this.props;
+    const { fetchTactics, selectTactic, match, history } = this.props;
     fetchTactics();
-    selectTactic(+match.params.id);
+    selectTactic(+match.params.id, history);
   }
 
   render() {
@@ -24,8 +24,9 @@ class TacticListContainer extends Component {
       selectedTacticId,
       openCreateTacticDialog,
       closeCreateTacticDialog,
-      createAndSelectTactic,
+      createTactic,
       selectTactic,
+      history,
     } = this.props;
 
     return (
@@ -35,11 +36,11 @@ class TacticListContainer extends Component {
           tactics={tactics}
           fetching={isFetchingTactics}
           selectedTacticId={selectedTacticId}
-          onSelectTactic={(event, id) => selectTactic(id)}
+          onSelectTactic={(event, id) => selectTactic(id, history)}
         />
         <CreateTacticDialog
           onClose={closeCreateTacticDialog}
-          onSubmit={createAndSelectTactic}
+          onSubmit={createTactic}
           open={isCreateTacticDialogOpen}
           pending={isCreateTacticPending}
         />
@@ -50,7 +51,7 @@ class TacticListContainer extends Component {
 
 TacticListContainer.propTypes = {
   fetchTactics: PropTypes.func.isRequired,
-  createAndSelectTactic: PropTypes.func.isRequired,
+  createTactic: PropTypes.func.isRequired,
   openCreateTacticDialog: PropTypes.func.isRequired,
   closeCreateTacticDialog: PropTypes.func.isRequired,
   selectTactic: PropTypes.func.isRequired,
@@ -67,7 +68,12 @@ TacticListContainer.propTypes = {
 
 const mapStateToProps = (state) => {
   const { entities: { tactics }, ui } = state;
-  const { selectedTacticId, isCreateTacticDialogOpen, isCreateTacticPending } = ui;
+  const {
+    selectedTacticId,
+    isCreateTacticDialogOpen,
+    isCreateTacticPending,
+  } = ui;
+
   return {
     tactics: tacticsSelector(state),
     isFetchingTactics: tactics.status.isFetching,

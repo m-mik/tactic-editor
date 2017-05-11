@@ -4,21 +4,35 @@ import * as types from '../constants/ActionTypes';
 import { tacticSchema, tacticDetailSchema } from '../constants/Schemas';
 import { isFetchingSelector } from '../selectors';
 import { handleError } from './index';
-import history from '../history';
+
+const shouldFetchTactic = (state, id) => {
+  const { entities } = state;
+  const { tacticDetails } = entities;
+  const isFetching = isFetchingSelector(state);
+  const tacticDetailExists = !!tacticDetails.byId[id];
+  return !tacticDetailExists && !isFetching;
+};
 
 export const openCreateTacticDialog = () => ({ type: types.OPEN_CREATE_TACTIC_DIALOG });
 export const closeCreateTacticDialog = () => ({ type: types.CLOSE_CREATE_TACTIC_DIALOG });
+export const redirectTo = path => ({ type: types.REDIRECT, payload: path });
+export const resetRedirect = () => ({ type: types.REDIRECT_RESET });
 
-export const selectTactic = (id) => {
-  if (!isNaN(id)) history.push(`/tactics/${id}`);
-  return { type: types.SELECT_TACTIC, id };
+export const selectTactic = id => (dispatch) => {
+  if (!isNaN(id)) dispatch(redirectTo(`/tactics/${id}`));
+  dispatch({ type: types.SELECT_TACTIC, id });
 };
 
-const createTactic = data => dispatch =>
+export const createTactic = data => dispatch =>
   dispatch({
     type: types.CREATE_TACTIC,
     payload: axios.post('/tactics', data),
     meta: { data },
+  }).then(({ action }) => {
+    const id = action.payload.data.id;
+    dispatch(selectTactic(id));
+    dispatch(closeCreateTacticDialog());
+    dispatch(reset('createTacticForm'));
   }).catch(error => dispatch(handleError(error)));
 
 export const fetchTactic = id => dispatch =>
@@ -40,28 +54,9 @@ export const fetchTactics = () => dispatch =>
     },
   }).catch(error => dispatch(handleError(error)));
 
-const shouldFetchTactic = (state, id) => {
-  const { entities } = state;
-  const { tacticDetails } = entities;
-  const isFetching = isFetchingSelector(state);
-  const tacticDetail = tacticDetails.byId[id];
-  const tacticDetailExists = !!tacticDetail;
-  return !tacticDetailExists && !isFetching;
-};
-
 export const fetchTacticIfNeeded = id => (dispatch, getState) => {
-  console.log('fetchTacticIfNeeded');
   if (shouldFetchTactic(getState(), id)) {
-    console.log('fetch');
     return dispatch(fetchTactic(id));
   }
   return Promise.resolve();
 };
-
-export const createAndSelectTactic = data => dispatch =>
-  dispatch(createTactic(data)).then((response) => {
-    const id = response.value.data.id;
-    dispatch(selectTactic(id));
-    dispatch(closeCreateTacticDialog());
-    dispatch(reset('createTacticForm'));
-  });
