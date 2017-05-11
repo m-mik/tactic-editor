@@ -1,7 +1,7 @@
 import React from 'react';
 
 const TacticEditor = () => (
-  <div />
+  <div className="tactic-editor">Tactic Editor</div>
 );
 
 export default TacticEditor;
