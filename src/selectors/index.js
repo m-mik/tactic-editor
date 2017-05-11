@@ -24,7 +24,7 @@ export const tacticDetailSelector = createSelector(
       selectedTacticId,
       tacticDetailSchema,
       { ...mapValues(entities, value => value.byId) },
-    );
+    ) || { teams: [] };
   },
 );
 

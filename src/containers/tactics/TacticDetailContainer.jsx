@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { isFetchingSelector, hasErrorSelector } from '../../selectors';
 import * as tacticActions from '../../actions/tactics';
-import Loading from '../../components/Loading';
+import TacticEditor from '../../components/editor/TacticEditor';
+import {
+  tacticDetailSelector,
+  isFetchingSelector,
+  hasErrorSelector,
+} from '../../selectors';
 
 class TacticDetailContainer extends Component {
   componentDidMount() {
@@ -20,14 +24,24 @@ class TacticDetailContainer extends Component {
     }
   }
 
+  renderErrorMessage() {
+    const { hasError } = this.props;
+    const message = 'Tactic does not exist';
+    return hasError && <span className="error">{message}</span>;
+  }
+
+  renderTacticEditor() {
+    const { isFetching, tactic } = this.props;
+    return <TacticEditor loading={isFetching} tactic={tactic} />;
+  }
+
   render() {
-    const { hasError, isFetching, selectedTacticId } = this.props;
+    const { selectedTacticId } = this.props;
     return (
       <section className="tactic-panel">
-        Tactic detail:
-        {isFetching && <Loading />}
-        {hasError && <span className="error">Selected tactic does not exist</span>}
         <div>selectedTacticId: {selectedTacticId}</div>
+        {this.renderErrorMessage()}
+        {this.renderTacticEditor()}
       </section>
     );
   }
@@ -40,6 +54,7 @@ const mapStateToProps = (state) => {
     selectedTacticId,
     isFetching: isFetchingSelector(state),
     hasError: hasErrorSelector(state),
+    tactic: tacticDetailSelector(state),
   };
 };
 
@@ -48,6 +63,12 @@ TacticDetailContainer.propTypes = {
   fetchTacticIfNeeded: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
+  tactic: PropTypes.shape({
+    teams: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string,
+      players: PropTypes.arrayOf(PropTypes.object),
+    })),
+  }).isRequired,
   match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 

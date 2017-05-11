@@ -5,7 +5,7 @@
     "teams": [
       {
         "id": 3,
-        "name": "Team A",
+        "name": "Team C",
         "players": [
           {
             "id": 4,
@@ -21,7 +21,7 @@
       },
       {
         "id": 4,
-        "name": "Team B",
+        "name": "Team D",
         "players": [
           {
             "id": 6,

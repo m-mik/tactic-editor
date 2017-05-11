@@ -10,9 +10,9 @@ import TacticList from '../../components/tactics/TacticList';
 
 class TacticListContainer extends Component {
   componentDidMount() {
-    const { fetchTactics, selectTactic, match, history } = this.props;
+    const { fetchTactics, selectTactic, match } = this.props;
     fetchTactics();
-    selectTactic(+match.params.id, history);
+    selectTactic(+match.params.id);
   }
 
   render() {
@@ -26,7 +26,6 @@ class TacticListContainer extends Component {
       closeCreateTacticDialog,
       createTactic,
       selectTactic,
-      history,
     } = this.props;
 
     return (
