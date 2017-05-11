@@ -1,45 +1,36 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { List, ListItem, makeSelectable } from 'material-ui/List';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import Loading from '../Loading';
 
 const SelectableList = makeSelectable(List);
 
-export default class TacticList extends Component {
-  componentDidMount() {
-    this.props.onFetchTacticsRequest();
-  }
+const TacticList = (props) => {
+  const {
+    fetching,
+    selectedTacticId,
+    onSelectTactic,
+  } = props;
 
-  render() {
-    const {
-      fetching,
-      selectedTacticId,
-      onSelectTactic,
-    } = this.props;
+  const renderTactics = () => props.tactics.map(tactic =>
+    <ListItem
+      key={tactic.id}
+      value={tactic.id}
+      primaryText={tactic.name}
+    />,
+  );
 
-    const renderTactics = () => this.props.tactics.map(tactic =>
-      <ListItem
-        key={tactic.id}
-        value={tactic.id}
-        primaryText={tactic.name}
-        containerElement={<Link to={`/tactics/${tactic.id}`} />}
-      />,
-    );
-
-    return (
-      <div>
-        <SelectableList
-          value={selectedTacticId}
-          onChange={onSelectTactic}
-        >
-          {fetching && <Loading />}
-          {renderTactics()}
-        </SelectableList>
-      </div>
-    );
-  }
-}
+  return (
+    <SelectableList
+      className="tactic-list"
+      value={selectedTacticId}
+      onChange={onSelectTactic}
+    >
+      {fetching && <Loading />}
+      {renderTactics()}
+    </SelectableList>
+  );
+};
 
 TacticList.defaultProps = {
   fetching: false,
@@ -56,6 +47,7 @@ TacticList.propTypes = {
   })),
   fetching: PropTypes.bool,
   selectedTacticId: PropTypes.number,
-  onFetchTacticsRequest: PropTypes.func,
   onSelectTactic: PropTypes.func,
 };
+
+export default TacticList;

@@ -8,8 +8,8 @@ import history from '../history';
 export const openCreateTacticDialog = () => ({ type: types.OPEN_CREATE_TACTIC_DIALOG });
 export const closeCreateTacticDialog = () => ({ type: types.CLOSE_CREATE_TACTIC_DIALOG });
 
-export const selectTactic = (id, redirect = false) => {
-  if (redirect) history.push(`/tactics/${id}`);
+export const selectTactic = (id) => {
+  if (!isNaN(id)) history.push(`/tactics/${id}`);
   return { type: types.SELECT_TACTIC, id };
 };
 
@@ -58,12 +58,7 @@ export const fetchTacticIfNeeded = id => (dispatch, getState) => {
 export const createAndSelectTactic = data => dispatch =>
   dispatch(createTactic(data)).then((response) => {
     const id = response.value.data.id;
-    dispatch(selectTactic(id, true));
+    dispatch(selectTactic(id));
     dispatch(closeCreateTacticDialog());
     dispatch(reset('createTacticForm'));
   });
-
-export const selectAndFetchTactic = id => (dispatch) => {
-  dispatch(selectTactic(id));
-  dispatch(fetchTacticIfNeeded(id));
-};

@@ -8,14 +8,14 @@ import Loading from '../../components/Loading';
 class TacticDetailContainer extends Component {
   componentDidMount() {
     const id = +this.props.match.params.id;
-    this.props.selectAndFetchTactic(id);
+    this.props.fetchTacticIfNeeded(id);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillUpdate(nextProps) {
     const nextId = +nextProps.match.params.id;
     const currentId = +this.props.match.params.id;
     if (nextId !== currentId) {
-      this.props.selectAndFetchTactic(nextId);
+      this.props.fetchTacticIfNeeded(nextId);
     }
   }
 
@@ -46,7 +46,7 @@ const mapStateToProps = ({ ui, entities }) => {
 
 TacticDetailContainer.propTypes = {
   selectedTacticId: PropTypes.number.isRequired,
-  selectAndFetchTactic: PropTypes.func.isRequired,
+  fetchTacticIfNeeded: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   errorOccurred: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
