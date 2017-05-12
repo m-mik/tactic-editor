@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FootballGround from './FootballGround';
+import FootballField from './FootballField';
 import Loading from '../Loading';
 import TeamDetail from './TeamDetail';
 
@@ -16,15 +16,13 @@ const TacticEditor = (props) => {
     teams.map(team => <TeamDetail key={team.id} team={team} />)
   );
 
-  const [teamA, teamB] = teams;
-
   return (
     <div className="tactic-editor">
-      {renderLoading()}
-      {teamA && <TeamDetail team={teamA} />}
-      <FootballGround />
-      {teamB && <TeamDetail team={teamB} />}
-      {/*{renderTeamDetails()}*/}
+      {/*{renderLoading()}*/}
+      <FootballField />
+      <div>
+        {renderTeamDetails()}
+      </div>
     </div>
   );
 };

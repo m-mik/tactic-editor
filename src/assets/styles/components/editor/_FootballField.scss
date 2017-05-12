@@ -1,0 +1,20 @@
+.football-field {
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  margin: 0 auto;
+  background: forestgreen;
+  display: flex;
+  flex-wrap: wrap;
+
+  &__tile {
+    width: (100% / 7);
+    height: (100% / 7);
+    background: lightblue;
+    border: 1px solid #000;
+    opacity: 0.5;
+  }
+
+  &__tile--full-width {
+    width: 100%;
+  }
+}
