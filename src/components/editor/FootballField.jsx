@@ -2,7 +2,7 @@ import React from 'react';
 import Tile from './Tile';
 
 const FootballField = () => {
-  const tiles = [...new Array(20).keys()];
+  const tiles = [...new Array(35).keys()];
 
   const renderTiles = () => tiles.map(index =>
     <Tile key={index} />,
@@ -10,9 +10,11 @@ const FootballField = () => {
 
   return (
     <div className="football-field">
-      <Tile fullWidth />
-      {renderTiles()}
-      <Tile fullWidth />
+      <div className="football-field__tiles">
+        <Tile fullWidth />
+        {renderTiles()}
+        <Tile fullWidth />
+      </div>
     </div>
   );
 };

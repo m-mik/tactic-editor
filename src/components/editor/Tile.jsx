@@ -4,8 +4,7 @@ import classNames from 'classnames';
 
 const Tile = (props) => {
   const tileClass = classNames({
-    'football-field__tile': true,
-    'football-field__tile--full-width': props.fullWidth,
+    'full-width': props.fullWidth,
   });
 
   return (

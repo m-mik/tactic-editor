@@ -36,10 +36,8 @@ class TacticDetailContainer extends Component {
   }
 
   render() {
-    const { selectedTacticId } = this.props;
     return (
       <section className="tactic-panel">
-        <div>selectedTacticId: {selectedTacticId}</div>
         {this.renderErrorMessage()}
         {this.renderTacticEditor()}
       </section>
