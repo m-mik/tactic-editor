@@ -4,6 +4,7 @@ import * as types from '../constants/ActionTypes';
 import { tacticSchema, tacticDetailSchema } from '../constants/Schemas';
 import { isFetchingSelector } from '../selectors';
 import { handleError } from './index';
+import history from '../history';
 
 const shouldFetchTactic = (state, id) => {
   const { entities } = state;
@@ -15,11 +16,9 @@ const shouldFetchTactic = (state, id) => {
 
 export const openCreateTacticDialog = () => ({ type: types.OPEN_CREATE_TACTIC_DIALOG });
 export const closeCreateTacticDialog = () => ({ type: types.CLOSE_CREATE_TACTIC_DIALOG });
-export const redirectTo = path => ({ type: types.REDIRECT, payload: path });
-export const resetRedirect = () => ({ type: types.REDIRECT_RESET });
 
 export const selectTactic = id => (dispatch) => {
-  if (!isNaN(id)) dispatch(redirectTo(`/tactics/${id}`));
+  if (!isNaN(id)) history.push(`/tactics/${id}`);
   dispatch({ type: types.SELECT_TACTIC, id });
 };
 
