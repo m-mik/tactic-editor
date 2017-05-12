@@ -1,0 +1,17 @@
+$field-aspect-ratio: 1.6;
+$field-vertical-tiles: 7;
+$field-horizontal-tiles: 7;
+
+$field-line-color: #ffa400;
+$field-line-size: 4px;
+$field-border: $field-line-size solid $field-line-color;
+
+$field-middle-circle-width: 20%;
+$field-middle-circle-height: $field-middle-circle-width / $field-aspect-ratio;
+$field-middle-circle-dot-width: 8%;
+$field-middle-circle-dot-height: ($field-middle-circle-dot-width + 7%) / $field-aspect-ratio;
+
+$field-corners-width: 12%;
+$field-corners-height: $field-corners-width / $field-aspect-ratio;
+$field-corners-offset-x: -5%;
+$field-corners-offset-y: $field-corners-offset-x / $field-aspect-ratio;

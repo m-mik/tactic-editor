@@ -20,9 +20,9 @@ const TacticEditor = (props) => {
     <div className="tactic-editor">
       {/*{renderLoading()}*/}
       <FootballField />
-      <div>
-        {renderTeamDetails()}
-      </div>
+      {/*<div>*/}
+        {/*{renderTeamDetails()}*/}
+      {/*</div>*/}
     </div>
   );
 };

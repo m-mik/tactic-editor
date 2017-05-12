@@ -2,7 +2,71 @@
   position: absolute;
   top: 0; bottom: 0; left: 0; right: 0;
   margin: 0 auto;
-  background: forestgreen;
+  background: #7ba880;
+  border: $field-border;
+  overflow: hidden;
+
+  &__middle-line {
+    top: 50%;
+    position: absolute;
+    width: 100%;
+    height: $field-line-size;
+    background: $field-line-color;
+  }
+
+  &__middle-circle {
+    width: $field-middle-circle-width;
+    height: $field-middle-circle-height;
+    position: absolute;
+    border: $field-border;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+
+    &:after {
+      content: '';
+      position: absolute;
+      transform: translate(-50%, -50%);
+      background: $field-line-color;
+      top: 50%;
+      left: 50%;
+      width: $field-middle-circle-dot-width;
+      height: $field-middle-circle-dot-height;
+      margin-top: 1.5%;
+      border-radius: 50%;
+    }
+  }
+}
+
+.football-field__corners {
+  > div {
+    width: $field-corners-width;
+    height: $field-corners-height;
+    position: absolute;
+    border-radius: 50%;
+    border: $field-border;
+  }
+
+  > div:nth-child(1) {
+    left: $field-corners-offset-x;
+    top: $field-corners-offset-y;
+  }
+
+  > div:nth-child(2) {
+    right: $field-corners-offset-x;
+    top: $field-corners-offset-y;
+  }
+
+  > div:nth-child(3) {
+    right: $field-corners-offset-x;
+    bottom: $field-corners-offset-y;
+  }
+
+  > div:nth-child(4) {
+    left: $field-corners-offset-x;
+    bottom: $field-corners-offset-y;
+  }
 }
 
 .football-field__tiles  {
@@ -10,13 +74,12 @@
   height: 100%;
   display: flex;
   flex-wrap: wrap;
+  padding: 0 3%;
 
   > div {
-    width: (100% / 7);
-    height: (100% / 7);
-    background: lightblue;
+    width: (100% / $field-horizontal-tiles);
+    height: (100% / $field-vertical-tiles);
     border: 1px solid #000;
-    opacity: 0.5;
     text-align: center;
   }
 

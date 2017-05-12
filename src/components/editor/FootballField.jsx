@@ -8,8 +8,19 @@ const FootballField = () => {
     <Tile key={index} />,
   );
 
+  const renderOverlay = () => (
+    <div className="football-field__overlay">
+      <div className="football-field__middle-line" />
+      <div className="football-field__middle-circle" />
+      <div className="football-field__corners">
+        {[...new Array(4).keys()].map(index => <div key={index} />)}
+      </div>
+    </div>
+  );
+
   return (
     <div className="football-field">
+      {renderOverlay()}
       <div className="football-field__tiles">
         <Tile fullWidth />
         {renderTiles()}
