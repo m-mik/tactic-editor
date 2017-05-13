@@ -1,11 +1,19 @@
 import React from 'react';
+import times from 'lodash/times';
 import Tile from './Tile';
 
 const FootballField = () => {
-  const tiles = [...new Array(35).keys()];
+  const tiles = times(70);
 
   const renderTiles = () => tiles.map(index =>
     <Tile key={index} />,
+  );
+
+  const renderPenaltyBox = index => (
+    <div key={index} className="football-field__penalty-box" >
+      <div className="football-field__penalty-box-item-1" />
+      <div className="football-field__penalty-box-item-2" />
+    </div>
   );
 
   const renderOverlay = () => (
@@ -13,7 +21,13 @@ const FootballField = () => {
       <div className="football-field__middle-line" />
       <div className="football-field__middle-circle" />
       <div className="football-field__corners">
-        {[...new Array(4).keys()].map(index => <div key={index} />)}
+        {times(4, index => <div key={index} />)}
+      </div>
+      <div className="football-field__goals" >
+        {times(2, index => <div key={index} />)}
+      </div>
+      <div className="football-field__penalty-boxes">
+        {times(2, index => renderPenaltyBox(index))}
       </div>
     </div>
   );
@@ -29,6 +43,5 @@ const FootballField = () => {
     </div>
   );
 };
-
 
 export default FootballField;

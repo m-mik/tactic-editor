@@ -1,6 +1,11 @@
 $field-aspect-ratio: 1.6;
-$field-vertical-tiles: 7;
-$field-horizontal-tiles: 7;
+$field-background-color: #7ba880;
+
+$field-vertical-tiles-one-team: 7 + 2; // 7x tile, 2x full-width tile
+$field-horizontal-tiles-one-team: 7;
+
+$field-vertical-tiles-two-teams: (5 * 2) + 2; // 10x tile, 2x full-width tile
+$field-horizontal-tiles-two-teams: 7;
 
 $field-line-color: #ffa400;
 $field-line-size: 4px;
@@ -11,7 +16,13 @@ $field-middle-circle-height: $field-middle-circle-width / $field-aspect-ratio;
 $field-middle-circle-dot-width: 8%;
 $field-middle-circle-dot-height: ($field-middle-circle-dot-width + 7%) / $field-aspect-ratio;
 
-$field-corners-width: 12%;
-$field-corners-height: $field-corners-width / $field-aspect-ratio;
-$field-corners-offset-x: -5%;
-$field-corners-offset-y: $field-corners-offset-x / $field-aspect-ratio;
+$field-corner-width: 8%;
+$field-corner-height: $field-corner-width / $field-aspect-ratio;
+$field-corner-offset-x: -5%;
+$field-corner-offset-y: $field-corner-offset-x / $field-aspect-ratio;
+
+$field-goal-width: 20%;
+$field-goal-height: 3%;
+
+$field-penalty-box-width: 35%;
+$field-penalty-box-height: 10%;
