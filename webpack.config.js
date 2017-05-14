@@ -8,9 +8,11 @@ const DEVELOPMENT = process.env.NODE_ENV === 'development';
 
 const entry = PRODUCTION
   ? [
+    'babel-polyfill',
     './src/app.jsx',
   ]
   : [
+    'babel-polyfill',
     'react-hot-loader/patch',
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
