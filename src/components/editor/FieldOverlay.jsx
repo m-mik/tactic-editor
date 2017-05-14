@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import times from 'lodash/times';
+import classNames from 'classnames';
 
 export default class FieldOverlay extends Component {
   shouldComponentUpdate() {
@@ -7,12 +8,21 @@ export default class FieldOverlay extends Component {
   }
 
   render() {
-    const renderPenaltyBox = index => (
-      <div key={index} className="football-field__penalty-box" >
-        <div className="football-field__penalty-box-item-1" />
-        <div className="football-field__penalty-box-item-2" />
-      </div>
-    );
+    const renderPenaltyBox = (index) => {
+      const className = classNames({
+        'football-field__penalty-box': true,
+        'football-field__penalty-box--home': index === 0,
+        'football-field__penalty-box--away': index === 1,
+      });
+
+      return (
+        <div key={index} className={className}>
+          <div className="football-field__penalty-box-rect" />
+          <div className="football-field__penalty-box-half-circle" />
+          <div className="football-field__penalty-box-dot" />
+        </div>
+      );
+    };
 
     return (
       <div className="football-field__overlay">

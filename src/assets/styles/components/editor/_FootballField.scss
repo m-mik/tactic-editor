@@ -6,7 +6,7 @@
   right: 0;
   margin: 0 auto;
   background: $field-background-color;
-  border: $field-border;
+  border: $field-line-border;
   overflow: hidden;
 }
 
@@ -21,7 +21,7 @@
 
 .football-field__goals {
   > div {
-    border: $field-border;
+    border: $field-line-border;
     width: $field-goal-width;
     height: $field-goal-height;
     position: absolute;
@@ -45,7 +45,7 @@
   width: $field-middle-circle-width;
   height: $field-middle-circle-height;
   position: absolute;
-  border: $field-border;
+  border: $field-line-border;
   transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
@@ -65,8 +65,8 @@
 }
 
 .football-field__penalty-box {
-  &-item-1 {
-    border: $field-border;
+  &-rect {
+    border: $field-line-border;
     width: $field-penalty-box-width;
     height: $field-penalty-box-height;
     position: absolute;
@@ -76,33 +76,55 @@
     background: $field-background-color;
   }
 
-  &:nth-child(1) .football-field__penalty-box-item-1 {
-    border-top: none;
-    top: 0;
-
-  }
-
-  &:nth-child(2) .football-field__penalty-box-item-1 {
-    border-bottom: none;
-    bottom: 0;
-  }
-
-  &-item-2 {
+  &-half-circle {
     position: absolute;
     left: 50%;
-    border: $field-border;
+    border: $field-line-border;
     width: 20%;
     height: 8%;
     transform: translate(-50%, -50%);
     border-radius: 50%;
   }
 
-  &:nth-child(1) .football-field__penalty-box-item-2 {
-    top: 8%;
+  &-dot {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: $field-line-color;
+    width: $field-penalty-box-dot-width;
+    height: $field-penalty-box-dot-height;
+    border-radius: 50%;
+    z-index: 2;
   }
 
-  &:nth-child(2) .football-field__penalty-box-item-2 {
-    bottom: 0;
+  &--home {
+    .football-field__penalty-box-rect {
+      border-top: none;
+      top: 0;
+    }
+
+    .football-field__penalty-box-dot {
+      top: 8%;
+    }
+
+    .football-field__penalty-box-half-circle {
+      top: 13%;
+    }
+  }
+
+  &--away {
+    .football-field__penalty-box-rect {
+      border-bottom: none;
+      bottom: 0;
+    }
+
+    .football-field__penalty-box-dot {
+      bottom: 8%;
+    }
+
+    .football-field__penalty-box-half-circle {
+      bottom: 5%;
+    }
   }
 }
 
@@ -112,7 +134,7 @@
     height: $field-corner-height;
     position: absolute;
     border-radius: 50%;
-    border: $field-border;
+    border: $field-line-border;
   }
 
   > div:nth-child(1) {
