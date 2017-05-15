@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux';
 import * as types from '../constants/ActionTypes';
 
 const byId = (state = {}, action) => {
@@ -8,11 +7,4 @@ const byId = (state = {}, action) => {
   }
 };
 
-const items = (state = [], action) => {
-  switch (action.type) {
-    default:
-      return state;
-  }
-};
-
-export default combineReducers({ byId, items });
+export default byId;

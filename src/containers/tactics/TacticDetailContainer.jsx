@@ -36,6 +36,7 @@ class TacticDetailContainer extends Component {
   }
 
   render() {
+    console.log(this.props.tactic);
     return (
       <section className="tactic-panel">
         {this.renderErrorMessage()}
@@ -56,17 +57,18 @@ const mapStateToProps = (state) => {
   };
 };
 
+TacticDetailContainer.defaultProps = {
+  tactic: null,
+};
+
 TacticDetailContainer.propTypes = {
   selectedTacticId: PropTypes.number.isRequired,
   fetchTacticIfNeeded: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
   tactic: PropTypes.shape({
-    teams: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string,
-      players: PropTypes.arrayOf(PropTypes.object),
-    })),
-  }).isRequired,
+    teams: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }),
   match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 

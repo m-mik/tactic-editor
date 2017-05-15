@@ -5,8 +5,10 @@ import Loading from '../Loading';
 import TeamDetail from './TeamDetail';
 
 const TacticEditor = (props) => {
+  // if (!props.tactic) return <FootballField />;
+
   const { tactic, loading } = props;
-  const { teams } = tactic;
+  const teams = tactic && tactic.teams;
 
   const renderLoading = () => (
     loading && <Loading size={150} className="tactic-editor__loading" />
@@ -16,28 +18,31 @@ const TacticEditor = (props) => {
     teams.map(team => <TeamDetail key={team.id} team={team} />)
   );
 
+
   return (
     <div className="tactic-editor">
-      {/*{renderLoading()}*/}
+      {/* {renderLoading()}*/}
       <FootballField />
-      {/*<div>*/}
-        {/*{renderTeamDetails()}*/}
-      {/*</div>*/}
+      {/* <div>*/}
+      {/* {renderTeamDetails()}*/}
+      {/* </div>*/}
     </div>
   );
 };
 
 TacticEditor.defaultProps = {
   loading: false,
+  tactic: null,
 };
 
 TacticEditor.propTypes = {
   loading: PropTypes.bool,
   tactic: PropTypes.shape({
     teams: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string,
-      players: PropTypes.arrayOf(PropTypes.object),
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      players: PropTypes.object.isRequired,
     })),
-  }).isRequired,
+  }),
 };
 export default TacticEditor;
