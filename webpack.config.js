@@ -54,7 +54,7 @@ plugins = plugins.concat(PRODUCTION ? prodPlugins : devPlugins);
 const cssLoader = PRODUCTION
   ? ExtractTextPlugin.extract({
     use: [
-      'css-loader?minimize&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
+      'css-loader?minimize&localIdentName=[name]__[local]___[hash:base64:5]',
       'postcss-loader',
       'resolve-url-loader',
       'sass-loader?sourceMap',
@@ -63,7 +63,7 @@ const cssLoader = PRODUCTION
   })
   : [
     'style-loader',
-    'css-loader?importLoader=1&modules&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
+    'css-loader?&modules&localIdentName=[name]__[local]___[hash:base64:5]',
     'postcss-loader', 'resolve-url-loader',
     'sass-loader?sourceMap',
   ];

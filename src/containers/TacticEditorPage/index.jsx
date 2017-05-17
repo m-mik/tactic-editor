@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as tacticActions from '../../actions/tactics';
-import TacticEditor from '../../components/editor/TacticEditor';
+import TacticEditor from '../../components/TacticEditor/index';
 import {
   tacticDetailSelector,
   isFetchingSelector,
   hasErrorSelector,
-} from '../../selectors';
+} from '../../selectors/index';
 
-class TacticDetailContainer extends Component {
+class TacticEditorPage extends Component {
   componentDidMount() {
     const id = +this.props.match.params.id;
     this.props.fetchTacticIfNeeded(id);
@@ -57,11 +57,11 @@ const mapStateToProps = (state) => {
   };
 };
 
-TacticDetailContainer.defaultProps = {
+TacticEditorPage.defaultProps = {
   tactic: null,
 };
 
-TacticDetailContainer.propTypes = {
+TacticEditorPage.propTypes = {
   selectedTacticId: PropTypes.number.isRequired,
   fetchTacticIfNeeded: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
@@ -72,9 +72,9 @@ TacticDetailContainer.propTypes = {
   match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-const ConnectedTacticDetailContainer = connect(
+const ConnectedTacticEditorPage = connect(
   mapStateToProps,
   tacticActions,
-)(TacticDetailContainer);
+)(TacticEditorPage);
 
-export default withRouter(ConnectedTacticDetailContainer);
+export default withRouter(ConnectedTacticEditorPage);

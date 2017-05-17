@@ -1,7 +1,7 @@
 import React from 'react';
 import { List, ListItem, makeSelectable } from 'material-ui/List';
 import PropTypes from 'prop-types';
-import Loading from '../Loading';
+import LoadingIndicator from '../LoadingIndicator';
 
 const SelectableList = makeSelectable(List);
 
@@ -26,7 +26,7 @@ const TacticList = (props) => {
       value={selectedTacticId}
       onChange={onSelectTactic}
     >
-      {fetching && <Loading />}
+      {fetching && <LoadingIndicator />}
       {renderTactics()}
     </SelectableList>
   );

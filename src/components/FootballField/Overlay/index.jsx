@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import times from 'lodash/times';
 import classNames from 'classnames';
 
-export default class FieldOverlay extends Component {
+export default class Overlay extends Component {
   shouldComponentUpdate() {
     return false;
   }

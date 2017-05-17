@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as tacticActions from '../../actions/tactics';
-import { tacticsSelector } from '../../selectors';
-import CreateTacticButton from '../../components/tactics/CreateTacticButton';
-import CreateTacticDialog from '../../components/tactics/CreateTacticDialog';
-import TacticList from '../../components/tactics/TacticList';
+import { tacticsSelector } from '../../selectors/index';
+import CreateTacticButton from '../../components/CreateTacticButton/index';
+import CreateTacticDialog from '../../components/CreateTacticDialog/index';
+import TacticList from '../../components/TacticList/index';
+import style from './Sidebar.scss';
 
-class TacticListContainer extends Component {
+class Sidebar extends Component {
   componentDidMount() {
     const { fetchTactics, selectTactic, match } = this.props;
     fetchTactics();
@@ -29,7 +30,7 @@ class TacticListContainer extends Component {
     } = this.props;
 
     return (
-      <div>
+      <div className={style.wrapper}>
         <CreateTacticButton onTouchTap={openCreateTacticDialog} />
         <TacticList
           tactics={tactics}
@@ -48,7 +49,7 @@ class TacticListContainer extends Component {
   }
 }
 
-TacticListContainer.propTypes = {
+Sidebar.propTypes = {
   fetchTactics: PropTypes.func.isRequired,
   createTactic: PropTypes.func.isRequired,
   openCreateTacticDialog: PropTypes.func.isRequired,
@@ -82,9 +83,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-const ConnectedTacticListContainer = connect(
+const ConnectedSidebar = connect(
   mapStateToProps,
-  tacticActions)(TacticListContainer,
+  tacticActions)(Sidebar,
 );
 
-export default withRouter(ConnectedTacticListContainer);
+export default withRouter(ConnectedSidebar);

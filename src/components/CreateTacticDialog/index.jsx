@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import Loading from '../../components/Loading';
-import CreateTacticForm from './CreateTacticForm';
+import LoadingIndicator from '../LoadingIndicator';
+import Form from './Form';
+import styles from './CreateTacticDialog.scss';
 
 const CreateTacticDialog = (props) => {
   const { onSubmit, onClose, open, pending } = props;
@@ -26,15 +27,15 @@ const CreateTacticDialog = (props) => {
 
   return (
     <Dialog
-      bodyClassName="create-tactic-dialog__body"
+      bodyClassName={styles.body}
       title="Create Tactic"
       actions={actions}
       modal={false}
       open={open}
       onRequestClose={onClose}
     >
-      {pending && <Loading className="create-tactic-dialog__loading" />}
-      <CreateTacticForm
+      {pending && <LoadingIndicator className={styles.loadingIndicator} />}
+      <Form
         ref={(form) => { this.form = form; }}
         open={open}
         onSubmit={onSubmit}

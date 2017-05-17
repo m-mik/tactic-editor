@@ -1,7 +1,7 @@
 import React from 'react';
 import times from 'lodash/times';
 import Tile from './Tile';
-import FieldOverlay from './FieldOverlay';
+import Overlay from './Overlay';
 
 const FootballField = () => {
   const tiles = times(72);
@@ -13,7 +13,7 @@ const FootballField = () => {
 
   return (
     <div className="football-field">
-      <FieldOverlay />
+      <Overlay />
       <div className="football-field__tiles">
         {renderTiles()}
       </div>

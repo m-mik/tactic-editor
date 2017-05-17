@@ -1,0 +1,9 @@
+.body {
+  height: 80px !important;
+}
+
+.loadingIndicator {
+  compose: loadingIndicator from '../LoadingIndicator';
+  position: absolute !important;
+  left: 50% !important;
+}

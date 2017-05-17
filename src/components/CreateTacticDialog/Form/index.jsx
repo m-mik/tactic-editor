@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { reduxForm, Field, propTypes } from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
 
-const CreateTacticForm = (props) => {
+const Form = (props) => {
   const { onSubmit, pending, handleSubmit } = props;
 
   const TacticNameField = () => (
@@ -34,7 +34,7 @@ const validate = (values) => {
   return errors;
 };
 
-CreateTacticForm.propTypes = {
+Form.propTypes = {
   pending: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired,
   ...propTypes,
@@ -43,4 +43,4 @@ CreateTacticForm.propTypes = {
 export default reduxForm({
   form: 'createTacticForm',
   validate,
-})(CreateTacticForm);
+})(Form);
