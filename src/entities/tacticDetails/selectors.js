@@ -2,10 +2,9 @@ import { denormalize } from 'normalizr';
 import includes from 'lodash/includes';
 import mapValues from 'lodash/mapValues';
 import { createSelector } from 'reselect';
-import { tacticDetailSchema } from '../constants/Schemas';
+import tacticDetailSchema from './schema';
 
-const getTactics = state => state.entities.tactics;
-const getSelectedTacticId = state => state.ui.selectedTacticId;
+const getSelectedTacticId = state => state.app.selectedTacticId;
 const getFetching = state => state.entities.tacticDetails.status.fetching;
 const getErrors = state => state.entities.tacticDetails.status.errors;
 const getTeams = state => state.entities.teams;
@@ -16,25 +15,20 @@ const getPlayersByPosForTeam = denormalizedTeam =>
   denormalizedTeam.players.reduce((result, player) =>
     ({ ...result, [player.position]: player }), {});
 
-
 const getTeamsWithPlayersByPos = denormalizedTeams =>
   denormalizedTeams.map(team =>
     ({ ...team, players: getPlayersByPosForTeam(team) }),
   );
-
-export const tacticsSelector = createSelector(
-  [getTactics], tactics => tactics.items.map(id => tactics.byId[id]),
-);
 
 export const tacticDetailSelector = createSelector(
   [getTacticDetails, getTeams, getPlayers, getSelectedTacticId],
   (tacticDetails, teams, players, selectedTacticId) => {
     const entities = { tacticDetails, teams, players };
     const denormalized = denormalize(
-        selectedTacticId,
-        tacticDetailSchema,
-        { ...mapValues(entities, value => value.byId) },
-      );
+      selectedTacticId,
+      tacticDetailSchema,
+      { ...mapValues(entities, value => value.byId) },
+    );
 
     return denormalized ? {
       ...denormalized,

@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import * as tacticActions from '../../actions/tactics';
+import { fetchTacticIfNeeded } from '../../entities/tacticDetails/actions';
 import TacticEditor from '../../components/TacticEditor/index';
 import {
   tacticDetailSelector,
   isFetchingSelector,
   hasErrorSelector,
-} from '../../selectors/index';
+} from '../../entities/tacticDetails/selectors';
 
 class TacticEditorPage extends Component {
   componentDidMount() {
@@ -46,8 +46,23 @@ class TacticEditorPage extends Component {
   }
 }
 
+TacticEditorPage.defaultProps = {
+  tactic: null,
+};
+
+TacticEditorPage.propTypes = {
+  fetchTacticIfNeeded: PropTypes.func.isRequired,
+  selectedTacticId: PropTypes.number.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  hasError: PropTypes.bool.isRequired,
+  tactic: PropTypes.shape({
+    teams: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }),
+  match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+};
+
 const mapStateToProps = (state) => {
-  const selectedTacticId = state.ui.selectedTacticId;
+  const selectedTacticId = state.app.selectedTacticId;
 
   return {
     selectedTacticId,
@@ -57,24 +72,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-TacticEditorPage.defaultProps = {
-  tactic: null,
-};
-
-TacticEditorPage.propTypes = {
-  selectedTacticId: PropTypes.number.isRequired,
-  fetchTacticIfNeeded: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  hasError: PropTypes.bool.isRequired,
-  tactic: PropTypes.shape({
-    teams: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }),
-  match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-};
-
 const ConnectedTacticEditorPage = connect(
   mapStateToProps,
-  tacticActions,
+  { fetchTacticIfNeeded },
 )(TacticEditorPage);
 
 export default withRouter(ConnectedTacticEditorPage);

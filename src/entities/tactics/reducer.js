@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import * as types from '../constants/ActionTypes';
+import * as types from './constants';
 
 const tactic = (state, action) => {
   switch (action.type) {
@@ -32,7 +32,7 @@ const items = (state = [], action) => {
   }
 };
 
-const status = (state = { isFetching: false, error: false }, action) => {
+const status = (state = { isFetching: false, isCreating: false, error: false }, action) => {
   switch (action.type) {
     case types.FETCH_TACTICS_PENDING:
       return { ...state, isFetching: true };
@@ -40,6 +40,11 @@ const status = (state = { isFetching: false, error: false }, action) => {
       return { ...state, isFetching: false, error: true };
     case types.FETCH_TACTICS_FULFILLED:
       return { ...state, isFetching: false, error: false };
+    case types.CREATE_TACTIC_PENDING:
+      return { ...state, isCreating: true };
+    case types.CREATE_TACTIC_FULFILLED:
+    case types.CREATE_TACTIC_REJECTED:
+      return { ...state, isCreating: false };
     default:
       return state;
   }

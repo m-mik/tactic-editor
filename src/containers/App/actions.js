@@ -1,5 +1,5 @@
 /* global DEVELOPMENT */
-import * as types from '../constants/ActionTypes';
+import * as types from './constants';
 
 export const handleError = (error) => {
   if (DEVELOPMENT) { console.warn(error); } // eslint-disable-line no-console

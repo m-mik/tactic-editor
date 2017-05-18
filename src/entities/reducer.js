@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 import merge from 'lodash/merge';
-import tactics from './tactics';
-import tacticDetails from './tacticDetails';
-import teams from './teams';
-import players from './players';
+import tactics from './tactics/reducer';
+import tacticDetails from './tacticDetails/reducer';
+import teams from './teams/reducer';
+import players from './players/reducer';
 
 const mapEntitiesToState = (entities) => {
   const entityKeys = Object.keys(entities);

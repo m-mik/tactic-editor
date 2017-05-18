@@ -1,13 +1,18 @@
 import { combineReducers } from 'redux';
-import * as types from '../constants/ActionTypes';
+import {
+  FETCH_TACTIC_PENDING,
+  FETCH_TACTIC_FULFILLED,
+  FETCH_TACTIC_REJECTED,
+} from './constants';
+import { CREATE_TACTIC_FULFILLED } from '../tactics/constants';
 
 const fetching = (state = [], action) => {
   switch (action.type) {
-    case types.FETCH_TACTIC_PENDING:
+    case FETCH_TACTIC_PENDING:
       return [...state, action.meta.data.id];
-    case types.FETCH_TACTIC_FULFILLED:
+    case FETCH_TACTIC_FULFILLED:
       return state.filter(id => id !== action.payload.result);
-    case types.FETCH_TACTIC_REJECTED:
+    case FETCH_TACTIC_REJECTED:
       return state.filter(id => id !== action.meta.data.id);
     default:
       return state;
@@ -16,13 +21,13 @@ const fetching = (state = [], action) => {
 
 const errors = (state = [], action) => {
   switch (action.type) {
-    case types.CREATE_TACTIC_FULFILLED:
+    case CREATE_TACTIC_FULFILLED:
       return [];
-    case types.FETCH_TACTIC_PENDING:
+    case FETCH_TACTIC_PENDING:
       return state.filter(id => id !== action.meta.data.id);
-    case types.FETCH_TACTIC_FULFILLED:
+    case FETCH_TACTIC_FULFILLED:
       return state.filter(id => id !== action.payload.result);
-    case types.FETCH_TACTIC_REJECTED:
+    case FETCH_TACTIC_REJECTED:
       return [...state, action.meta.data.id];
     default:
       return state;
@@ -31,7 +36,7 @@ const errors = (state = [], action) => {
 
 const byId = (state = {}, action) => {
   switch (action.type) {
-    case types.CREATE_TACTIC_FULFILLED: {
+    case CREATE_TACTIC_FULFILLED: {
       const id = action.payload.data.id;
       return { ...state, [id]: { id, teams: [] } };
     }

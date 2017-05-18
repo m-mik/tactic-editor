@@ -4,7 +4,7 @@ import { AppContainer } from 'react-hot-loader';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Root from './components/Root';
 import configureStore from './store/configureStore';
-import mockApi from './api/mock';
+import mockApi from './services/api/mock';
 import './assets/styles/main.scss';
 
 injectTapEventPlugin();

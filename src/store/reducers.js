@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
-import entities from './entities';
-import ui from './ui';
+import entities from '../entities/reducer';
+import app from '../containers/App/reducer';
+import sidebar from '../containers/Sidebar/reducer';
 
 const rootReducer = combineReducers({
+  app,
   entities,
-  ui,
+  sidebar,
   form,
 });
 

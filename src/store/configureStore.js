@@ -5,7 +5,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
 import normalizeMiddleware from '../middlewares/normalizeMiddleware';
-import reducers from '../reducers/index';
+import reducers from './reducers';
 
 const configureStore = preloadedState => createStore(reducers,
     preloadedState,

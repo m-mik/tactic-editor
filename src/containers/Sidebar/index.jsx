@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import * as tacticActions from '../../actions/tactics';
-import { tacticsSelector } from '../../selectors/index';
+import * as tacticActions from '../../entities/tactics/actions';
+import * as sidebarActions from './actions';
+import { tacticsSelector } from '../../entities/tactics/selectors';
 import CreateTacticButton from '../../components/CreateTacticButton/index';
 import CreateTacticDialog from '../../components/CreateTacticDialog/index';
 import TacticList from '../../components/TacticList/index';
@@ -20,7 +21,7 @@ class Sidebar extends Component {
     const {
       isFetchingTactics,
       isCreateTacticDialogOpen,
-      isCreateTacticPending,
+      isCreatingTactic,
       tactics,
       selectedTacticId,
       openCreateTacticDialog,
@@ -42,7 +43,7 @@ class Sidebar extends Component {
           onClose={closeCreateTacticDialog}
           onSubmit={createTactic}
           open={isCreateTacticDialogOpen}
-          pending={isCreateTacticPending}
+          pending={isCreatingTactic}
         />
       </div>
     );
@@ -61,31 +62,30 @@ Sidebar.propTypes = {
     name: PropTypes.string.isRequired,
   })).isRequired,
   isFetchingTactics: PropTypes.bool.isRequired,
-  isCreateTacticPending: PropTypes.bool.isRequired,
+  isCreatingTactic: PropTypes.bool.isRequired,
   isCreateTacticDialogOpen: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 const mapStateToProps = (state) => {
-  const { entities: { tactics }, ui } = state;
-  const {
-    selectedTacticId,
-    isCreateTacticDialogOpen,
-    isCreateTacticPending,
-  } = ui;
+  const { entities, sidebar, app } = state;
+  const { tactics } = entities;
+  const { isCreating, isFetching } = tactics.status;
+  const { selectedTacticId } = app;
+  const { isCreateTacticDialogOpen } = sidebar;
 
   return {
     tactics: tacticsSelector(state),
-    isFetchingTactics: tactics.status.isFetching,
+    isFetchingTactics: isFetching,
+    isCreatingTactic: isCreating,
     isCreateTacticDialogOpen,
-    isCreateTacticPending,
     selectedTacticId,
   };
 };
 
 const ConnectedSidebar = connect(
   mapStateToProps,
-  tacticActions)(Sidebar,
-);
+  { ...tacticActions, ...sidebarActions },
+)(Sidebar);
 
 export default withRouter(ConnectedSidebar);
