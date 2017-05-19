@@ -1,19 +1,13 @@
 import { reset } from 'redux-form';
 import axios from 'axios';
-import * as types from './constants';
+import { CREATE_TACTIC, FETCH_TACTICS } from './constants';
 import tacticSchema from './schema';
-import { handleError } from '../../containers/App/actions';
+import { selectTactic, handleError } from '../../containers/App/actions';
 import { closeCreateTacticDialog } from '../../containers/Sidebar/actions';
-import history from '../../history';
-
-export const selectTactic = id => (dispatch) => {
-  if (!isNaN(id)) history.push(`/tactics/${id}`);
-  dispatch({ type: types.SELECT_TACTIC, id });
-};
 
 export const createTactic = data => dispatch =>
   dispatch({
-    type: types.CREATE_TACTIC,
+    type: CREATE_TACTIC,
     payload: axios.post('/tactics', data),
     meta: { data },
   }).then(({ action }) => {
@@ -25,7 +19,7 @@ export const createTactic = data => dispatch =>
 
 export const fetchTactics = () => dispatch =>
   dispatch({
-    type: types.FETCH_TACTICS,
+    type: FETCH_TACTICS,
     payload: axios.get('/tactics'),
     meta: {
       schema: [tacticSchema],

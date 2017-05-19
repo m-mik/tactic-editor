@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as types from './constants';
+import { FETCH_TACTIC } from './constants';
 import tacticDetailSchema from '../tacticDetails/schema';
 import { isFetchingSelector } from '../../entities/tacticDetails/selectors';
 import { handleError } from '../../containers/App/actions';
@@ -14,7 +14,7 @@ const shouldFetchTactic = (state, id) => {
 
 export const fetchTactic = id => dispatch =>
   dispatch({
-    type: types.FETCH_TACTIC,
+    type: FETCH_TACTIC,
     payload: axios.get(`/tactics/${id}`),
     meta: {
       schema: tacticDetailSchema,

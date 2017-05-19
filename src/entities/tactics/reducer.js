@@ -1,9 +1,16 @@
 import { combineReducers } from 'redux';
-import * as types from './constants';
+import {
+  CREATE_TACTIC_FULFILLED,
+  CREATE_TACTIC_PENDING,
+  CREATE_TACTIC_REJECTED,
+  FETCH_TACTICS_FULFILLED,
+  FETCH_TACTICS_PENDING,
+  FETCH_TACTICS_REJECTED,
+} from './constants';
 
 const tactic = (state, action) => {
   switch (action.type) {
-    case types.CREATE_TACTIC_FULFILLED: {
+    case CREATE_TACTIC_FULFILLED: {
       const id = action.payload.data.id;
       return { [id]: { id, ...action.meta.data, ...state } };
     }
@@ -14,7 +21,7 @@ const tactic = (state, action) => {
 
 const byId = (state = {}, action) => {
   switch (action.type) {
-    case types.CREATE_TACTIC_FULFILLED:
+    case CREATE_TACTIC_FULFILLED:
       return { ...state, ...tactic(undefined, action) };
     default:
       return state;
@@ -23,9 +30,9 @@ const byId = (state = {}, action) => {
 
 const items = (state = [], action) => {
   switch (action.type) {
-    case types.CREATE_TACTIC_FULFILLED:
+    case CREATE_TACTIC_FULFILLED:
       return [action.payload.data.id, ...state];
-    case types.FETCH_TACTICS_FULFILLED:
+    case FETCH_TACTICS_FULFILLED:
       return [...state, ...action.payload.result];
     default:
       return state;
@@ -34,16 +41,16 @@ const items = (state = [], action) => {
 
 const status = (state = { isFetching: false, isCreating: false, error: false }, action) => {
   switch (action.type) {
-    case types.FETCH_TACTICS_PENDING:
+    case FETCH_TACTICS_PENDING:
       return { ...state, isFetching: true };
-    case types.FETCH_TACTICS_REJECTED:
+    case FETCH_TACTICS_REJECTED:
       return { ...state, isFetching: false, error: true };
-    case types.FETCH_TACTICS_FULFILLED:
+    case FETCH_TACTICS_FULFILLED:
       return { ...state, isFetching: false, error: false };
-    case types.CREATE_TACTIC_PENDING:
+    case CREATE_TACTIC_PENDING:
       return { ...state, isCreating: true };
-    case types.CREATE_TACTIC_FULFILLED:
-    case types.CREATE_TACTIC_REJECTED:
+    case CREATE_TACTIC_FULFILLED:
+    case CREATE_TACTIC_REJECTED:
       return { ...state, isCreating: false };
     default:
       return state;

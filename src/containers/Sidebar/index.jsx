@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as tacticActions from '../../entities/tactics/actions';
 import * as sidebarActions from './actions';
+import * as appActions from '../App/actions';
 import { tacticsSelector } from '../../entities/tactics/selectors';
 import CreateTacticButton from '../../components/CreateTacticButton/index';
 import CreateTacticDialog from '../../components/CreateTacticDialog/index';
@@ -85,7 +86,7 @@ const mapStateToProps = (state) => {
 
 const ConnectedSidebar = connect(
   mapStateToProps,
-  { ...tacticActions, ...sidebarActions },
+  { ...tacticActions, ...sidebarActions, ...appActions },
 )(Sidebar);
 
 export default withRouter(ConnectedSidebar);

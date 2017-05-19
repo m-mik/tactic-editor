@@ -1,5 +1,4 @@
-import * as types from './constants';
-import { SELECT_TACTIC } from '../../entities/tactics/constants';
+import { SELECT_TACTIC } from './constants';
 
 const initialState = {
   selectedTacticId: 0,
