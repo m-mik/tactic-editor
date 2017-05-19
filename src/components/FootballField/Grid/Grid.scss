@@ -1,0 +1,21 @@
+@import '../variables';
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 3%;
+
+  > div {
+    width: (100% / $field-horizontal-tiles-two-teams);
+    height: (100% / $field-vertical-tiles-two-teams);
+    border: 1px solid #000;
+    text-align: center;
+    z-index: 3;
+  }
+
+  > .fullWidthTile {
+    width: 100%;
+  }
+}

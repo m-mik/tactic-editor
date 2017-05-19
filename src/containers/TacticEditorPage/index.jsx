@@ -36,7 +36,6 @@ class TacticEditorPage extends Component {
   }
 
   render() {
-    console.log(this.props.tactic);
     return (
       <section className="tactic-panel">
         {this.renderErrorMessage()}

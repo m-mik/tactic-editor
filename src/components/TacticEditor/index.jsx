@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import FootballField from '../FootballField';
 import LoadingIndicator from '../LoadingIndicator';
 import TeamDetail from './TeamDetail';
+import styles from './TacticEditor.scss';
 
 const TacticEditor = (props) => {
   // if (!props.tactic) return <FootballField />;
@@ -11,7 +12,7 @@ const TacticEditor = (props) => {
   const teams = tactic && tactic.teams;
 
   const renderLoading = () => (
-    loading && <LoadingIndicator />
+    loading && <LoadingIndicator className={styles.loadingIndicator} />
   );
 
   const renderTeamDetails = () => (
@@ -19,7 +20,7 @@ const TacticEditor = (props) => {
   );
 
   return (
-    <div className="tactic-editor">
+    <div className={styles.wrapper}>
       {/* {renderLoading()}*/}
       <FootballField />
       {/* <div>*/}

@@ -1,41 +1,40 @@
 import React, { Component } from 'react';
 import times from 'lodash/times';
 import classNames from 'classnames';
+import styles from './Overlay.scss';
 
 export default class Overlay extends Component {
   shouldComponentUpdate() {
     return false;
   }
 
-  render() {
-    const renderPenaltyBox = (index) => {
+  renderPenaltyBoxes() {
+    return times(2, (index) => {
       const className = classNames({
-        'football-field__penalty-box': true,
-        'football-field__penalty-box--home': index === 0,
-        'football-field__penalty-box--away': index === 1,
+        [styles.homePenaltyBox]: index === 0,
+        [styles.awayPenaltyBox]: index === 1,
       });
+      return <div key={index} className={className}>
+        <div className={styles.rect} />
+        <div className={styles.circle} />
+        <div className={styles.dot} />
+      </div>;
+    });
+  }
 
-      return (
-        <div key={index} className={className}>
-          <div className="football-field__penalty-box-rect" />
-          <div className="football-field__penalty-box-half-circle" />
-          <div className="football-field__penalty-box-dot" />
-        </div>
-      );
-    };
-
+  render() {
     return (
-      <div className="football-field__overlay">
-        <div className="football-field__middle-line" />
-        <div className="football-field__middle-circle" />
-        <div className="football-field__corners">
+      <div className={styles.wrapper}>
+        <div className={styles.middleLine} />
+        <div className={styles.middleCircle} />
+        <div className={styles.corners}>
           {times(4, index => <div key={index} />)}
         </div>
-        <div className="football-field__goals" >
+        <div className={styles.goals} >
           {times(2, index => <div key={index} />)}
         </div>
-        <div className="football-field__penalty-boxes">
-          {times(2, index => renderPenaltyBox(index))}
+        <div className={styles.penaltyBoxes}>
+          {this.renderPenaltyBoxes()}
         </div>
       </div>
     );

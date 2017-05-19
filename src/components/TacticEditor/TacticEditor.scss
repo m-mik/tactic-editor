@@ -1,0 +1,15 @@
+@import '../FootballField/variables';
+
+.wrapper {
+  padding: 0 10% ($field-aspect-ratio * 100%) 10%;
+  position: relative;
+  margin: 0 auto;
+}
+
+.loadingIndicator {
+  composes: loadingIndicator from '../LoadingIndicator/LoadingIndicator.scss';
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
