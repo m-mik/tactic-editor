@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Color from 'color';
+import { DragSource } from 'react-dnd';
 import styles from './Player.scss';
 
 const Player = (props) => {
@@ -16,11 +17,13 @@ const Player = (props) => {
     color: textColor,
   };
 
-  return (
-    <div className={styles.wrapper}>
+  const { connectDragSource, isDragging } = props;
+  console.log(isDragging);
+  return connectDragSource(
+    <div style={{ backgroundColor: isDragging ? 'red' : 'transparent' }} className={styles.wrapper}>
       <span className={styles.shirt} style={shirtStyle}>{data.number}</span>
       <span className={styles.name}>{data.name}</span>
-    </div>
+    </div>,
   );
 };
 
@@ -37,4 +40,15 @@ Player.propTypes = {
 };
 
 
-export default Player;
+const collect = (connect, monitor) => ({
+  connectDragSource: connect.dragSource(),
+  isDragging: monitor.isDragging(),
+});
+
+const playerSource = {
+  beginDrag(props) {
+    return {};
+  },
+};
+
+export default DragSource('player', playerSource, collect)(Player);

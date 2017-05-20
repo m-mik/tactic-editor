@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import times from 'lodash/times';
 import classNames from 'classnames';
+import TouchBackend from 'react-dnd-touch-backend';
+import { DragDropContext } from 'react-dnd';
 import Tile from './Tile';
 import styles from './Grid.scss';
 
@@ -48,4 +50,4 @@ Grid.propTypes = {
 };
 
 
-export default Grid;
+export default DragDropContext(TouchBackend({ enableMouseEvents: true }))(Grid);
