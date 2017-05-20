@@ -6,15 +6,13 @@
   flex-direction: column;
   align-items: center;
   position: relative;
-
 }
 
 .shirt {
-  width: 70%;
-  height: 70%;
+  width: 60%;
+  height: 60%;
   text-align: center;
   font-size: 2.5vw;
-  user-select: none;
   border: 6px groove;
   border-radius: 50%;
   display: flex;

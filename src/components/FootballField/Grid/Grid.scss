@@ -8,14 +8,14 @@
   padding: 0 3%;
 
   > div {
-    width: (100% / $field-horizontal-tiles-one-team);
-    height: (100% / $field-vertical-tiles-one-team);
-    border: 1px solid #000;
+    width: $field-tile-width;
+    height: $field-tile-height;
+    border: 1px dashed #8abf93;
     z-index: 3;
   }
 
   > .fullWidthTile {
-    width: 100%;
-    padding: 0 43%;
+    $margin: (100% - $field-tile-width) / 2;
+    margin: 0 $margin;
   }
 }

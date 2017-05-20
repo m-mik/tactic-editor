@@ -1,8 +1,12 @@
-$field-aspect-ratio: 1.6;
+$field-aspect-ratio: 1.54;
 $field-background-color: #7ba880;
 
-$field-vertical-tiles-one-team: 6;
-$field-horizontal-tiles-one-team: 7;
+// tiles for one team
+$field-vertical-tiles-count: 6;
+$field-horizontal-tiles-count: 7;
+
+$field-tile-width: 100% / $field-horizontal-tiles-count;
+$field-tile-height: 100% / $field-vertical-tiles-count;
 
 $field-line-color: #ffa400;
 $field-line-size: 4px;
