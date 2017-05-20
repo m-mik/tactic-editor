@@ -57,6 +57,7 @@
     "axios-mock-adapter": "^1.8.1",
     "babel-polyfill": "^6.23.0",
     "classnames": "^2.2.5",
+    "color": "^1.0.3",
     "history": "^4.6.1",
     "lodash": "^4.17.4",
     "material-ui": "^0.17.4",
@@ -74,6 +75,7 @@
     "redux-form-material-ui": "^4.2.0",
     "redux-promise-middleware": "^4.2.0",
     "redux-thunk": "^2.2.0",
-    "reselect": "^3.0.0"
+    "reselect": "^3.0.0",
+    "tinycolor2": "^1.4.1"
   }
 }
