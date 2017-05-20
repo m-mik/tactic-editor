@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Color from 'color';
 import styles from './Player.scss';
 
 const Player = (props) => {
   const { data, shirt } = props;
   const { border, backgroundColor, textColor } = shirt;
+  const isGoalkeeper = data.position === 0;
+  const gkBackgroundColor = Color(backgroundColor).mix(Color('green'), 0.5).rotate(180);
 
   const shirtStyle = {
-    backgroundColor,
+    backgroundColor: isGoalkeeper ? gkBackgroundColor : backgroundColor,
     borderColor: border.color,
     borderStyle: border.style,
     color: textColor,
