@@ -65,6 +65,8 @@
     "normalizr": "^3.2.2",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
+    "react-dnd": "^2.4.0",
+    "react-dnd-touch-backend": "^0.3.10",
     "react-dom": "^15.5.4",
     "react-hot-loader": "^3.0.0-beta.6",
     "react-redux": "^5.0.4",
@@ -75,7 +77,6 @@
     "redux-form-material-ui": "^4.2.0",
     "redux-promise-middleware": "^4.2.0",
     "redux-thunk": "^2.2.0",
-    "reselect": "^3.0.0",
-    "tinycolor2": "^1.4.1"
+    "reselect": "^3.0.0"
   }
 }
