@@ -1,0 +1,38 @@
+.wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+}
+
+.shirt {
+  width: 70%;
+  height: 70%;
+  text-align: center;
+  font-size: 2.5vw;
+  user-select: none;
+  border: 6px groove;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.name {
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  position: absolute;
+  bottom: 0;
+  font-size: 1.5vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: #000000;
+  border-radius: 5px;
+  color: #fff;
+}

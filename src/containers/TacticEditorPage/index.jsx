@@ -37,7 +37,7 @@ class TacticEditorPage extends Component {
 
   render() {
     return (
-      <section className="tactic-panel">
+      <section>
         {this.renderErrorMessage()}
         {this.renderTacticEditor()}
       </section>

@@ -1,18 +1,28 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import times from 'lodash/times';
 import classNames from 'classnames';
 import Tile from './Tile';
 import styles from './Grid.scss';
 
-const Grid = () => {
-  const tiles = times(72);
+const Grid = (props) => {
+  const { team, tilesCount, home, away } = props;
+  const tiles = times(tilesCount);
 
   const renderTiles = () => tiles.map((index) => {
-    const isFirstOrLast = index === 0 || (index === tiles.length - 1);
+    const position = home ? index : (tilesCount - index - 1);
+    const isFirst = index === 0;
+    const isLast = index === tiles.length - 1;
+    const fullWidthTile = (home && isFirst) || (away && isLast);
     const tileClass = classNames({
-      [styles.fullWidthTile]: isFirstOrLast,
+      [styles.fullWidthTile]: fullWidthTile,
     });
-    return <Tile key={index} className={tileClass} />;
+    return (<Tile
+      key={index}
+      player={team.players[position]}
+      shirt={team.shirt}
+      className={tileClass}
+    />);
   });
 
   return (
@@ -21,5 +31,21 @@ const Grid = () => {
     </div>
   );
 };
+
+Grid.defaultProps = {
+  home: false,
+  away: false,
+};
+
+Grid.propTypes = {
+  team: PropTypes.shape({
+    players: PropTypes.object.isRequired,
+    shirt: PropTypes.object.isRequired,
+  }).isRequired,
+  tilesCount: PropTypes.number.isRequired,
+  home: PropTypes.bool,
+  away: PropTypes.bool,
+};
+
 
 export default Grid;

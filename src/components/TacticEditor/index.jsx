@@ -22,7 +22,7 @@ const TacticEditor = (props) => {
   return (
     <div className={styles.wrapper}>
       {/* {renderLoading()}*/}
-      <FootballField />
+      <FootballField teams={teams} />
       {/* <div>*/}
       {/* {renderTeamDetails()}*/}
       {/* </div>*/}
