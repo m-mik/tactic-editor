@@ -10,16 +10,17 @@ import PlayerDragLayer from './PlayerDragLayer';
 import styles from './TeamGrid.scss';
 
 const TeamGrid = (props) => {
-  const { team, tilesCount, type } = props;
+  const { team, tilesCount, type, onMovePlayer } = props;
   const isHome = type === 'home';
   const isAway = type === 'away';
 
   const renderTile = (index, player, shirt, tileClass) => (
     <Tile
-      onDropPlayer={() => console.log('drop')}
+      onDropPlayer={onMovePlayer}
       key={index}
       shirt={shirt}
       className={tileClass}
+      position={index}
     >
       {player && <DraggablePlayer data={player} shirt={shirt} />}
     </Tile>
@@ -44,6 +45,10 @@ const TeamGrid = (props) => {
   );
 };
 
+TeamGrid.defaultProps = {
+  onMovePlayer: () => {},
+};
+
 TeamGrid.propTypes = {
   team: PropTypes.shape({
     players: PropTypes.object.isRequired,
@@ -51,6 +56,7 @@ TeamGrid.propTypes = {
   }).isRequired,
   type: PropTypes.oneOf(['home', 'away']).isRequired,
   tilesCount: PropTypes.number.isRequired,
+  onMovePlayer: PropTypes.func,
 };
 
 export default DragDropContext(TouchBackend({ enableMouseEvents: true }))(TeamGrid);

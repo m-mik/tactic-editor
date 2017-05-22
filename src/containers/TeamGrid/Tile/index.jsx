@@ -17,10 +17,11 @@ class Tile extends Component {
 
 const tileTarget = {
   drop(props, monitor, component) {
-    props.onDropPlayer();
-    console.log(component);
-    console.log(monitor.getItem());
-    console.log(props);
+    const droppedPlayer = monitor.getItem().player;
+    props.onDropPlayer(droppedPlayer, props.position);
+    // console.log(component);
+    // console.log();
+    // console.log(props);
   },
 };
 
@@ -38,6 +39,7 @@ Tile.defaultProps = {
 
 Tile.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
+  position: PropTypes.number.isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
   onDropPlayer: PropTypes.func,

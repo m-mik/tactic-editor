@@ -19,7 +19,7 @@ class DraggablePlayer extends Component {
 const playerSource = {
   beginDrag(props) {
     console.log('drag start:', props);
-    return { data: props.data };
+    return { player: props.data };
   },
 };
 

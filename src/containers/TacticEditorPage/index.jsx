@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { fetchTacticIfNeeded } from '../../entities/tacticDetails/actions';
+import { movePlayer } from '../../entities/players/actions';
 import TacticEditor from '../../components/TacticEditor/index';
 import FootballField from '../../components/FootballField';
 import TeamGrid from '../TeamGrid';
@@ -39,6 +40,7 @@ class TacticEditorPage extends Component {
         type={index === 0 ? 'home' : 'away'}
         team={team}
         tilesCount={36}
+        onMovePlayer={this.props.movePlayer}
       />,
     );
   }
@@ -68,6 +70,7 @@ TacticEditorPage.defaultProps = {
 
 TacticEditorPage.propTypes = {
   fetchTacticIfNeeded: PropTypes.func.isRequired,
+  movePlayer: PropTypes.func.isRequired,
   selectedTacticId: PropTypes.number.isRequired, // TODO: clean up unused propTypes
   isFetching: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
@@ -90,7 +93,7 @@ const mapStateToProps = (state) => {
 
 const ConnectedTacticEditorPage = connect(
   mapStateToProps,
-  { fetchTacticIfNeeded },
+  { fetchTacticIfNeeded, movePlayer },
 )(TacticEditorPage);
 
 export default withRouter(ConnectedTacticEditorPage);
