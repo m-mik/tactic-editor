@@ -16,13 +16,12 @@ const TeamGrid = (props) => {
 
   const renderTile = (index, player, shirt, tileClass) => (
     <Tile
-      onDropPlayer={onMovePlayer}
       key={index}
       shirt={shirt}
       className={tileClass}
       position={index}
     >
-      {player && <DraggablePlayer data={player} shirt={shirt} />}
+      {player && <DraggablePlayer onDragEnd={onMovePlayer} data={player} shirt={shirt} />}
     </Tile>
   );
 

@@ -1,12 +1,13 @@
 /* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import Color from 'color';
 import styles from './Player.scss';
 
 export default class Player extends Component {
   render() {
-    const { data, shirt, ...rest } = this.props;
+    const { data, shirt, className, ...rest } = this.props;
     const { border, backgroundColor, textColor } = shirt;
     const isGoalkeeper = data.position === 0;
     const gkBackgroundColor = Color(backgroundColor).mix(Color('green'), 0.5).rotate(180);
@@ -18,8 +19,13 @@ export default class Player extends Component {
       color: textColor,
     };
 
+    const wrapperClassName = classNames({
+      [styles.wrapper]: true,
+      [className]: className,
+    });
+
     return (
-      <div className={styles.wrapper} {...rest}>
+      <div className={wrapperClassName} {...rest}>
         <span className={styles.shirt} style={shirtStyle}>{data.number}</span>
         <span className={styles.name}>{data.name}</span>
       </div>

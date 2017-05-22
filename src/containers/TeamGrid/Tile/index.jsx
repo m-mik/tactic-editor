@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
+import { findDOMNode } from 'react-dom';
 import ItemTypes from '../ItemTypes';
 
 class Tile extends Component {
@@ -18,10 +19,13 @@ class Tile extends Component {
 const tileTarget = {
   drop(props, monitor, component) {
     const droppedPlayer = monitor.getItem().player;
-    props.onDropPlayer(droppedPlayer, props.position);
+    //props.onDropPlayer(droppedPlayer, props.position);
+    const tileNode = findDOMNode(component);
+
     // console.log(component);
-    // console.log();
-    // console.log(props);
+    // console.log(monitor);
+    const { offsetLeft, offsetTop } = tileNode;
+    return { tileX: offsetLeft, tileY: offsetTop, newPosition: props.position };
   },
 };
 

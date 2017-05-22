@@ -1,4 +1,4 @@
-import { MOVE_PLAYER, UPDATE_PLAYER } from './constants';
+import { UPDATE_PLAYER } from './constants';
 import playerSchema from './schema';
 
 export const updatePlayer = (id, playerData) => ({
@@ -12,9 +12,6 @@ export const updatePlayer = (id, playerData) => ({
   },
 });
 
-export const movePlayer = (player, position) => (dispatch) => {
-  console.log(player, position);
-  const data = { position };
-  console.log(player.id, data);
-  dispatch(updatePlayer(player.id, data));
+export const movePlayer = (playerId, position) => (dispatch) => {
+  dispatch(updatePlayer(playerId, { position }));
 };

@@ -14,6 +14,12 @@ import {
 } from '../../entities/tacticDetails/selectors';
 
 class TacticEditorPage extends Component {
+  constructor() {
+    super();
+
+    this.handleMovePlayer = this.handleMovePlayer.bind(this);
+  }
+
   componentDidMount() {
     const id = +this.props.match.params.id;
     this.props.fetchTacticIfNeeded(id);
@@ -40,9 +46,14 @@ class TacticEditorPage extends Component {
         type={index === 0 ? 'home' : 'away'}
         team={team}
         tilesCount={36}
-        onMovePlayer={this.props.movePlayer}
+        onMovePlayer={this.handleMovePlayer}
       />,
     );
+  }
+
+  handleMovePlayer(playerId, position) {
+    console.log(playerId, position);
+    this.props.movePlayer(playerId, position);
   }
 
   render() {
