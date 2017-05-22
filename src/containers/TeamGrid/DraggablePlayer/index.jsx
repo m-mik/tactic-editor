@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { DragSource } from 'react-dnd';
-import Player from '../../../components/Player';
+import Player from '../../../components/Player/index';
 import ItemTypes from '../ItemTypes';
 
 class DraggablePlayer extends Component {

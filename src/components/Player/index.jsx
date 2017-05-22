@@ -1,31 +1,31 @@
-import React from 'react';
+/* eslint-disable react/prefer-stateless-function */
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Color from 'color';
-import { DragSource } from 'react-dnd';
 import styles from './Player.scss';
 
-const Player = (props) => {
-  const { data, shirt } = props;
-  const { border, backgroundColor, textColor } = shirt;
-  const isGoalkeeper = data.position === 0;
-  const gkBackgroundColor = Color(backgroundColor).mix(Color('green'), 0.5).rotate(180);
+export default class Player extends Component {
+  render() {
+    const { data, shirt, ...rest } = this.props;
+    const { border, backgroundColor, textColor } = shirt;
+    const isGoalkeeper = data.position === 0;
+    const gkBackgroundColor = Color(backgroundColor).mix(Color('green'), 0.5).rotate(180);
 
-  const shirtStyle = {
-    backgroundColor: isGoalkeeper ? gkBackgroundColor : backgroundColor,
-    borderColor: border.color,
-    borderStyle: border.style,
-    color: textColor,
-  };
+    const shirtStyle = {
+      backgroundColor: isGoalkeeper ? gkBackgroundColor : backgroundColor,
+      borderColor: border.color,
+      borderStyle: border.style,
+      color: textColor,
+    };
 
-  const { connectDragSource, isDragging } = props;
-  console.log(isDragging);
-  return connectDragSource(
-    <div style={{ backgroundColor: isDragging ? 'red' : 'transparent' }} className={styles.wrapper}>
-      <span className={styles.shirt} style={shirtStyle}>{data.number}</span>
-      <span className={styles.name}>{data.name}</span>
-    </div>,
-  );
-};
+    return (
+      <div className={styles.wrapper} {...rest}>
+        <span className={styles.shirt} style={shirtStyle}>{data.number}</span>
+        <span className={styles.name}>{data.name}</span>
+      </div>
+    );
+  }
+}
 
 Player.propTypes = {
   data: PropTypes.shape({
@@ -39,16 +39,3 @@ Player.propTypes = {
   }).isRequired,
 };
 
-
-const collect = (connect, monitor) => ({
-  connectDragSource: connect.dragSource(),
-  isDragging: monitor.isDragging(),
-});
-
-const playerSource = {
-  beginDrag(props) {
-    return {};
-  },
-};
-
-export default DragSource('player', playerSource, collect)(Player);

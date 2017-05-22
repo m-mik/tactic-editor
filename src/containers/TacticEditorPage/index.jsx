@@ -4,6 +4,8 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { fetchTacticIfNeeded } from '../../entities/tacticDetails/actions';
 import TacticEditor from '../../components/TacticEditor/index';
+import FootballField from '../../components/FootballField';
+import TeamGrid from '../TeamGrid';
 import {
   tacticDetailSelector,
   isFetchingSelector,
@@ -30,16 +32,31 @@ class TacticEditorPage extends Component {
     return hasError && <span className="error">{message}</span>;
   }
 
-  renderTacticEditor() {
-    const { isFetching, tactic } = this.props;
-    return <TacticEditor loading={isFetching} tactic={tactic} />;
+  renderTeamGrids(teams) {
+    return teams.map((team, index) =>
+      <TeamGrid
+        key={team.id}
+        type={index === 0 ? 'home' : 'away'}
+        team={team}
+        tilesCount={36}
+      />,
+    );
   }
 
   render() {
+    // TODO: Add LoadingIndicator
+    const { isFetching, tactic } = this.props;
+    if (isFetching) return <div>Fetching...</div>;
+    if (!tactic) return <div>Waiting...</div>;
+
     return (
       <section>
         {this.renderErrorMessage()}
-        {this.renderTacticEditor()}
+        <TacticEditor loading={isFetching} tactic={tactic}>
+          <FootballField>
+            {this.renderTeamGrids(tactic.teams)}
+          </FootballField>
+        </TacticEditor>
       </section>
     );
   }
@@ -51,7 +68,7 @@ TacticEditorPage.defaultProps = {
 
 TacticEditorPage.propTypes = {
   fetchTacticIfNeeded: PropTypes.func.isRequired,
-  selectedTacticId: PropTypes.number.isRequired,
+  selectedTacticId: PropTypes.number.isRequired, // TODO: clean up unused propTypes
   isFetching: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
   tactic: PropTypes.shape({

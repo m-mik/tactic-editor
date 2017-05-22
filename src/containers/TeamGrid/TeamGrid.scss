@@ -1,4 +1,4 @@
-@import '../variables';
+@import 'variables';
 
 .wrapper {
   width: 100%;
@@ -8,14 +8,14 @@
   padding: 0 3%;
 
   > div {
-    width: $field-tile-width;
-    height: $field-tile-height;
+    width: $tile-width;
+    height: $tile-height;
     border: 1px dashed #8abf93;
     z-index: 3;
   }
 
   > .fullWidthTile {
-    $margin: (100% - $field-tile-width) / 2;
+    $margin: (100% - $tile-width) / 2;
     margin: 0 $margin;
   }
 }
