@@ -2,15 +2,33 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
-import { findDOMNode } from 'react-dom';
 import ItemTypes from '../ItemTypes';
+import DraggablePlayer from '../DraggablePlayer';
+import styles from '../TeamGrid.scss';
 
 class Tile extends Component {
   render() {
-    const { className, children, connectDropTarget } = this.props;
+    const {
+      player,
+      shirt,
+      connectDropTarget,
+      position,
+      onMovePlayerTransitionEnd,
+      onSwapPlayers,
+    } = this.props;
+
+    const tileClass = position === 0 ? styles.fullWidthTile : undefined;
+
     return connectDropTarget(
-      <div className={className || undefined}>
-        {children}
+      <div className={tileClass}>
+        {player &&
+        <DraggablePlayer
+          ref={(dp) => { this.player = dp; }}
+          data={player}
+          shirt={shirt}
+          onMoveTransitionEnd={onMovePlayerTransitionEnd}
+          onSwapPlayers={onSwapPlayers}
+        />}
       </div>,
     );
   }
@@ -18,14 +36,7 @@ class Tile extends Component {
 
 const tileTarget = {
   drop(props, monitor, component) {
-    const droppedPlayer = monitor.getItem().player;
-    //props.onDropPlayer(droppedPlayer, props.position);
-    const tileNode = findDOMNode(component);
-
-    // console.log(component);
-    // console.log(monitor);
-    const { offsetLeft, offsetTop } = tileNode;
-    return { tileX: offsetLeft, tileY: offsetTop, newPosition: props.position };
+    return { component };
   },
 };
 
@@ -38,7 +49,6 @@ const collect = (connect, monitor) => ({
 Tile.defaultProps = {
   className: undefined,
   children: null,
-  onDropPlayer: () => {},
 };
 
 Tile.propTypes = {
@@ -46,7 +56,6 @@ Tile.propTypes = {
   position: PropTypes.number.isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
-  onDropPlayer: PropTypes.func,
 };
 
 export default DropTarget(ItemTypes.PLAYER, tileTarget, collect)(Tile);

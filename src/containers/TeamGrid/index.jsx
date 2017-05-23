@@ -1,39 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import times from 'lodash/times';
-import classNames from 'classnames';
 import TouchBackend from 'react-dnd-touch-backend';
 import { DragDropContext } from 'react-dnd';
 import Tile from './Tile';
-import DraggablePlayer from './DraggablePlayer';
 import PlayerDragLayer from './PlayerDragLayer';
 import styles from './TeamGrid.scss';
 
 const TeamGrid = (props) => {
-  const { team, tilesCount, type, onMovePlayer } = props;
-  const isHome = type === 'home';
-  const isAway = type === 'away';
+  const { team, tilesCount, type, onMovePlayer, onSwapPlayers } = props;
 
-  const renderTile = (index, player, shirt, tileClass) => (
+  const renderTile = (position, player, shirt) => (
     <Tile
-      key={index}
+      key={position}
+      position={position}
+      player={player}
       shirt={shirt}
-      className={tileClass}
-      position={index}
-    >
-      {player && <DraggablePlayer onDragEnd={onMovePlayer} data={player} shirt={shirt} />}
-    </Tile>
+      onMovePlayerTransitionEnd={onMovePlayer}
+      onSwapPlayers={onSwapPlayers}
+    />
   );
 
   const renderTiles = () => times(tilesCount).map((index) => {
-    const position = isHome ? index : (tilesCount - index - 1);
-    const isFirst = index === 0;
-    const isLast = index === tilesCount - 1;
-    const fullWidthTile = (isHome && isFirst) || (isAway && isLast);
-    const tileClass = classNames({
-      [styles.fullWidthTile]: fullWidthTile,
-    });
-    return renderTile(position, team.players[position], team.shirt, tileClass);
+    const position = type === 'home' ? index : (tilesCount - index - 1);
+    const player = team.players[position];
+    return renderTile(position, player, team.shirt);
   });
 
   return (

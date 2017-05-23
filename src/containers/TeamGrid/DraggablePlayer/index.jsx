@@ -4,48 +4,80 @@ import { findDOMNode } from 'react-dom';
 import { DragSource } from 'react-dnd';
 import Player from '../../../components/Player/index';
 import ItemTypes from '../ItemTypes';
+import { getCompOffset } from '../../../services/footballField';
 import styles from './DraggablePlayer.scss';
 
 class DraggablePlayer extends Component {
   constructor() {
     super();
 
-    this.state = {
-      x: 0,
-      y: 0,
+    this.initialState = {
+      style: {
+        left: 0,
+        top: 0,
+        transition: 'none',
+      },
       newPosition: -1,
+      id: 0,
     };
 
-    this.handleTransitionEnd = this.handleTransitionEnd.bind(this);
+    this.state = this.initialState;
+    this.handleMoveTransitionEnd = this.handleMoveTransitionEnd.bind(this);
   }
 
-  handleTransitionEnd() {
-    const { data: { id }, onDragEnd } = this.props;
-    onDragEnd(id, this.state.newPosition);
+  updateState(targetComp, newPosition, id) {
+    this.setState({
+      style: {
+        ...getCompOffset(this, targetComp),
+        transition: '',
+      },
+      newPosition,
+      id,
+    });
+  }
+
+  resetState() {
+    this.setState(this.initialState);
+  }
+
+  handleMoveTransitionEnd() {
+    if (this.state.newPosition !== -1) {
+      const { onMoveTransitionEnd, data, onSwapPlayers } = this.props;
+      const { id, newPosition } = this.state;
+      console.log(data, newPosition);
+      //
+      // if (swapWith) {
+      //   console.log('swap', data, swapWith);
+      //   // this.resetStyle();
+      //   //onSwapPlayers(data, swapWith);
+      // }
+      this.resetState();
+
+      onMoveTransitionEnd(id, newPosition);
+    }
   }
 
   render() {
-    const { x, y } = this.state;
-    const { connectDragSource, ...rest } = this.props;
+    const { connectDragSource, onMoveTransitionEnd, onSwapPlayers, ...rest } = this.props;
     return (
       <Player
-        onTransitionEnd={this.handleTransitionEnd}
-        className={styles.draggable}
-        style={{ left: x, top: y }}
-        {...rest}
+        onTransitionEnd={this.handleMoveTransitionEnd}
+        className={styles.wrapper}
         ref={instance => connectDragSource(findDOMNode(instance))}
+        style={this.state.style}
+        {...rest}
       />
     );
   }
 }
 
 DraggablePlayer.defaultProps = {
-  onDragEnd: () => {},
+  onMoveTransitionEnd: () => {},
 };
 
 DraggablePlayer.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
-  onDragEnd: PropTypes.func,
+  onMoveTransitionEnd: PropTypes.func,
   data: PropTypes.shape({
     id: PropTypes.number.isRequired,
   }).isRequired,
@@ -54,26 +86,24 @@ DraggablePlayer.propTypes = {
 const playerSource = {
   beginDrag(props) {
     console.log('drag start:', props);
-    return { player: props.data };
+    return { position: props.data.position };
   },
 
   endDrag(props, monitor, component) {
-    const playerNode = findDOMNode(component);
+    const dropResult = monitor.getDropResult();
+    if (!dropResult) return;
 
-    if (!playerNode) return;
+    const draggedPlayerComp = component;
+    const targetTileComp = dropResult.component;
 
-    const playerX = playerNode.offsetLeft;
-    const playerY = playerNode.offsetTop;
-    const item = monitor.getItem();
-    console.log(monitor.getDropResult());
-    const { tileX, tileY, newPosition } = monitor.getDropResult();
+    draggedPlayerComp.updateState(targetTileComp, targetTileComp.props.position, draggedPlayerComp.props.data.id);
 
-    const x = tileX - playerX;
-    const y = tileY - playerY;
+    if (targetTileComp.player) {
+      const targetPlayerComp = targetTileComp.player.decoratedComponentInstance;
+      targetPlayerComp.updateState(draggedPlayerComp, props.data.position, targetPlayerComp.props.data.id);
 
-    component.setState({ x, y, newPosition });
-
-    // console.log('draggableplayer', );
+      // draggedPlayerComp.swapPlayers();
+    }
   },
 };
 
