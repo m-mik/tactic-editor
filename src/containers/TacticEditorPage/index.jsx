@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { fetchTacticIfNeeded } from '../../entities/tacticDetails/actions';
-import { movePlayer, swapPlayers } from '../../entities/players/actions';
+import { movePlayer } from '../../entities/players/actions';
+import { addPlayerTransition, removePlayerTransition } from './actions';
 import TacticEditor from '../../components/TacticEditor/index';
 import FootballField from '../../components/FootballField';
 import TeamGrid from '../TeamGrid';
@@ -14,10 +15,6 @@ import {
 } from '../../entities/tacticDetails/selectors';
 
 class TacticEditorPage extends Component {
-  constructor() {
-    super();
-  }
-
   componentDidMount() {
     const id = +this.props.match.params.id;
     this.props.fetchTacticIfNeeded(id);
@@ -44,8 +41,9 @@ class TacticEditorPage extends Component {
         type={index === 0 ? 'home' : 'away'}
         team={team}
         tilesCount={36}
+        playerTransitions={this.props.playerTransitions}
         onMovePlayer={this.props.movePlayer}
-        onSwapPlayers={this.props.swapPlayers}
+        onNewPlayerPosition={this.props.removePlayerTransition}
       />,
     );
   }
@@ -76,10 +74,14 @@ TacticEditorPage.defaultProps = {
 TacticEditorPage.propTypes = {
   fetchTacticIfNeeded: PropTypes.func.isRequired,
   movePlayer: PropTypes.func.isRequired,
-  swapPlayers: PropTypes.func.isRequired,
+  removePlayerTransition: PropTypes.func.isRequired,
   selectedTacticId: PropTypes.number.isRequired, // TODO: clean up unused propTypes
   isFetching: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
+  playerTransitions: PropTypes.shape({
+    offsetLeft: PropTypes.number,
+    offsetTop: PropTypes.number,
+  }).isRequired,
   tactic: PropTypes.shape({
     teams: PropTypes.arrayOf(PropTypes.object).isRequired,
   }),
@@ -88,9 +90,11 @@ TacticEditorPage.propTypes = {
 
 const mapStateToProps = (state) => {
   const selectedTacticId = state.app.selectedTacticId;
+  const playerTransitions = state.editor.playerTransitions;
 
   return {
     selectedTacticId,
+    playerTransitions,
     isFetching: isFetchingSelector(state),
     hasError: hasErrorSelector(state),
     tactic: tacticDetailSelector(state),
@@ -99,7 +103,7 @@ const mapStateToProps = (state) => {
 
 const ConnectedTacticEditorPage = connect(
   mapStateToProps,
-  { fetchTacticIfNeeded, movePlayer, swapPlayers },
+  { fetchTacticIfNeeded, movePlayer, removePlayerTransition },
 )(TacticEditorPage);
 
 export default withRouter(ConnectedTacticEditorPage);

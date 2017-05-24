@@ -13,8 +13,7 @@ class Tile extends Component {
       shirt,
       connectDropTarget,
       position,
-      onMovePlayerTransitionEnd,
-      onSwapPlayers,
+      onMovePlayer,
     } = this.props;
 
     const tileClass = position === 0 ? styles.fullWidthTile : undefined;
@@ -26,8 +25,7 @@ class Tile extends Component {
           ref={(dp) => { this.player = dp; }}
           data={player}
           shirt={shirt}
-          onMoveTransitionEnd={onMovePlayerTransitionEnd}
-          onSwapPlayers={onSwapPlayers}
+          onMove={onMovePlayer}
         />}
       </div>,
     );
@@ -52,6 +50,7 @@ Tile.defaultProps = {
 };
 
 Tile.propTypes = {
+  onMovePlayer: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
   position: PropTypes.number.isRequired,
   className: PropTypes.string,

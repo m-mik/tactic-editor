@@ -8,7 +8,7 @@ import PlayerDragLayer from './PlayerDragLayer';
 import styles from './TeamGrid.scss';
 
 const TeamGrid = (props) => {
-  const { team, tilesCount, type, onMovePlayer, onSwapPlayers } = props;
+  const { team, tilesCount, type, onMovePlayer, playerTransitions } = props;
 
   const renderTile = (position, player, shirt) => (
     <Tile
@@ -16,14 +16,16 @@ const TeamGrid = (props) => {
       position={position}
       player={player}
       shirt={shirt}
-      onMovePlayerTransitionEnd={onMovePlayer}
-      onSwapPlayers={onSwapPlayers}
+      onMovePlayer={onMovePlayer}
     />
   );
 
   const renderTiles = () => times(tilesCount).map((index) => {
     const position = type === 'home' ? index : (tilesCount - index - 1);
     const player = team.players[position];
+    if (player) {
+      player.transition = playerTransitions[player.id];
+    }
     return renderTile(position, player, team.shirt);
   });
 
@@ -35,10 +37,6 @@ const TeamGrid = (props) => {
   );
 };
 
-TeamGrid.defaultProps = {
-  onMovePlayer: () => {},
-};
-
 TeamGrid.propTypes = {
   team: PropTypes.shape({
     players: PropTypes.object.isRequired,
@@ -46,7 +44,7 @@ TeamGrid.propTypes = {
   }).isRequired,
   type: PropTypes.oneOf(['home', 'away']).isRequired,
   tilesCount: PropTypes.number.isRequired,
-  onMovePlayer: PropTypes.func,
+  onMovePlayer: PropTypes.func.isRequired,
 };
 
 export default DragDropContext(TouchBackend({ enableMouseEvents: true }))(TeamGrid);
