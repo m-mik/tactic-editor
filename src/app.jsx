@@ -1,3 +1,4 @@
+import Perf from 'react-addons-perf';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
@@ -6,6 +7,9 @@ import Root from './components/Root';
 import configureStore from './store/configureStore';
 import mockApi from './services/api/mock';
 import './assets/styles/base.scss';
+
+// TODO: remove for production
+window.Perf = Perf;
 
 injectTapEventPlugin();
 
