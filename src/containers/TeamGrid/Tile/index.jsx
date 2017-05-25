@@ -41,7 +41,9 @@ class Tile extends Component {
 const tileTarget = {
   canDrop(props, monitor) {
     const item = monitor.getItem();
-    return props.team.id === item.team.id;
+    const sameTeam = props.team.id === item.team.id;
+    const isNewPosition = item.data.position !== props.position;
+    return isNewPosition && sameTeam;
   },
 
   drop(props, monitor, component) {
