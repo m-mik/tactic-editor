@@ -4,6 +4,7 @@ import times from 'lodash/times';
 import isEqual from 'lodash/isEqual';
 import TouchBackend from 'react-dnd-touch-backend';
 import { DragDropContext } from 'react-dnd';
+import withDragDropContext from './withDragDropContext';
 import Tile from './Tile';
 import PlayerDragLayer from './PlayerDragLayer';
 import styles from './TeamGrid.scss';
@@ -38,7 +39,7 @@ class TeamGrid extends Component {
     return (
       <div className={styles.wrapper}>
         {this.renderTiles()}
-        <PlayerDragLayer />
+        {/*<PlayerDragLayer />*/}
       </div>
     );
   }
@@ -56,4 +57,4 @@ TeamGrid.propTypes = {
   onSwapPlayers: PropTypes.func.isRequired,
 };
 
-export default DragDropContext(TouchBackend({ enableMouseEvents: true }))(TeamGrid);
+export default withDragDropContext(TeamGrid);
