@@ -7,8 +7,8 @@ import styles from './Player.scss';
 
 export default class Player extends Component {
   render() {
-    const { data, shirt, className, ...rest } = this.props;
-    const { border, backgroundColor, textColor } = shirt;
+    const { data, team, className, ...rest } = this.props;
+    const { border, backgroundColor, textColor } = team.shirt;
     const isGoalkeeper = data.position === 0;
     const gkBackgroundColor = Color(backgroundColor).mix(Color('green'), 0.5).rotate(180);
 
@@ -33,15 +33,22 @@ export default class Player extends Component {
   }
 }
 
+Player.defaultProps = {
+  className: '',
+};
+
 Player.propTypes = {
   data: PropTypes.shape({
     name: PropTypes.string.isRequired,
     number: PropTypes.number.isRequired,
   }).isRequired,
-  shirt: PropTypes.shape({
-    border: PropTypes.object.isRequired,
-    backgroundColor: PropTypes.string.isRequired,
-    textColor: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  team: PropTypes.shape({
+    shirt: PropTypes.shape({
+      border: PropTypes.object.isRequired,
+      backgroundColor: PropTypes.string.isRequired,
+      textColor: PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
 };
 

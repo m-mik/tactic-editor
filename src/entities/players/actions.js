@@ -1,7 +1,7 @@
 import { UPDATE_PLAYER, UPDATE_PLAYERS } from './constants';
 import {
-  addPlayerTransition,
-  removePlayerTransition,
+  addPlayerTransitions,
+  removePlayerTransitions,
 } from '../../containers/TacticEditorPage/actions';
 import playerSchema from './schema';
 
@@ -26,16 +26,22 @@ export const updatePlayers = data => ({
 
 export const movePlayer = (playerId, newPosition, offset) => (dispatch) => {
   if (offset) {
-    dispatch(addPlayerTransition(playerId, offset));
+    dispatch(addPlayerTransitions({ [playerId]: offset }));
     dispatch(updatePlayer(playerId, { position: newPosition }));
   }
-  setTimeout(() => dispatch(removePlayerTransition(playerId)), 0);
+  setTimeout(() => dispatch(removePlayerTransitions([playerId])), 0);
 };
 
-export const swapPlayers = (p1, p2) => (dispatch) => {
+export const swapPlayers = ([source, target]) => (dispatch) => {
+  dispatch(addPlayerTransitions(
+    { [source.player.id]: source.offset, [target.player.id]: target.offset },
+  ));
   const data = [
-    { ...p1, position: p2.position },
-    { ...p2, position: p1.position },
+    { ...source.player, position: target.player.position },
+    { ...target.player, position: source.player.position },
   ];
   dispatch(updatePlayers(data));
+  setTimeout(() => {
+    dispatch(removePlayerTransitions([source.player.id, target.player.id]));
+  }, 0);
 };

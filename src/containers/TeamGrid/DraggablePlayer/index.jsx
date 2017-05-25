@@ -9,24 +9,23 @@ import styles from './DraggablePlayer.scss';
 
 class DraggablePlayer extends Component {
   render() {
-    const { connectDragSource, onMove, ...rest } = this.props;
+    const { connectDragSource, onMove, onSwap, ...rest } = this.props;
     const { left = 0, top = 0 } = this.props.data.transition || {};
-    const transition = (left || top) ? 'none' : '';
-
+    const cssTransition = (left || top) ? 'none' : '';
     return (
       <Player
         className={styles.wrapper}
         ref={instance => connectDragSource(findDOMNode(instance))}
-        style={{ left, top, transition }}
+        style={{ left, top, transition: cssTransition }}
         {...rest}
       />
     );
   }
 }
-
 DraggablePlayer.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
+  onSwap: PropTypes.func.isRequired,
   data: PropTypes.shape({
     id: PropTypes.number.isRequired,
     transition: PropTypes.shape({
@@ -38,32 +37,28 @@ DraggablePlayer.propTypes = {
 
 const playerSource = {
   beginDrag(props) {
-    console.log('drag start:', props);
-    return { position: props.data.position };
+    return props;
   },
 
   endDrag(props, monitor, component) {
-    // TODO: refactor
     const dropResult = monitor.getDropResult();
     if (!dropResult) return;
 
-    const draggedPlayerComp = component;
+    const draggedPlayerId = props.data.id;
     const targetTileComp = dropResult.component;
-
-    const draggedPlayerId = draggedPlayerComp.props.data.id;
-
     const targetPlayerPos = targetTileComp.props.position;
-    const draggedPlayerPos = draggedPlayerComp.props.data.position;
-    const offset1 = getCompOffset(targetTileComp, draggedPlayerComp);
-    const offset2 = getCompOffset(draggedPlayerComp, targetTileComp);
+    const targetOffset = getCompOffset(targetTileComp, component);
+    const sourceOffset = getCompOffset(component, targetTileComp);
 
     if (targetTileComp.player) {
       const targetPlayerComp = targetTileComp.player.decoratedComponentInstance;
-      const targetPlayerId = targetPlayerComp.props.data.id;
-      targetPlayerComp.props.onMove(targetPlayerId, draggedPlayerPos, offset2);
+      targetPlayerComp.props.onSwap([
+        { player: props.data, offset: targetOffset },
+        { player: targetPlayerComp.props.data, offset: sourceOffset },
+      ]);
+    } else {
+      props.onMove(draggedPlayerId, targetPlayerPos, targetOffset);
     }
-
-    draggedPlayerComp.props.onMove(draggedPlayerId, targetPlayerPos, offset1);
   },
 };
 

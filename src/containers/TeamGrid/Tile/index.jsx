@@ -2,37 +2,48 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
+import isEqual from 'lodash/isEqual';
 import ItemTypes from '../ItemTypes';
 import DraggablePlayer from '../DraggablePlayer';
 import styles from '../TeamGrid.scss';
 
 class Tile extends Component {
+  shouldComponentUpdate(nextProps) {
+    return !isEqual(this.props.player, nextProps.player);
+  }
+
   render() {
     const {
       player,
-      shirt,
+      team,
       connectDropTarget,
       position,
       onMovePlayer,
+      onSwapPlayers,
     } = this.props;
 
     const tileClass = position === 0 ? styles.fullWidthTile : undefined;
 
     return connectDropTarget(
       <div className={tileClass}>
-        {player &&
-        <DraggablePlayer
+        {player && (<DraggablePlayer
           ref={(dp) => { this.player = dp; }}
           data={player}
-          shirt={shirt}
+          team={team}
           onMove={onMovePlayer}
-        />}
+          onSwap={onSwapPlayers}
+        />)}
       </div>,
     );
   }
 }
 
 const tileTarget = {
+  canDrop(props, monitor) {
+    const item = monitor.getItem();
+    return props.team.id === item.team.id;
+  },
+
   drop(props, monitor, component) {
     return { component };
   },
@@ -46,15 +57,25 @@ const collect = (connect, monitor) => ({
 
 Tile.defaultProps = {
   className: undefined,
-  children: null,
+  player: undefined,
+  transition: {},
 };
 
 Tile.propTypes = {
   onMovePlayer: PropTypes.func.isRequired,
+  onSwapPlayers: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
   position: PropTypes.number.isRequired,
-  className: PropTypes.string,
-  children: PropTypes.node,
+  player: PropTypes.shape({
+    id: PropTypes.number,
+    position: PropTypes.position,
+    name: PropTypes.string,
+  }),
+  team: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    shirt: PropTypes.object,
+  }).isRequired,
 };
 
 export default DropTarget(ItemTypes.PLAYER, tileTarget, collect)(Tile);

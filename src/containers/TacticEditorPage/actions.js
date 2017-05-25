@@ -1,14 +1,11 @@
-import { ADD_PLAYER_TRANSITION, REMOVE_PLAYER_TRANSITION } from './constants';
+import { ADD_PLAYER_TRANSITIONS, REMOVE_PLAYER_TRANSITIONS } from './constants';
 
-export const addPlayerTransition = (playerId, offset) => ({
-  type: ADD_PLAYER_TRANSITION,
-  payload: {
-    playerId,
-    offset,
-  },
+export const addPlayerTransitions = data => ({
+  type: ADD_PLAYER_TRANSITIONS,
+  payload: data,
 });
 
-export const removePlayerTransition = playerId => ({
-  type: REMOVE_PLAYER_TRANSITION,
-  payload: playerId,
+export const removePlayerTransitions = data => ({
+  type: REMOVE_PLAYER_TRANSITIONS,
+  payload: data,
 });
