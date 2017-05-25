@@ -2,14 +2,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
+import classNames from 'classnames/bind';
 import isEqual from 'lodash/isEqual';
 import ItemTypes from '../ItemTypes';
 import DraggablePlayer from '../DraggablePlayer';
 import styles from '../TeamGrid.scss';
 
+const cx = classNames.bind(styles);
+
 class Tile extends Component {
   shouldComponentUpdate(nextProps) {
-    return !isEqual(this.props.player, nextProps.player);
+    return this.props.canDrop !== nextProps.canDrop ||
+    this.props.isOver !== nextProps.isOver ||
+    !isEqual(this.props.player, nextProps.player);
   }
 
   render() {
@@ -20,12 +25,17 @@ class Tile extends Component {
       position,
       onMovePlayer,
       onSwapPlayers,
+      isOver,
+      canDrop,
     } = this.props;
 
-    const tileClass = position === 0 ? styles.fullWidthTile : undefined;
+    const tileClass = cx(
+      { fullWidthTile: position === 0 },
+      { dropTarget: canDrop && isOver },
+    );
 
     return connectDropTarget(
-      <div className={tileClass}>
+      <div className={tileClass || undefined}>
         {player && (<DraggablePlayer
           ref={(dp) => { this.player = dp; }}
           data={player}
@@ -78,6 +88,8 @@ Tile.propTypes = {
     name: PropTypes.string,
     shirt: PropTypes.object,
   }).isRequired,
+  isOver: PropTypes.bool.isRequired,
+  canDrop: PropTypes.bool.isRequired,
 };
 
 export default DropTarget(ItemTypes.PLAYER, tileTarget, collect)(Tile);

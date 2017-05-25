@@ -2,19 +2,27 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
 import { DragSource } from 'react-dnd';
+import classNames from 'classnames/bind';
 import Player from '../../../components/Player/index';
 import ItemTypes from '../ItemTypes';
 import { getCompOffset } from '../../../services/footballField';
 import styles from './DraggablePlayer.scss';
 
+const cx = classNames.bind(styles);
+
 class DraggablePlayer extends Component {
   render() {
-    const { connectDragSource, onMove, onSwap, ...rest } = this.props;
+    const { connectDragSource, onMove, onSwap, isDragging, ...rest } = this.props;
     const { left = 0, top = 0 } = this.props.data.transition || {};
     const cssTransition = (left || top) ? 'none' : '';
+    const wrapperStyle = cx(
+      'wrapper',
+      { isDragging },
+    );
+
     return (
       <Player
-        className={styles.wrapper}
+        className={wrapperStyle}
         ref={instance => connectDragSource(findDOMNode(instance))}
         style={{ left, top, transition: cssTransition }}
         {...rest}
@@ -33,6 +41,7 @@ DraggablePlayer.propTypes = {
       top: PropTypes.number,
     }),
   }).isRequired,
+  isDragging: PropTypes.bool.isRequired,
 };
 
 const playerSource = {
@@ -64,7 +73,7 @@ const playerSource = {
 
 const collect = (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
-  // isDragging: monitor.isDragging(),
+  isDragging: monitor.isDragging(),
 });
 
 export default DragSource(ItemTypes.PLAYER, playerSource, collect)(DraggablePlayer);

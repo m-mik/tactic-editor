@@ -1,4 +1,4 @@
-@import 'variables';
+@import './variables';
 
 .wrapper {
   width: 100%;
@@ -18,5 +18,10 @@
   > .fullWidthTile {
     $margin: (100% - $tile-width) / 2;
     margin: 0 $margin;
+  }
+
+  > .dropTarget {
+    border: 2px solid #ffef00;
+    opacity: $dragged-player-opacity;
   }
 }

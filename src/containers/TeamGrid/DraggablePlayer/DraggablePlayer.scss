@@ -1,5 +1,11 @@
+@import '../variables';
+
 .wrapper {
-  transition: all 1s ease;
+  transition: left 1s ease, top 1s ease;
   z-index: 4;
   cursor: grab;
 };
+
+.isDragging {
+  opacity: $dragged-player-opacity;
+}

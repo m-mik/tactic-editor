@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import times from 'lodash/times';
 import isEqual from 'lodash/isEqual';
-import TouchBackend from 'react-dnd-touch-backend';
-import { DragDropContext } from 'react-dnd';
 import withDragDropContext from './withDragDropContext';
 import Tile from './Tile';
-import PlayerDragLayer from './PlayerDragLayer';
 import styles from './TeamGrid.scss';
 
 class TeamGrid extends Component {
@@ -39,12 +36,10 @@ class TeamGrid extends Component {
     return (
       <div className={styles.wrapper}>
         {this.renderTiles()}
-        {/*<PlayerDragLayer />*/}
       </div>
     );
   }
 }
-
 
 TeamGrid.propTypes = {
   team: PropTypes.shape({
