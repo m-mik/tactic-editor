@@ -1,15 +1,17 @@
 /* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import classNames from 'classnames/bind';
 import Color from 'color';
 import styles from './Player.scss';
 
+const cx = classNames.bind(styles);
+
 export default class Player extends Component {
   render() {
-    const { data, team, className, ...rest } = this.props;
+    const { name, position, number, team, className, ...rest } = this.props;
     const { border, backgroundColor, textColor } = team.shirt;
-    const isGoalkeeper = data.position === 0;
+    const isGoalkeeper = position === 0;
     const gkBackgroundColor = Color(backgroundColor).mix(Color('green'), 0.5).rotate(180);
 
     const shirtStyle = {
@@ -19,15 +21,15 @@ export default class Player extends Component {
       color: textColor,
     };
 
-    const wrapperClassName = classNames({
-      [styles.wrapper]: true,
-      [className]: className,
-    });
+    const wrapperClassName = cx(
+      { wrapper: true },
+      { [className]: !!className },
+    );
 
     return (
       <div className={wrapperClassName} {...rest}>
-        <span className={styles.shirt} style={shirtStyle}>{data.number}</span>
-        <span className={styles.name}>{data.name}</span>
+        <span className={styles.shirt} style={shirtStyle}>{number}</span>
+        <span className={styles.name}>{name}</span>
       </div>
     );
   }
@@ -38,10 +40,9 @@ Player.defaultProps = {
 };
 
 Player.propTypes = {
-  data: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    number: PropTypes.number.isRequired,
-  }).isRequired,
+  name: PropTypes.string.isRequired,
+  number: PropTypes.number.isRequired,
+  position: PropTypes.number.isRequired,
   className: PropTypes.string,
   team: PropTypes.shape({
     shirt: PropTypes.shape({

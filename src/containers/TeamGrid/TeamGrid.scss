@@ -21,7 +21,7 @@
   }
 
   > .dropTarget {
-    border: 2px solid #ffef00;
-    opacity: $dragged-player-opacity;
+    border: $drop-target-border;
+    opacity: $drop-target-opacity;
   }
 }

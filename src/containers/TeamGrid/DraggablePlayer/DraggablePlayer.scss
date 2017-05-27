@@ -9,3 +9,8 @@
 .isDragging {
   opacity: $dragged-player-opacity;
 }
+
+.dropTarget {
+  opacity: $drop-target-opacity;
+  border: $drop-target-border;
+}
