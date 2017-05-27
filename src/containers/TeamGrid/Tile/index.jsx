@@ -5,7 +5,7 @@ import { DropTarget } from 'react-dnd';
 import classNames from 'classnames/bind';
 import isEqual from 'lodash/isEqual';
 import ItemTypes from '../ItemTypes';
-
+import { canDropPlayer } from '../../../services/footballField';
 import styles from '../TeamGrid.scss';
 
 const cx = classNames.bind(styles);
@@ -39,11 +39,8 @@ class Tile extends Component {
 
 const tileTarget = {
   canDrop(props, monitor) {
-    // todo: same as draggable player
-    const item = monitor.getItem();
-    const sameTeam = props.team.id === item.team.id;
-    const isNewPosition = item.data.position !== props.position;
-    return isNewPosition && sameTeam;
+    const player = monitor.getItem();
+    return canDropPlayer(player, props);
   },
 
   drop(props, monitor, component) {

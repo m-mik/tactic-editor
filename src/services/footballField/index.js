@@ -7,3 +7,9 @@ export const getNodeOffset = (sourceNode, targetNode) => ({
 
 export const getCompOffset = (sourceComp, targetComp) =>
   getNodeOffset(findDOMNode(sourceComp), findDOMNode(targetComp));
+
+export const canDropPlayer = (draggedPlayer, target) => {
+  const sameTeam = draggedPlayer.team.id === target.team.id;
+  const isNewPosition = draggedPlayer.data.position !== target.position;
+  return isNewPosition && sameTeam;
+};

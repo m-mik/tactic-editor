@@ -6,7 +6,7 @@ import classNames from 'classnames/bind';
 import flow from 'lodash/flow';
 import Player from '../../../components/Player/index';
 import ItemTypes from '../ItemTypes';
-import { getCompOffset } from '../../../services/footballField';
+import { getCompOffset, canDropPlayer } from '../../../services/footballField';
 import styles from './DraggablePlayer.scss';
 
 const cx = classNames.bind(styles);
@@ -87,11 +87,8 @@ const playerSource = {
 
 const playerTarget = {
   canDrop(props, monitor) {
-    // todo: same logic as in tile component
-    const item = monitor.getItem();
-    const sameTeam = props.team.id === item.team.id;
-    const isNewPosition = item.data.position !== props.position;
-    return isNewPosition && sameTeam;
+    const player = monitor.getItem();
+    return canDropPlayer(player, props);
   },
 
   drop(props, monitor, component) {
