@@ -1,32 +1,48 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import times from 'lodash/times';
 import isEqual from 'lodash/isEqual';
 import withDragDropContext from './withDragDropContext';
+import { movePlayer, swapPlayers } from '../../entities/players/actions';
 import Tile from './Tile';
+import DraggablePlayer from './DraggablePlayer';
 import styles from './TeamGrid.scss';
 
 class TeamGrid extends Component {
+  constructor() {
+    super();
+
+    this.tilesCount = 36;
+  }
+
   shouldComponentUpdate(nextProps) {
     return !isEqual(this.props.team.players, nextProps.team.players);
   }
 
-  renderTile(position, player, team) {
-    const { onMovePlayer, onSwapPlayers } = this.props;
-    return (<Tile
-      key={position}
-      position={position}
-      player={player}
+  renderPlayer(player, team) {
+    return (<DraggablePlayer
+      data={player}
       team={team}
-      onMovePlayer={onMovePlayer}
-      onSwapPlayers={onSwapPlayers}
+      onMove={this.props.movePlayer}
+      onSwap={this.props.swapPlayers}
     />);
   }
 
+  renderTile(position, player, team) {
+    return (<Tile
+      key={position}
+      position={position}
+      team={team}
+    >
+      {player && this.renderPlayer(player, team)}
+    </Tile>);
+  }
+
   renderTiles() {
-    const { team, tilesCount, type } = this.props;
-    return times(tilesCount).map((index) => {
-      const position = type === 'home' ? index : (tilesCount - index - 1);
+    const { team, type } = this.props;
+    return times(this.tilesCount).map((index) => {
+      const position = type === 'home' ? index : (this.tilesCount - index - 1);
       const player = team.players[position];
       return this.renderTile(position, player, team);
     });
@@ -34,7 +50,7 @@ class TeamGrid extends Component {
 
   render() {
     return (
-      <div className={styles.wrapper}>
+      <div id={`team-grid-${this.props.team.id}`} className={styles.wrapper}>
         {this.renderTiles()}
       </div>
     );
@@ -43,13 +59,18 @@ class TeamGrid extends Component {
 
 TeamGrid.propTypes = {
   team: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     players: PropTypes.object.isRequired,
     shirt: PropTypes.object.isRequired,
   }).isRequired,
   type: PropTypes.oneOf(['home', 'away']).isRequired,
-  tilesCount: PropTypes.number.isRequired,
-  onMovePlayer: PropTypes.func.isRequired,
-  onSwapPlayers: PropTypes.func.isRequired,
+  movePlayer: PropTypes.func.isRequired,
+  swapPlayers: PropTypes.func.isRequired,
 };
 
-export default withDragDropContext(TeamGrid);
+const ConnectedTeamGrid = connect(
+  null,
+  { movePlayer, swapPlayers },
+)(TeamGrid);
+
+export default withDragDropContext(ConnectedTeamGrid);

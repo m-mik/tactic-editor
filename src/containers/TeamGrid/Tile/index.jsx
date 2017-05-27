@@ -5,26 +5,21 @@ import { DropTarget } from 'react-dnd';
 import classNames from 'classnames/bind';
 import isEqual from 'lodash/isEqual';
 import ItemTypes from '../ItemTypes';
-import DraggablePlayer from '../DraggablePlayer';
+
 import styles from '../TeamGrid.scss';
 
 const cx = classNames.bind(styles);
 
 class Tile extends Component {
   shouldComponentUpdate(nextProps) {
-    return this.props.canDrop !== nextProps.canDrop ||
-    this.props.isOver !== nextProps.isOver ||
-    !isEqual(this.props.player, nextProps.player);
+    return (this.props.isOver !== nextProps.isOver
+    || !isEqual(this.props.children, nextProps.children));
   }
 
   render() {
     const {
-      player,
-      team,
       connectDropTarget,
       position,
-      onMovePlayer,
-      onSwapPlayers,
       isOver,
       canDrop,
     } = this.props;
@@ -36,13 +31,7 @@ class Tile extends Component {
 
     return connectDropTarget(
       <div className={tileClass || undefined}>
-        {player && (<DraggablePlayer
-          ref={(dp) => { this.player = dp; }}
-          data={player}
-          team={team}
-          onMove={onMovePlayer}
-          onSwap={onSwapPlayers}
-        />)}
+        {this.props.children}
       </div>,
     );
   }
@@ -50,6 +39,7 @@ class Tile extends Component {
 
 const tileTarget = {
   canDrop(props, monitor) {
+    // todo: same as draggable player
     const item = monitor.getItem();
     const sameTeam = props.team.id === item.team.id;
     const isNewPosition = item.data.position !== props.position;
@@ -57,6 +47,10 @@ const tileTarget = {
   },
 
   drop(props, monitor, component) {
+    if (monitor.didDrop()) {
+      return;
+    }
+
     return { component };
   },
 };
@@ -69,20 +63,12 @@ const collect = (connect, monitor) => ({
 
 Tile.defaultProps = {
   className: undefined,
-  player: undefined,
-  transition: {},
+  children: null,
 };
 
 Tile.propTypes = {
-  onMovePlayer: PropTypes.func.isRequired,
-  onSwapPlayers: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
   position: PropTypes.number.isRequired,
-  player: PropTypes.shape({
-    id: PropTypes.number,
-    position: PropTypes.position,
-    name: PropTypes.string,
-  }),
   team: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
@@ -90,6 +76,7 @@ Tile.propTypes = {
   }).isRequired,
   isOver: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,
+  children: PropTypes.node,
 };
 
 export default DropTarget(ItemTypes.PLAYER, tileTarget, collect)(Tile);
