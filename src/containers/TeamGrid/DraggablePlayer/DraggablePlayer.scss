@@ -11,6 +11,6 @@
 }
 
 .dropTarget {
-  opacity: $drop-target-opacity;
-  border: $drop-target-border;
+  composes: dropTarget from '../TeamGrid.scss';
+  padding: 10%;
 }
