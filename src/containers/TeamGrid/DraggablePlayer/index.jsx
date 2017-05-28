@@ -47,8 +47,9 @@ class DraggablePlayer extends Component {
           connectDropTarget(findDOMNode(instance));
           connectDragSource(findDOMNode(instance));
         }}
-        style={{ left, top, transition: cssTransition }}
-        onTransitionEnd={() => this.setState({ isMoving: false })}
+        style={{
+          transform: `translate(${left}px, ${top}px)`,
+          transition: cssTransition }}
         {...rest}
       />
     );
