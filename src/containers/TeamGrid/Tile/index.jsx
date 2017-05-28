@@ -1,4 +1,3 @@
-/* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
@@ -12,7 +11,7 @@ const cx = classNames.bind(styles);
 
 class Tile extends Component {
   shouldComponentUpdate(nextProps) {
-    return this.props.isOver !== nextProps.isOver
+    return (this.props.isOver !== nextProps.isOver)
       || !isEqual(this.props.children, nextProps.children);
   }
 
@@ -50,7 +49,7 @@ const tileTarget = {
 
 const collect = (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
-  isOver: monitor.isOver(),
+  isOver: monitor.isOver({ shallow: true }),
   canDrop: monitor.canDrop(),
 });
 
@@ -62,7 +61,7 @@ Tile.defaultProps = {
 Tile.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
   position: PropTypes.number.isRequired,
-  team: PropTypes.shape({
+  team: PropTypes.shape({ // eslint-disable-line react/no-unused-prop-types
     id: PropTypes.number.isRequired,
   }).isRequired,
   isOver: PropTypes.bool.isRequired,
