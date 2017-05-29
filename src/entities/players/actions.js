@@ -4,6 +4,7 @@ import {
   removePlayerTransitions,
 } from '../../containers/TacticEditorPage/actions';
 import playerSchema from './schema';
+import { findTeamGrid } from '../../services/footballField';
 
 export const updatePlayer = (id, playerData) => ({
   type: UPDATE_PLAYER,
@@ -24,24 +25,25 @@ export const updatePlayers = data => ({
   },
 });
 
-export const movePlayer = (playerId, newPosition, offset) => (dispatch) => {
-  if (offset) {
-    dispatch(addPlayerTransitions({ [playerId]: offset }));
-    dispatch(updatePlayer(playerId, { position: newPosition }));
-  }
-  setTimeout(() => dispatch(removePlayerTransitions([playerId])), 0);
+export const movePlayer = (player, newPosition) => (dispatch) => {
+  const offset = findTeamGrid(player.team.id)
+    .findTileOffset({ from: player.position, to: newPosition });
+  dispatch(addPlayerTransitions({ [player.id]: offset }));
+  dispatch(updatePlayer(player.id, { position: newPosition }));
+  setTimeout(() => dispatch(removePlayerTransitions([player.id])), 0);
 };
 
-export const swapPlayers = ([source, target]) => (dispatch) => {
-  dispatch(addPlayerTransitions(
-    { [source.player.id]: source.offset, [target.player.id]: target.offset },
-  ));
-  const data = [
-    { ...source.player, position: target.player.position },
-    { ...target.player, position: source.player.position },
-  ];
-  dispatch(updatePlayers(data));
-  setTimeout(() => {
-    dispatch(removePlayerTransitions([source.player.id, target.player.id]));
-  }, 0);
+export const swapPlayers = (p1, p2) => (dispatch) => {
+  const { left, top } = findTeamGrid(p1.team.id).findTileOffset(
+    { from: p1.position, to: p2.position },
+  );
+  dispatch(addPlayerTransitions({
+    [p1.id]: { left, top },
+    [p2.id]: { left: -left, top: -top },
+  }));
+  dispatch(updatePlayers([
+    { id: p1.id, position: p2.position },
+    { id: p2.id, position: p1.position },
+  ]));
+  setTimeout(() => dispatch(removePlayerTransitions([p1.id, p2.id])), 0);
 };

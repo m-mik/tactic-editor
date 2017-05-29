@@ -6,7 +6,7 @@ import classNames from 'classnames/bind';
 import flow from 'lodash/flow';
 import Player from '../../../components/Player/index';
 import ItemTypes from '../ItemTypes';
-import { getCompOffset, canDropPlayer } from '../../../services/footballField';
+import { canDropPlayer } from '../../../services/footballField';
 import styles from './DraggablePlayer.scss';
 
 const cx = classNames.bind(styles);
@@ -87,24 +87,16 @@ const playerSource = {
   },
 
   endDrag(props, monitor, component) {
-    // TODO: refactor
     const dropResult = monitor.getDropResult();
     if (!dropResult) return;
 
-    const draggedPlayerId = props.id;
     const targetComp = dropResult.component;
-    const targetPlayerPos = targetComp.props.position;
-    const targetOffset = getCompOffset(targetComp, component);
-    const sourceOffset = getCompOffset(component, targetComp);
+    const targetPos = targetComp.props.position;
 
     if (targetComp.currentType === 'player') {
-      const targetPlayerComp = targetComp;
-      targetPlayerComp.props.onSwap([
-        { player: props, offset: targetOffset },
-        { player: targetPlayerComp.props, offset: sourceOffset },
-      ]);
+      targetComp.props.onSwap(props, targetComp.props);
     } else {
-      props.onMove(draggedPlayerId, targetPlayerPos, targetOffset);
+      props.onMove(props, targetPos);
     }
   },
 };
