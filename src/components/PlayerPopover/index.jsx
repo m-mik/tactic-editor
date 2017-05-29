@@ -7,22 +7,20 @@ import MenuItem from 'material-ui/MenuItem';
 export default class PlayerPopover extends Component {
   render() {
     return (
-      <div>
-        <Popover
-          open={!!this.props.player}
-          anchorEl={this.props.anchorEl}
-          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-          targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-          onRequestClose={this.props.onRequestClose}
-        >
-          <Menu>
-            <MenuItem primaryText="Refresh" />
-            <MenuItem primaryText="Help &amp; feedback" />
-            <MenuItem primaryText="Settings" />
-            <MenuItem primaryText="Sign out" />
-          </Menu>
-        </Popover>
-      </div>
+      <Popover
+        open={!!this.props.player}
+        anchorEl={this.props.anchorEl}
+        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+        targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+        onRequestClose={this.props.onRequestClose}
+      >
+        <Menu>
+          <MenuItem primaryText="Refresh" />
+          <MenuItem primaryText="Help &amp; feedback" />
+          <MenuItem primaryText="Settings" />
+          <MenuItem primaryText="Sign out" />
+        </Menu>
+      </Popover>
     );
   }
 }
