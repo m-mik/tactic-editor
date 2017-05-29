@@ -51,7 +51,7 @@ class TacticEditorPage extends Component {
                 team={team}
               />)}
           </FootballField>
-          {/* <PlayerPopover />*/}
+          <PlayerPopover />
         </TacticEditor>
       </section>
     );
