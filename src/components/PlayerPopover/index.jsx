@@ -13,6 +13,7 @@ export default class PlayerPopover extends Component {
         anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
         targetOrigin={{ horizontal: 'left', vertical: 'top' }}
         onRequestClose={this.props.onRequestClose}
+        useLayerForClickAway={false}
       >
         <Menu>
           <MenuItem primaryText="Refresh" />

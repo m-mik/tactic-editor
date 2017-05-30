@@ -8,6 +8,7 @@
   padding: 0 3%;
   position: relative;
   z-index: 3;
+  touch-action: none;
 
   > div {
     width: $tile-width;

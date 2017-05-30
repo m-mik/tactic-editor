@@ -23,10 +23,10 @@ class PlayerTile extends Component {
       <Tile
         key={position}
         position={position}
-        team={{ id: team.id }}
+        team={team}
       >
         {player && <DraggablePlayer
-          team={{ id: team.id, shirt: team.shirt }}
+          team={team}
           onMove={onPlayerMove}
           onSwap={onPlayersSwap}
           onTouchTap={onPlayerTouchTap}
