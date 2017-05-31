@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { fetchTacticIfNeeded } from '../../entities/tacticDetails/actions';
+import { updatePlayer } from '../../entities/players/actions';
 import { selectPlayer } from './actions';
 import TacticEditor from '../../components/TacticEditor';
 import FootballField from '../../components/FootballField';
@@ -57,6 +58,7 @@ class TacticEditorPage extends Component {
           </FootballField>
           {selectedPlayer && <PlayerPopover
             player={selectedPlayer}
+            onPlayerChange={this.props.updatePlayer}
             anchorEl={anchorEl}
             onRequestClose={() => this.props.selectPlayer(0)}
           />}
@@ -74,6 +76,7 @@ TacticEditorPage.defaultProps = {
 TacticEditorPage.propTypes = {
   fetchTacticIfNeeded: PropTypes.func.isRequired,
   selectPlayer: PropTypes.func.isRequired,
+  updatePlayer: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
   tactic: PropTypes.shape({
@@ -103,7 +106,7 @@ const mapStateToProps = (state) => {
 
 const ConnectedTacticEditorPage = connect(
   mapStateToProps,
-  { fetchTacticIfNeeded, selectPlayer },
+  { fetchTacticIfNeeded, selectPlayer, updatePlayer },
 )(TacticEditorPage);
 
 export default withRouter(ConnectedTacticEditorPage);
