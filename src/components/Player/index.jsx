@@ -3,18 +3,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import Color from 'color';
+import times from 'lodash/times';
 import YellowCardIcon from '../YellowCardIcon';
 import RedCardIcon from '../RedCardIcon';
 import GoalIcon from '../GoalIcon';
 import AssistIcon from '../AssistIcon';
-import times from 'lodash/times';
 import styles from './Player.scss';
 
 const cx = classNames.bind(styles);
 
 export default class Player extends Component {
   render() {
-    const { name, position, number, team, className, rating, cards, ...rest } = this.props;
+    const {
+      name, position, number, team, className, rating, cards, assists, goals, ...rest
+    } = this.props;
     const { border, backgroundColor, textColor } = team.shirt;
     const isGoalkeeper = position === 0;
     const gkBackgroundColor = Color(backgroundColor).mix(Color('green'), 0.5).rotate(180);
@@ -45,11 +47,12 @@ export default class Player extends Component {
           )}
         </div>
         <div className={styles.assists}>
-          <AssistIcon />
-          <AssistIcon />
+          {times(assists).map(index =>
+            <AssistIcon key={index} />,
+          )}
         </div>
         <div className={styles.goals}>
-          {times(cards.yellow).map(index =>
+          {times(goals).map(index =>
             <GoalIcon key={index} />,
           )}
         </div>
@@ -67,7 +70,12 @@ Player.propTypes = {
   number: PropTypes.number.isRequired,
   rating: PropTypes.number.isRequired,
   position: PropTypes.number.isRequired,
-  className: PropTypes.string,
+  cards: PropTypes.shape({
+    yellow: PropTypes.number.isRequired,
+    red: PropTypes.number.isRequired,
+  }).isRequired,
+  goals: PropTypes.number.isRequired,
+  assists: PropTypes.number.isRequired,
   team: PropTypes.shape({
     shirt: PropTypes.shape({
       border: PropTypes.object.isRequired,
@@ -75,5 +83,6 @@ Player.propTypes = {
       textColor: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  className: PropTypes.string,
 };
 

@@ -57,7 +57,7 @@
   height: 15%;
 
   & > .yellowCard:nth-of-type(2) {
-    margin-left: -25%;
+    margin-left: -15%;
     border-left: 1px solid #cbc100;
   }
 }
@@ -67,11 +67,12 @@
   top: 0;
   width: 27%;
   height: 100%;
-  margin-right: 10%;
+  margin: 5%;
 }
 
 .redCard {
   composes: card;
+
 }
 
 .yellowCard {
@@ -91,10 +92,10 @@
 
 .assists {
   composes: balls;
-  right: 0;
+  right: 15%;
 }
 
 .goals {
   composes: balls;
-  right: 15%;
+  right: 0;
 }
