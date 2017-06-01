@@ -13,7 +13,7 @@ const cx = classNames.bind(styles);
 
 export default class Player extends Component {
   render() {
-    const { name, position, number, team, className, ...rest } = this.props;
+    const { name, position, number, team, className, rating, ...rest } = this.props;
     const { border, backgroundColor, textColor } = team.shirt;
     const isGoalkeeper = position === 0;
     const gkBackgroundColor = Color(backgroundColor).mix(Color('green'), 0.5).rotate(180);
@@ -34,6 +34,7 @@ export default class Player extends Component {
       <div className={wrapperClassName} {...rest}>
         <span className={styles.shirt} style={shirtStyle}>{number}</span>
         <span className={styles.name}>{name}</span>
+        <span className={styles.rating}>{rating}</span>
         <div className={styles.cards}>
           <YellowCardIcon className={styles.yellowCard} />
           <YellowCardIcon className={styles.yellowCard} />
@@ -60,6 +61,7 @@ Player.defaultProps = {
 Player.propTypes = {
   name: PropTypes.string.isRequired,
   number: PropTypes.number.isRequired,
+  rating: PropTypes.number.isRequired,
   position: PropTypes.number.isRequired,
   className: PropTypes.string,
   team: PropTypes.shape({
