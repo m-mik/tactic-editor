@@ -1,0 +1,17 @@
+/* Copyright (C) 2017 by original authors @ fontello.com */
+@font-face {
+  font-family: 'ball';
+  src: url('./font/ball.eot?93249807');
+  src: url('./font/ball.eot?93249807#iefix') format('embedded-opentype'),
+  url('./font/ball.woff?93249807') format('woff'),
+  url('./font/ball.ttf?93249807') format('truetype'),
+  url('./font/ball.svg?93249807#ball') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.icon {
+  font-family: 'ball', 'sans-serif';
+  background-color: #fff;
+  border-radius: 50%;
+}
