@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Popover from 'material-ui/Popover';
-import { green500, red500, yellow500 } from 'material-ui/styles/colors';
+import { green500, red500 } from 'material-ui/styles/colors';
 import IconButton from 'material-ui/IconButton';
-import Card from 'material-ui/svg-icons/image/crop-portrait';
-import AddIcon from 'material-ui/svg-icons/content/add';
-import RemoveIcon from 'material-ui/svg-icons/content/remove';
 import TextField from 'material-ui/TextField';
+import AddButton from '../AddButton';
+import RemoveButton from '../RemoveButton';
+import YellowCardIcon from '../YellowCardIcon';
+import RedCardIcon from '../RedCardIcon';
+import GoalIcon from '../GoalIcon';
+import AssistIcon from '../AssistIcon';
 import styles from './PlayerPopover.scss';
 
 export default class PlayerPopover extends Component {
@@ -41,40 +44,24 @@ export default class PlayerPopover extends Component {
       >
         <ul className={styles.list}>
           <li>
-            <Card color={yellow500} />
-            <IconButton>
-              <RemoveIcon color={red500} />
-            </IconButton>
-            <IconButton>
-              <AddIcon color={green500} />
-            </IconButton>
+            <YellowCardIcon className={styles.card} />
+            <RemoveButton tooltip="Remove Yellow Card" />
+            <AddButton tooltip="Add Yellow Card" />
           </li>
           <li>
-            <Card color={red500} />
-            <IconButton>
-              <RemoveIcon color={red500} />
-            </IconButton>
-            <IconButton>
-              <AddIcon color={green500} />
-            </IconButton>
+            <GoalIcon className={styles.ball} />
+            <RemoveButton tooltip="Remove Goal" />
+            <AddButton tooltip="Add Goal" />
           </li>
           <li>
-            <Card color={red500} />
-            <IconButton>
-              <RemoveIcon color={red500} />
-            </IconButton>
-            <IconButton>
-              <AddIcon color={green500} />
-            </IconButton>
+            <RedCardIcon className={styles.card} />
+            <RemoveButton tooltip="Remove Red Card" />
+            <AddButton tooltip="Add Red Card" />
           </li>
           <li>
-            <Card color={red500} />
-            <IconButton>
-              <RemoveIcon color={red500} />
-            </IconButton>
-            <IconButton>
-              <AddIcon color={green500} />
-            </IconButton>
+            <AssistIcon className={styles.ball} />
+            <RemoveButton tooltip="Remove Assist" />
+            <AddButton tooltip="Add Assist" />
           </li>
           <li className={styles.fullWidth}>
             <TextField
