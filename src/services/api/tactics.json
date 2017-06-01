@@ -20,7 +20,7 @@
             "name": "M. ter Stegen",
             "number": 1,
             "position": 0,
-            "rating": 5,
+            "rating": 10,
             "cards": {
               "yellow": 0,
               "red": 0
@@ -46,7 +46,7 @@
             "name": "G. Pique",
             "number": 3,
             "position": 3,
-            "rating": 5,
+            "rating": 7,
             "cards": {
               "yellow": 0,
               "red": 0
@@ -59,7 +59,7 @@
             "name": "S. Umtiti",
             "number": 23,
             "position": 5,
-            "rating": 5,
+            "rating": 1,
             "cards": {
               "yellow": 0,
               "red": 0
@@ -137,7 +137,7 @@
             "name": "L. Suarez",
             "number": 9,
             "position": 32,
-            "rating": 5,
+            "rating": 2,
             "cards": {
               "yellow": 0,
               "red": 1
@@ -190,7 +190,7 @@
             "name": "D. Carvajal",
             "number": 2,
             "position": 1,
-            "rating": 5,
+            "rating": 8,
             "cards": {
               "yellow": 0,
               "red": 0
