@@ -20,77 +20,121 @@
             "name": "M. ter Stegen",
             "number": 1,
             "position": 0,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 0,
+              "red": 0
+            }
           },
           {
             "id": 2,
             "name": "S. Roberto",
             "number": 20,
             "position": 1,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 0,
+              "red": 0
+            }
           },
           {
             "id": 3,
             "name": "G. Pique",
             "number": 3,
             "position": 3,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 0,
+              "red": 0
+            }
           },
           {
             "id": 4,
             "name": "S. Umtiti",
             "number": 23,
             "position": 5,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 0,
+              "red": 0
+            }
           },
           {
             "id": 5,
             "name": "J. Alba",
             "number": 18,
             "position": 7,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 2,
+              "red": 1
+            }
           },
           {
             "id": 6,
             "name": "I. Rakitic",
             "number": 4,
             "position": 16,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 1,
+              "red": 0
+            }
           },
           {
             "id": 7,
             "name": "S. Busquets",
             "number": 5,
             "position": 18,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 0,
+              "red": 0
+            }
           },
           {
             "id": 8,
             "name": "A. Iniesta",
             "number": 8,
             "position": 20,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 0,
+              "red": 0
+            }
           },
           {
             "id": 9,
             "name": "L. Messi",
             "number": 10,
             "position": 34,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 0,
+              "red": 0
+            }
           },
           {
             "id": 10,
             "name": "L. Suarez",
             "number": 9,
             "position": 32,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 0,
+              "red": 1
+            }
           },
           {
             "id": 11,
             "name": "F. Alcacer",
             "number": 17,
             "position": 30,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 1,
+              "red": 1
+            }
           }
         ]
       },
@@ -111,77 +155,121 @@
             "name": "K. Navas",
             "number": 12,
             "position": 0,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 0,
+              "red": 0
+            }
           },
           {
             "id": 13,
             "name": "D. Carvajal",
             "number": 2,
             "position": 1,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 0,
+              "red": 0
+            }
           },
           {
             "id": 14,
             "name": "N. Fernandez",
             "number": 6,
             "position": 3,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 0,
+              "red": 0
+            }
           },
           {
             "id": 15,
             "name": "S. Ramos",
             "number": 4,
             "position": 5,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 0,
+              "red": 0
+            }
           },
           {
             "id": 16,
             "name": "Marcelo",
             "number": 12,
             "position": 7,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 0,
+              "red": 0
+            }
           },
           {
             "id": 17,
             "name": "L. Modric",
             "number": 19,
             "position": 16,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 0,
+              "red": 0
+            }
           },
           {
             "id": 18,
             "name": "Casemiro",
             "number": 14,
             "position": 18,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 0,
+              "red": 0
+            }
           },
           {
             "id": 19,
             "name": "T. Kroos",
             "number": 8,
             "position": 20,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 0,
+              "red": 0
+            }
           },
           {
             "id": 20,
             "name": "G. Bale",
             "number": 11,
             "position": 30,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 0,
+              "red": 0
+            }
           },
           {
             "id": 21,
             "name": "K. Benzema",
             "number": 9,
             "position": 32,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 0,
+              "red": 0
+            }
           },
           {
             "id": 22,
             "name": "C. Ronaldo",
             "number": 7,
             "position": 34,
-            "rating": 5
+            "rating": 5,
+            "cards": {
+              "yellow": 0,
+              "red": 0
+            }
           }
         ]
       }

@@ -44,7 +44,9 @@ export default class PlayerPopover extends Component {
         <ul className={styles.list}>
           <li>
             <YellowCardIcon className={styles.card} />
-            <RemoveButton tooltip="Remove Yellow Card" />
+            <RemoveButton
+              tooltip="Remove Yellow Card"
+            />
             <AddButton tooltip="Add Yellow Card" />
           </li>
           <li>
