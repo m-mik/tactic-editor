@@ -1,12 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
+import IconButton from 'material-ui/IconButton';
+import ColorLensIcon from 'material-ui/svg-icons/image/color-lens';
+import { white } from 'material-ui/styles/colors';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import styles from './Info.scss';
 
 const cx = classNames.bind(styles);
 
 const Info = ({ type, team }) => {
   const { name } = team;
+  const teamGoals = Object.keys(team.players)
+    .reduce((goals, key) => goals + team.players[key].goals, 0);
 
   const wrapperStyle = cx(
     'wrapper',
@@ -16,7 +23,11 @@ const Info = ({ type, team }) => {
 
   return (
     <div className={wrapperStyle}>
-      <h2 className={styles.name}>{name}</h2>
+      <span className={styles.goals}>{teamGoals}</span>
+      <span className={styles.name}>{name}</span>
+      <IconButton className={styles.colors}>
+        <ColorLensIcon color={white} />
+      </IconButton>
     </div>
   );
 };
@@ -24,6 +35,7 @@ const Info = ({ type, team }) => {
 Info.defaultProps = {
   team: {
     name: '',
+    players: {},
   },
   type: 'home',
 };
