@@ -20,9 +20,13 @@ export default class Player extends Component {
     const { border, backgroundColor, textColor } = team.shirt;
     const isGoalkeeper = position === 0;
     const gkBackgroundColor = Color(backgroundColor).mix(Color('green'), 0.5).rotate(180);
+    const playerBg = isGoalkeeper ? gkBackgroundColor : backgroundColor;
 
     const shirtStyle = {
-      backgroundColor: isGoalkeeper ? gkBackgroundColor : backgroundColor,
+      background: playerBg,
+      backgroundImage: `linear-gradient(to bottom, 
+        ${playerBg} 0%, 
+        ${Color(playerBg).darken(0.4)} 100%)`,
       borderColor: border.color,
       borderStyle: border.style,
       color: textColor,

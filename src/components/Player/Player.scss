@@ -14,7 +14,7 @@
   height: 50%;
   text-align: center;
   font-size: 1.5vmin;
-  border: 6px groove;
+  border: 4px groove;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -29,7 +29,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  background: #000;
+  background: linear-gradient(to bottom, #4c4c4c 0%, #595959 12%, #666666 25%, #474747 39%,
+          #2c2c2c 50%, #000000 51%, #111111 60%, #2b2b2b 76%, #1c1c1c 91%, #131313 100%);
   border-radius: 5px;
   color: #fff;
   padding: 4px;
@@ -37,44 +38,47 @@
 
 .rating {
   position: absolute;
-  top: -7%;
+  top: 0;
   background: #54b33a;
-  border: 1px solid #1b571a;
   width: 30%;
-  height: 20%;
+  height: 17%;
   padding: 2%;
   text-align: center;
   font-weight: bold;
   font-size: 1vmin;
   color: #000;
+  border-radius: 30%;
+  border: 1px solid #6f6f6f;
 }
 
 .ratingMax {
   composes: rating;
-  background: #23ff00;
+  background: #d2ff52;
+  background: linear-gradient(to bottom, #d2ff52 0%, #91e842 100%);
 }
 
 .ratingHigh {
   composes: rating;
-  background: #258023;
-  color: #fff;
+  background: #88e228;
+  background: linear-gradient(to bottom, #88e228 0%, #4c9400 100%);
 }
 
 .ratingAvg {
   composes: rating;
-  background: #fbff00;
+  background: #f1f165;
+  background: linear-gradient(to bottom, #f1f165 0%, #fec343 100%);
 }
 
 .ratingLow {
   composes: rating;
-  background: #ab0101;
-  color: #fff;
+  background: #ff3019;
+  background: linear-gradient(to bottom, #ff3019 0%, #cf0404 100%);
 }
 
 .cards {
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 2%;
+  bottom: 36%;
   width: 30%;
   height: 15%;
 
