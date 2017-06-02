@@ -1,0 +1,24 @@
+.wrapper {
+  position: absolute;
+  left: 0;
+  background: #000;
+  opacity: 0.5;
+  width: 30%;
+  height: 10%;
+  z-index: 3;
+  padding-left: 20px;
+}
+
+.name {
+  opacity: 1;
+  color: #fff;
+  padding: 7% 0;
+}
+
+.home {
+  top: 0;
+}
+
+.away {
+  bottom: 0;
+}

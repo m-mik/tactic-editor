@@ -1,14 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Grid from './Grid';
-import Title from './Title';
+import Info from './Info';
 import styles from './Team.scss';
 
-const Team = props => (
-  <div className={styles.wrapper}>
-    {props.children}
-  </div>
-);
+const Team = (props) => {
+  const { children, ...rest } = props;
+
+  return (
+    <div className={styles.wrapper}>
+      {React.Children.map(props.children,
+        child => React.cloneElement(child, rest),
+      )}
+    </div>
+  );
+};
 
 Team.defaultProps = {
   children: null,
@@ -19,6 +25,6 @@ Team.propTypes = {
 };
 
 Team.Grid = Grid;
-Team.Title = Title;
+Team.Info = Info;
 
 export default Team;
