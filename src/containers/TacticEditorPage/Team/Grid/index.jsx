@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import times from 'lodash/times';
 import isEqual from 'lodash/isEqual';
 import withDragDropContext from './withDragDropContext';
-import { movePlayer, swapPlayers, selectPlayer } from '../TacticEditorPage/actions';
 import PlayerTile from './PlayerTile';
-import { TEAM_GRID_ID_PREFIX } from '../../services/footballField';
-import styles from './TeamGrid.scss';
+import { TEAM_GRID_ID_PREFIX } from '../../../../services/footballField/index';
+import styles from './Grid.scss';
 
-class TeamGrid extends Component {
+class Grid extends Component {
   constructor() {
     super();
 
@@ -18,27 +16,29 @@ class TeamGrid extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return this.props.selectedPlayerId !== nextProps.selectedPlayerId
+    return this.props.selectedPlayerId !== nextProps.selectedPlayerIdId
       || !isEqual(this.props.team.players, nextProps.team.players);
   }
 
   handleOnPlayerTouchTap(event, id) {
     event.preventDefault();
     if (this.props.selectedPlayerId !== id) {
-      this.props.selectPlayer(id);
+      this.props.onPlayerSelect(id);
     }
   }
 
   renderTile(position, player, team) {
-    return (<PlayerTile
-      key={position}
-      position={position}
-      team={{ id: team.id, shirt: team.shirt }}
-      player={player}
-      onPlayerMove={this.props.movePlayer}
-      onPlayersSwap={this.props.swapPlayers}
-      onPlayerTouchTap={this.handleOnPlayerTouchTap}
-    />);
+    return (
+      <PlayerTile
+        key={position}
+        position={position}
+        team={{ id: team.id, shirt: team.shirt }}
+        player={player}
+        onPlayerMove={this.props.onPlayerMove}
+        onPlayersSwap={this.props.onPlayersSwap}
+        onPlayerTouchTap={this.handleOnPlayerTouchTap}
+      />
+    );
   }
 
   renderTiles() {
@@ -64,7 +64,7 @@ class TeamGrid extends Component {
   }
 }
 
-TeamGrid.propTypes = {
+Grid.propTypes = {
   team: PropTypes.shape({
     id: PropTypes.number.isRequired,
     players: PropTypes.object.isRequired,
@@ -72,18 +72,9 @@ TeamGrid.propTypes = {
   }).isRequired,
   type: PropTypes.oneOf(['home', 'away']).isRequired,
   selectedPlayerId: PropTypes.number.isRequired,
-  movePlayer: PropTypes.func.isRequired,
-  swapPlayers: PropTypes.func.isRequired,
-  selectPlayer: PropTypes.func.isRequired,
+  onPlayerMove: PropTypes.func.isRequired,
+  onPlayersSwap: PropTypes.func.isRequired,
+  onPlayerSelect: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  selectedPlayerId: state.editor.selectedPlayerId,
-});
-
-const ConnectedTeamGrid = connect(
-  mapStateToProps,
-  { movePlayer, swapPlayers, selectPlayer },
-)(TeamGrid);
-
-export default withDragDropContext(ConnectedTeamGrid);
+export default withDragDropContext(Grid);

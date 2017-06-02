@@ -4,11 +4,11 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { fetchTacticIfNeeded } from '../../entities/tacticDetails/actions';
 import { updatePlayer } from '../../entities/players/actions';
-import { selectPlayer } from './actions';
+import { movePlayer, swapPlayers, selectPlayer } from './actions';
 import TacticEditor from '../../components/TacticEditor';
 import FootballField from '../../components/FootballField';
 import PlayerPopover from '../../components/PlayerPopover';
-import TeamGrid from '../TeamGrid';
+import Team from './Team';
 import {
   tacticDetailSelector,
   isFetchingSelector,
@@ -49,12 +49,19 @@ class TacticEditorPage extends Component {
         {this.renderErrorMessage()}
         <TacticEditor loading={isFetching} tactic={tactic}>
           <FootballField>
-            {tactic.teams.map((team, index) =>
-              <TeamGrid
-                key={team.id}
-                type={index === 0 ? 'home' : 'away'}
-                team={team}
-              />)}
+            {tactic.teams.map((team, index) => (
+              <Team data={team} key={team.id} index={index}>
+                <Team.Title />
+                <Team.Grid
+                  type={index === 0 ? 'home' : 'away'}
+                  team={team}
+                  onPlayerMove={this.props.movePlayer}
+                  onPlayersSwap={this.props.swapPlayers}
+                  onPlayerSelect={this.props.selectPlayer}
+                  selectedPlayerId={this.props.selectedPlayerId}
+                />
+              </Team>
+            ))}
           </FootballField>
           {selectedPlayer && <PlayerPopover
             player={selectedPlayer}
@@ -76,9 +83,12 @@ TacticEditorPage.defaultProps = {
 TacticEditorPage.propTypes = {
   fetchTacticIfNeeded: PropTypes.func.isRequired,
   selectPlayer: PropTypes.func.isRequired,
+  movePlayer: PropTypes.func.isRequired,
+  swapPlayers: PropTypes.func.isRequired,
   updatePlayer: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
+  selectedPlayerId: PropTypes.number.isRequired,
   tactic: PropTypes.shape({
     teams: PropTypes.arrayOf(PropTypes.object).isRequired,
   }),
@@ -100,13 +110,14 @@ const mapStateToProps = (state) => {
     isFetching: isFetchingSelector(state),
     hasError: hasErrorSelector(state),
     tactic: tacticDetailSelector(state),
+    selectedPlayerId,
     selectedPlayer: state.entities.players.byId[selectedPlayerId],
   };
 };
 
 const ConnectedTacticEditorPage = connect(
   mapStateToProps,
-  { fetchTacticIfNeeded, selectPlayer, updatePlayer },
+  { fetchTacticIfNeeded, movePlayer, swapPlayers, selectPlayer, updatePlayer },
 )(TacticEditorPage);
 
 export default withRouter(ConnectedTacticEditorPage);
