@@ -4,8 +4,8 @@ import { DropTarget } from 'react-dnd';
 import classNames from 'classnames/bind';
 import isEqual from 'lodash/isEqual';
 import ItemTypes from '../ItemTypes';
-import { canDropPlayer } from '../../../../../services/footballField/index';
-import styles from '../Grid.scss';
+import { canDropPlayer } from '../../../../lib/footballField/index';
+import styles from '../TeamGrid.scss';
 
 const cx = classNames.bind(styles);
 

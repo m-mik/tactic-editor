@@ -1,4 +1,4 @@
-import { findTeamGrid } from '../../services/footballField';
+import { findTeamGrid } from '../../lib/footballField';
 import { updatePlayer, updatePlayers } from '../../entities/players/actions';
 import {
   ADD_PLAYER_TRANSITIONS,
