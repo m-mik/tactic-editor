@@ -5,17 +5,25 @@ import PropTypes from 'prop-types';
 import { fetchTacticIfNeeded } from '../../entities/tacticDetails/actions';
 import { updatePlayer } from '../../entities/players/actions';
 import { updateTeam } from '../../entities/teams/actions';
-import { movePlayer, swapPlayers, selectPlayer } from './actions';
+import {
+  movePlayer,
+  swapPlayers,
+  selectPlayer,
+  closeEditTeamDialog,
+  openEditTeamDialog,
+} from './actions';
 import TacticEditor from '../../components/TacticEditor';
 import FootballField from '../../components/FootballField';
 import TeamInfo from '../../components/TeamInfo';
 import PlayerPopover from '../../components/PlayerPopover';
+import EditTeamDialog from '../../components/EditTeamDialog';
 import TeamGrid from './TeamGrid';
 import {
   tacticDetailSelector,
   isFetchingSelector,
   hasErrorSelector,
 } from '../../entities/tacticDetails/selectors';
+import { editedTeamSelector, selectedPlayerSelector } from './selectors';
 import { findPlayerElement } from '../../lib/footballField/index';
 
 class TacticEditorPage extends Component {
@@ -38,6 +46,14 @@ class TacticEditorPage extends Component {
     return hasError && <span className="error">{message}</span>;
   }
 
+  renderTeamInfo(team) {
+    return (<TeamInfo
+      onUpdate={this.props.updateTeam}
+      team={team}
+      openEditTeamDialog={this.props.openEditTeamDialog}
+    />);
+  }
+
   render() {
     // TODO: Add LoadingIndicator
     const { isFetching, tactic, selectedPlayer } = this.props;
@@ -50,7 +66,7 @@ class TacticEditorPage extends Component {
       <section>
         {this.renderErrorMessage()}
         <TacticEditor loading={isFetching} tactic={tactic}>
-          <TeamInfo onUpdate={this.props.updateTeam} team={tactic.teams[0]} />
+          {this.renderTeamInfo(tactic.teams[0])}
           <FootballField>
             {tactic.teams.map((team, index) => (
               <TeamGrid
@@ -70,7 +86,12 @@ class TacticEditorPage extends Component {
             anchorEl={anchorEl}
             onRequestClose={() => this.props.selectPlayer(0)}
           />}
-          <TeamInfo onUpdate={this.props.updateTeam} team={tactic.teams[1]} />
+          {this.renderTeamInfo(tactic.teams[1])}
+          {this.props.editedTeam && <EditTeamDialog
+            onClose={this.props.closeEditTeamDialog}
+            team={this.props.editedTeam}
+            onSubmit={() => console.log('submit')}
+          />}
         </TacticEditor>
       </section>
     );
@@ -80,6 +101,7 @@ class TacticEditorPage extends Component {
 TacticEditorPage.defaultProps = {
   tactic: null,
   selectedPlayer: null,
+  editedTeam: null,
 };
 
 TacticEditorPage.propTypes = {
@@ -88,6 +110,8 @@ TacticEditorPage.propTypes = {
   movePlayer: PropTypes.func.isRequired,
   swapPlayers: PropTypes.func.isRequired,
   updatePlayer: PropTypes.func.isRequired,
+  closeEditTeamDialog: PropTypes.func.isRequired,
+  openEditTeamDialog: PropTypes.func.isRequired,
   updateTeam: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
@@ -95,12 +119,8 @@ TacticEditorPage.propTypes = {
   tactic: PropTypes.shape({
     teams: PropTypes.arrayOf(PropTypes.object).isRequired,
   }),
-  selectedPlayer: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    position: PropTypes.number.isRequired,
-    number: PropTypes.number.isRequired,
-  }),
+  editedTeam: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  selectedPlayer: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
@@ -109,18 +129,27 @@ const mapStateToProps = (state) => {
   const selectedPlayerId = state.editor.selectedPlayerId;
 
   return {
-    selectedTacticId,
     isFetching: isFetchingSelector(state),
     hasError: hasErrorSelector(state),
     tactic: tacticDetailSelector(state),
+    selectedPlayer: selectedPlayerSelector(state),
+    editedTeam: editedTeamSelector(state),
     selectedPlayerId,
-    selectedPlayer: state.entities.players.byId[selectedPlayerId],
+    selectedTacticId,
   };
 };
 
 const ConnectedTacticEditorPage = connect(
-  mapStateToProps,
-  { fetchTacticIfNeeded, movePlayer, swapPlayers, selectPlayer, updatePlayer, updateTeam },
+  mapStateToProps, {
+    fetchTacticIfNeeded,
+    movePlayer,
+    swapPlayers,
+    selectPlayer,
+    updatePlayer,
+    updateTeam,
+    openEditTeamDialog,
+    closeEditTeamDialog,
+  },
 )(TacticEditorPage);
 
 export default withRouter(ConnectedTacticEditorPage);

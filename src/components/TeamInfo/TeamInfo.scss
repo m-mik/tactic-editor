@@ -4,6 +4,7 @@
   z-index: 5;
   padding: 1% 2%;
   background: #000;
+  user-select: none;
 }
 
 .form {
@@ -14,11 +15,15 @@
 
 .nameField > input {
   color: #fff !important;
-  width: 30% !important;
+  width: 100% !important;
 }
 
-.tacticSelect {
-
+.name {
+  color: #fff;
+  font-size: 2.2vmin;
+  white-space: nowrap;
+  opacity: 0.6;
+  cursor: text;
 }
 
 .goals {
@@ -28,12 +33,9 @@
   font-weight: bold;
 }
 
-.name {
-  color: #fff;
-  font-size: 2.2vmin;
-  white-space: nowrap;
-  opacity: 0.6;
-  cursor: text;
+
+.tacticSelect {
+
 }
 
 .colors {

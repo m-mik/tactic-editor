@@ -1,0 +1,21 @@
+.wrapper {
+  & > div {
+    margin-bottom: 2%;
+  }
+}
+
+.shirtOptions {
+  display: flex;
+  flex-direction: row;
+
+  & > div {
+    width: auto !important;
+    padding-right: 5%;
+  }
+}
+
+.player {
+  width: 100px;
+  height: 100px;
+  padding: 0;
+}

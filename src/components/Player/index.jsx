@@ -44,11 +44,19 @@ export default class Player extends Component {
       { ratingLow: rating >= 1 && rating <= 3 },
     );
 
+    const renderRating = () => {
+      if (this.props.rating) {
+        return <span className={playerRatingClassName}>{rating}</span>;
+      }
+
+      return null;
+    };
+
     return (
       <div className={wrapperClassName} {...rest}>
         <span className={styles.shirt} style={shirtStyle}>{number}</span>
         <span className={styles.name}>{name}</span>
-        <span className={playerRatingClassName}>{rating}</span>
+        {renderRating()}
         <div className={styles.cards}>
           {times(cards.yellow).map(index =>
             <YellowCardIcon key={index} className={styles.yellowCard} />,
@@ -74,19 +82,26 @@ export default class Player extends Component {
 
 Player.defaultProps = {
   className: '',
+  name: 'Player Name',
+  number: 1,
+  rating: 0,
+  position: -1,
+  cards: { yellow: 0, red: 0 },
+  goals: 0,
+  assists: 0,
 };
 
 Player.propTypes = {
-  name: PropTypes.string.isRequired,
-  number: PropTypes.number.isRequired,
-  rating: PropTypes.number.isRequired,
-  position: PropTypes.number.isRequired,
+  name: PropTypes.string,
+  number: PropTypes.number,
+  rating: PropTypes.number,
+  position: PropTypes.number,
   cards: PropTypes.shape({
     yellow: PropTypes.number.isRequired,
     red: PropTypes.number.isRequired,
-  }).isRequired,
-  goals: PropTypes.number.isRequired,
-  assists: PropTypes.number.isRequired,
+  }),
+  goals: PropTypes.number,
+  assists: PropTypes.number,
   team: PropTypes.shape({
     shirt: PropTypes.shape({
       border: PropTypes.object.isRequired,

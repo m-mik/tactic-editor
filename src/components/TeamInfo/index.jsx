@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import IconButton from 'material-ui/IconButton';
-import ColorLensIcon from 'material-ui/svg-icons/image/color-lens';
+import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import { white } from 'material-ui/styles/colors';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
+
 import styles from './TeamInfo.scss';
 
 export default class TeamInfo extends Component {
@@ -42,7 +43,7 @@ export default class TeamInfo extends Component {
       />);
     }
 
-    return (<span
+    return (<span // eslint-disable-line jsx-a11y/no-static-element-interactions
       onClick={() => this.setState({ isEditing: true })}
       className={styles.name}
     >
@@ -61,8 +62,11 @@ export default class TeamInfo extends Component {
         <form className={styles.form} onSubmit={this.disableEditing}>
           <span className={styles.goals}>{teamGoals}</span>
           {this.renderTeamName(team)}
-          <IconButton className={styles.colors}>
-            <ColorLensIcon color={white} />
+          <IconButton
+            className={styles.colors}
+            onTouchTap={() => this.props.openEditTeamDialog(team.id)}
+          >
+            <EditIcon color={white} />
           </IconButton>
           <SelectField
             style={{ marginLeft: 10 }}
@@ -85,4 +89,5 @@ TeamInfo.propTypes = {
     name: PropTypes.string,
   }).isRequired,
   onUpdate: PropTypes.func.isRequired,
+  openEditTeamDialog: PropTypes.func.isRequired,
 };
