@@ -54,44 +54,60 @@ class TacticEditorPage extends Component {
     />);
   }
 
+  renderFootballField() {
+    return (
+      <FootballField>
+        {this.props.tactic.teams.map((team, index) => (
+          <TeamGrid
+            key={team.id}
+            type={index === 0 ? 'home' : 'away'}
+            team={team}
+            onPlayerMove={this.props.movePlayer}
+            onPlayersSwap={this.props.swapPlayers}
+            onPlayerSelect={this.props.selectPlayer}
+            selectedPlayerId={this.props.selectedPlayerId}
+          />
+        ))}
+      </FootballField>
+    );
+  }
+
+  renderPlayerPopover() {
+    const { selectedPlayer, tactic } = this.props;
+    const anchorEl = selectedPlayer ? findPlayerElement(tactic.teams, selectedPlayer) : null;
+    return (
+      selectedPlayer && <PlayerPopover
+        player={selectedPlayer}
+        onPlayerChange={this.props.updatePlayer}
+        anchorEl={anchorEl}
+        onRequestClose={() => this.props.selectPlayer(0)}
+      />
+    );
+  }
+
+  renderTeamDialog() {
+    return this.props.editedTeam && <EditTeamDialog
+      onClose={this.props.closeEditTeamDialog}
+      team={this.props.editedTeam}
+      onConfirm={this.props.updateTeam}
+    />;
+  }
+
   render() {
     // TODO: Add LoadingIndicator
-    const { isFetching, tactic, selectedPlayer } = this.props;
+    const { isFetching, tactic } = this.props;
     if (isFetching) return <div>Fetching...</div>;
     if (!tactic) return <div>Waiting...</div>;
-
-    const anchorEl = selectedPlayer ? findPlayerElement(tactic.teams, selectedPlayer) : null;
 
     return (
       <section>
         {this.renderErrorMessage()}
         <TacticEditor loading={isFetching} tactic={tactic}>
           {this.renderTeamInfo(tactic.teams[0])}
-          <FootballField>
-            {tactic.teams.map((team, index) => (
-              <TeamGrid
-                key={team.id}
-                type={index === 0 ? 'home' : 'away'}
-                team={team}
-                onPlayerMove={this.props.movePlayer}
-                onPlayersSwap={this.props.swapPlayers}
-                onPlayerSelect={this.props.selectPlayer}
-                selectedPlayerId={this.props.selectedPlayerId}
-              />
-            ))}
-          </FootballField>
-          {selectedPlayer && <PlayerPopover
-            player={selectedPlayer}
-            onPlayerChange={this.props.updatePlayer}
-            anchorEl={anchorEl}
-            onRequestClose={() => this.props.selectPlayer(0)}
-          />}
+          {this.renderFootballField()}
+          {this.renderPlayerPopover()}
           {this.renderTeamInfo(tactic.teams[1])}
-          {this.props.editedTeam && <EditTeamDialog
-            onClose={this.props.closeEditTeamDialog}
-            team={this.props.editedTeam}
-            onSubmit={() => console.log('submit')}
-          />}
+          {this.renderTeamDialog()};
         </TacticEditor>
       </section>
     );

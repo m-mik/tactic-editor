@@ -13,10 +13,6 @@ import styles from './DraggablePlayer.scss';
 const cx = classNames.bind(styles);
 
 class DraggablePlayer extends Component {
-  shouldComponentUpdate(nextProps) {
-    return !isEqual(this.props, nextProps);
-  }
-
   render() {
     const {
       connectDragSource,

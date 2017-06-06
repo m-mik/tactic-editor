@@ -16,8 +16,8 @@ class Grid extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return this.props.selectedPlayerId !== nextProps.selectedPlayerIdId
-      || !isEqual(this.props.team.players, nextProps.team.players);
+    return this.props.selectedPlayerId !== nextProps.selectedPlayerId
+      || !isEqual(this.props.team, nextProps.team);
   }
 
   handleOnPlayerTouchTap(event, id) {
