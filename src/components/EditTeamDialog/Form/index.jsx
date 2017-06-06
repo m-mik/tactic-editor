@@ -77,9 +77,8 @@ class Form extends Component {
       className={styles.shirtColorOptions}
       onChange={this.handleShirtColorOptionChange}
     >
-      <RadioButton value="backgroundColor" label="Background" />
-      <RadioButton value="borderColor" label="Foreground" />
-      <RadioButton value="textColor" label="Text" />
+      {['Background', 'Border', 'Text'].map(item =>
+        <RadioButton key={item} value={`${item.toLocaleLowerCase()}Color`} label={item} />)}
     </Field>);
   }
 

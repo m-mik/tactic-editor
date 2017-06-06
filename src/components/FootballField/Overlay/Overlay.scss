@@ -12,6 +12,7 @@
   height: $line-size;
   background: $line-color;
   transform: translate(0, -50%);
+  z-index: 3;
 }
 
 .goals {
@@ -109,6 +110,7 @@
     height: 8%;
     transform: translate(-50%, -50%);
     border-radius: 50%;
+    z-index: 2;
   }
 
   .dot {

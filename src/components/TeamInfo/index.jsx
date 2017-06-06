@@ -6,7 +6,7 @@ import { white } from 'material-ui/styles/colors';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
-
+import Color from 'color';
 import styles from './TeamInfo.scss';
 
 export default class TeamInfo extends Component {
@@ -46,37 +46,55 @@ export default class TeamInfo extends Component {
     return (<span // eslint-disable-line jsx-a11y/no-static-element-interactions
       onClick={() => this.setState({ isEditing: true })}
       className={styles.name}
+      style={{ color: team.shirt.textColor }}
     >
       {team.name}
     </span>);
   }
 
+  renderTacticList() { // eslint-disable-line class-methods-use-this
+    return (
+      <SelectField
+        style={{ marginLeft: 10 }}
+        labelStyle={{ color: '#fff' }}
+        className={styles.tacticSelect}
+        value={1}
+      >
+        <MenuItem value={1} primaryText="4-4-2" />
+        <MenuItem value={2} primaryText="4-4-1-1" />
+      </SelectField>
+    );
+  }
+
+  renderIcons() {
+    return (
+      <IconButton
+        className={styles.colors}
+        onTouchTap={() => this.props.openEditTeamDialog(this.props.team.id)}
+      >
+        <EditIcon color={white} />
+      </IconButton>
+    );
+  }
+
   render() {
     const { team } = this.props;
-
     const teamGoals = Object.keys(team.players)
       .reduce((goals, key) => goals + team.players[key].goals, 0);
 
+    const color = Color(team.shirt.backgroundColor);
+    const background = `linear-gradient(to bottom, ${color}, ${color.darken(0.8)})`;
+    const wrapperStyle = {
+      background,
+    };
+
     return (
-      <div className={styles.wrapper}>
+      <div className={styles.wrapper} style={wrapperStyle}>
         <form className={styles.form} onSubmit={this.disableEditing}>
           <span className={styles.goals}>{teamGoals}</span>
           {this.renderTeamName(team)}
-          <IconButton
-            className={styles.colors}
-            onTouchTap={() => this.props.openEditTeamDialog(team.id)}
-          >
-            <EditIcon color={white} />
-          </IconButton>
-          <SelectField
-            style={{ marginLeft: 10 }}
-            labelStyle={{ color: '#fff' }}
-            className={styles.tacticSelect}
-            value={1}
-          >
-            <MenuItem value={1} primaryText="4-4-2" />
-            <MenuItem value={2} primaryText="4-4-1-1" />
-          </SelectField>
+          {this.renderIcons()}
+          {this.renderTacticList()}
         </form>
       </div>
     );
