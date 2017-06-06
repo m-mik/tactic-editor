@@ -7,6 +7,7 @@
 .shirtColorOptions {
   display: flex;
   flex-direction: row;
+  margin: 4% 0;
 
   & > div {
     width: auto !important;
@@ -19,9 +20,15 @@
   height: 100px;
   padding: 0;
   z-index: 2;
-  margin: 50px auto;
+  margin: 75px auto;
 }
 
 .playerPreview {
-  width: 120px;
+  width: 150px;
+  margin-left: 5px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 0 2px, rgba(0, 0, 0, 0.3) 0 4px 8px;
+}
+
+.colorPicker {
+  display: flex;
 }

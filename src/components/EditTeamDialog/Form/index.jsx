@@ -6,6 +6,7 @@ import { SelectField, TextField, RadioButtonGroup } from 'redux-form-material-ui
 import { ChromePicker } from 'react-color';
 import MenuItem from 'material-ui/MenuItem';
 import RadioButton from 'material-ui/RadioButton';
+import Divider from 'material-ui/Divider';
 import throttle from 'lodash/throttle';
 import FootballField from '../../FootballField';
 import Player from '../../Player';
@@ -50,7 +51,7 @@ class Form extends Component {
     />);
   }
 
-  renderPlayer() {
+  renderPreview() {
     const { textColor, backgroundColor, borderStyle, borderColor } = this.props.newValues;
 
     return (
@@ -118,13 +119,11 @@ class Form extends Component {
           {this.renderNameField()}
         </div>
         <div>
-          {this.renderPlayer()}
-        </div>
-        <div>
           {this.renderShirtColorOptions()}
-        </div>
-        <div>
-          {this.renderColorPicker()}
+          <div className={styles.colorPicker}>
+            {this.renderColorPicker()}
+            {this.renderPreview()}
+          </div>
         </div>
         <div>
           {this.renderShirtStyle()}

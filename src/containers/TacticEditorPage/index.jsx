@@ -107,7 +107,7 @@ class TacticEditorPage extends Component {
           {this.renderFootballField()}
           {this.renderPlayerPopover()}
           {this.renderTeamInfo(tactic.teams[1])}
-          {this.renderTeamDialog()};
+          {this.renderTeamDialog()}
         </TacticEditor>
       </section>
     );
