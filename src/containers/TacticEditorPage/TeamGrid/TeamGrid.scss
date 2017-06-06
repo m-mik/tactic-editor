@@ -7,7 +7,6 @@
   flex-wrap: wrap;
   padding: 0 3%;
   position: relative;
-  z-index: 3;
   touch-action: none;
 
   > div {
@@ -18,7 +17,7 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    z-index: -1;
+    z-index: 3;
   }
 
   > .fullWidthTile {
