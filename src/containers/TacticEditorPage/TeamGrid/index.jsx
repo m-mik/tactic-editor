@@ -4,14 +4,14 @@ import times from 'lodash/times';
 import isEqual from 'lodash/isEqual';
 import withDragDropContext from './withDragDropContext';
 import PlayerTile from './PlayerTile';
-import { TEAM_GRID_ID_PREFIX } from '../../../lib/footballField';
+import { TEAM_GRID_ID_PREFIX, TILES_COUNT } from '../../../lib/footballField';
 import styles from './TeamGrid.scss';
 
 class Grid extends Component {
   constructor() {
     super();
 
-    this.tilesCount = 36;
+    this.tilesCount = TILES_COUNT;
     this.handleOnPlayerTouchTap = this.handleOnPlayerTouchTap.bind(this);
   }
 

@@ -8,6 +8,7 @@ import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import Color from 'color';
 import tactics from './tactics.json';
+import { getFormationText, getFormation } from '../../lib/footballField';
 import styles from './TeamInfo.scss';
 
 export default class TeamInfo extends Component {
@@ -28,6 +29,7 @@ export default class TeamInfo extends Component {
   }
 
   handleTacticChange(event, index, value) {
+    if (value === 0) return;
     const tactic = tactics[value];
     const { team, onPlayerPositionChange } = this.props;
     const { players } = team;
@@ -67,18 +69,24 @@ export default class TeamInfo extends Component {
     </span>);
   }
 
-
   renderTacticList() { // eslint-disable-line class-methods-use-this
+    const formation = getFormation(this.props.team.players);
+    const formationText = getFormationText(formation);
+
     return (
       <SelectField
         onChange={this.handleTacticChange}
         labelStyle={{ color: '#fff' }}
         className={styles.tacticSelect}
-        value={1}
+        value={0}
       >
+        <MenuItem value={0} primaryText={formationText} />
         {Object.keys(tactics).map((key) => {
           const tactic = tactics[key];
-          return <MenuItem key={tactic.id} value={tactic.id} primaryText={tactic.name} />;
+          if (formationText !== tactic.name) {
+            return <MenuItem key={tactic.id} value={tactic.id} primaryText={tactic.name} />;
+          }
+          return null;
         })}
       </SelectField>
     );
@@ -123,6 +131,7 @@ TeamInfo.propTypes = {
   team: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
+    players: PropTypes.object,
   }).isRequired,
   onUpdate: PropTypes.func.isRequired,
   openEditTeamDialog: PropTypes.func.isRequired,

@@ -1,6 +1,8 @@
 import { findDOMNode } from 'react-dom';
 
 export const TEAM_GRID_ID_PREFIX = 'team-grid';
+export const TILES_COUNT = 36;
+export const TILES_PER_LINE = (TILES_COUNT - 1) / 5;
 
 export const findTeamGrid = (teamId) => {
   const teamGridId = `#${TEAM_GRID_ID_PREFIX}-${teamId}`;
@@ -83,3 +85,15 @@ export const canDropPlayer = (draggedPlayer, target) => {
   const isNewPosition = draggedPlayer.position !== target.position;
   return sameTeam && isNewPosition;
 };
+
+export const getFormation = players =>
+  Object.keys(players).reduce((result, pos) => {
+    if (Number(pos) === 0) return result;
+    const line = Math.ceil(pos / TILES_PER_LINE);
+    const currentCount = result[line] || 0;
+    const newLine = { [line]: currentCount + 1 };
+    return { ...result, ...newLine };
+  }, {});
+
+export const getFormationText = formation =>
+  Object.keys(formation).map(key => formation[key]).join('-');
