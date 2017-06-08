@@ -32,6 +32,7 @@ export const tacticDetailSelector = createSelector(
   [getTacticDetails, getTeams, getPlayers, getSelectedTacticId, getPlayerTransitions],
   (tacticDetails, teams, players, selectedTacticId, playerTransitions) => {
     const entities = { tacticDetails, teams, players };
+    if (!Object.keys(entities.teams.byId).length) return null;
     const denormalized = denormalize(
       selectedTacticId,
       tacticDetailSchema,
