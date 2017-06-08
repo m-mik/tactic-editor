@@ -1,0 +1,20 @@
+@mixin absoluteCenter() {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.loadingIndicator {
+  @include absoluteCenter;
+}
+
+.errorMessage {
+  @include absoluteCenter;
+  width: 80%;
+  opacity: 0.8;
+  color: #fff;
+  text-align: center;
+  font-size: 4vmin;
+  z-index: 5;
+}
