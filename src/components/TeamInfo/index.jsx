@@ -31,15 +31,8 @@ export default class TeamInfo extends Component {
   handleTacticChange(event, index, value) {
     if (value === 0) return;
     const formation = formations[value];
-    const { team, onPlayerPositionChange } = this.props;
-    const { players } = team;
-    Object.keys(players).sort((a, b) => a - b).forEach((pos, i) => {
-      const player = players[pos];
-      const targetPos = formation.positions[i];
-      if (player.position !== targetPos) {
-        onPlayerPositionChange({ ...player, team: { id: team.id } }, targetPos);
-      }
-    });
+    const { team, onFormationChange } = this.props;
+    onFormationChange(team, formation);
   }
 
   disableEditing(e) {
@@ -141,5 +134,5 @@ TeamInfo.propTypes = {
   }).isRequired,
   onUpdate: PropTypes.func.isRequired,
   openEditTeamDialog: PropTypes.func.isRequired,
-  onPlayerPositionChange: PropTypes.func.isRequired,
+  onFormationChange: PropTypes.func.isRequired,
 };

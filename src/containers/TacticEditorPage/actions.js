@@ -48,3 +48,14 @@ export const selectPlayer = id => ({
   type: SELECT_PLAYER,
   payload: id,
 });
+
+export const updateFormation = (team, formation) => (dispatch) => {
+  const { players } = team;
+  Object.keys(players).sort((a, b) => a - b).forEach((pos, i) => {
+    const player = players[pos];
+    const targetPos = formation.positions[i];
+    if (player.position !== targetPos) {
+      dispatch(movePlayer({ ...player, team: { id: team.id } }, targetPos));
+    }
+  });
+};
