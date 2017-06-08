@@ -5,6 +5,8 @@ import tacticSchema from './schema';
 import teamSchema from '../teams/schema';
 import { receiveEntity, selectTactic, handleError } from '../../containers/App/actions';
 import { closeCreateTacticDialog } from '../../containers/Sidebar/actions';
+import { updateFormation } from '../../containers/TacticEditorPage/actions';
+import formations from '../../lib/footballField/formations.json';
 
 export const createTactic = data => dispatch =>
   dispatch({
@@ -17,6 +19,7 @@ export const createTactic = data => dispatch =>
     dispatch(selectTactic(id));
     dispatch(closeCreateTacticDialog());
     dispatch(reset('createTacticForm'));
+    teams.forEach(team => dispatch(updateFormation(team, formations[1])));
   }).catch(error => dispatch(handleError(error)));
 
 export const fetchTactics = () => dispatch =>
