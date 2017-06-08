@@ -9,6 +9,7 @@ import TextField from 'material-ui/TextField';
 import Color from 'color';
 import formations from '../../lib/footballField/formations.json';
 import { getFormationText, getFormation } from '../../lib/footballField';
+import defaultTeam from '../../lib/footballField/defaultTeam.json';
 import styles from './TeamInfo.scss';
 
 export default class TeamInfo extends Component {
@@ -40,7 +41,8 @@ export default class TeamInfo extends Component {
     this.setState({ isEditing: false });
   }
 
-  renderTeamName(team) {
+  renderTeamName() {
+    const { team } = this.props;
     if (this.state.isEditing) {
       return (<TextField
         className={styles.nameField}
@@ -54,7 +56,7 @@ export default class TeamInfo extends Component {
     }
 
     return (<span // eslint-disable-line jsx-a11y/no-static-element-interactions
-      onClick={() => this.setState({ isEditing: true })}
+      onClick={() => team.id && this.setState({ isEditing: true })}
       className={styles.name}
       style={{ color: team.shirt.textColor }}
     >
@@ -63,6 +65,7 @@ export default class TeamInfo extends Component {
   }
 
   renderTacticList() { // eslint-disable-line class-methods-use-this
+    if (!this.props.team.id) return null;
     const currentFormation = getFormation(this.props.team.players);
     const formationText = getFormationText(currentFormation);
 
@@ -90,6 +93,7 @@ export default class TeamInfo extends Component {
   }
 
   renderIcons() {
+    if (!this.props.team.id) return null;
     return (
       <IconButton
         className={styles.colors}
@@ -100,24 +104,23 @@ export default class TeamInfo extends Component {
     );
   }
 
-  render() {
+  renderGoals() {
     const { team } = this.props;
-    if (!team) return null;
-
     const teamGoals = Object.keys(team.players)
       .reduce((goals, key) => goals + team.players[key].goals, 0);
+    return <span className={styles.goals}>{teamGoals}</span>;
+  }
 
+  render() {
+    const { team } = this.props;
     const color = Color(team.shirt.backgroundColor);
     const background = `linear-gradient(to bottom, ${color}, ${color.darken(0.8)})`;
-    const wrapperStyle = {
-      background,
-    };
 
     return (
-      <div className={styles.wrapper} style={wrapperStyle}>
+      <div className={styles.wrapper} style={{ background }}>
         <form className={styles.form} onSubmit={this.disableEditing}>
-          <span className={styles.goals}>{teamGoals}</span>
-          {this.renderTeamName(team)}
+          {this.renderGoals()}
+          {this.renderTeamName()}
           {this.renderIcons()}
           {this.renderTacticList()}
         </form>
@@ -125,6 +128,10 @@ export default class TeamInfo extends Component {
     );
   }
 }
+
+TeamInfo.defaultProps = {
+  team: defaultTeam,
+};
 
 TeamInfo.propTypes = {
   team: PropTypes.shape({

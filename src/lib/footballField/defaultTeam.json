@@ -1,0 +1,13 @@
+{
+  "id": 0,
+  "name": "Team",
+  "players": {},
+  "shirt": {
+    "border": {
+      "color": "#5b5b5b",
+      "style": "solid"
+    },
+    "backgroundColor": "#fff",
+    "textColor": "#130d00"
+  }
+}
