@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Paper from 'material-ui/Paper';
 import * as tacticActions from '../../entities/tactics/actions';
 import * as sidebarActions from './actions';
 import * as appActions from '../App/actions';
@@ -32,7 +33,7 @@ class Sidebar extends Component {
     } = this.props;
 
     return (
-      <div className={style.wrapper}>
+      <Paper zDepth={2} className={style.wrapper}>
         <CreateTacticButton onTouchTap={openCreateTacticDialog} />
         <TacticList
           tactics={tactics}
@@ -46,7 +47,7 @@ class Sidebar extends Component {
           open={isCreateTacticDialogOpen}
           pending={isCreatingTactic}
         />
-      </div>
+      </Paper>
     );
   }
 }
