@@ -8,6 +8,7 @@ import TeamInfo from '../../components/TeamInfo';
 import PlayerPopover from '../../components/PlayerPopover';
 import EditTeamDialog from '../../components/EditTeamDialog';
 import LoadingIndicator from '../../components/LoadingIndicator';
+import TacticSettings from '../../components/TacticSettings';
 import TeamGrid from './TeamGrid';
 import { findPlayerElement } from '../../lib/footballField/index';
 import { editedTeamSelector, selectedPlayerSelector } from './selectors';
@@ -76,7 +77,7 @@ class TacticEditorPage extends Component {
             onPlayerSelect={this.props.selectPlayer}
             selectedPlayerId={this.props.selectedPlayerId}
           />
-        ))}
+          ))}
       </FootballField>
     );
   }
@@ -102,6 +103,10 @@ class TacticEditorPage extends Component {
     />;
   }
 
+  renderTacticSettings() {
+    return <TacticSettings />;
+  }
+
   render() {
     return (
       <section>
@@ -111,6 +116,7 @@ class TacticEditorPage extends Component {
           {this.renderPlayerPopover()}
           {this.renderTeamInfo(1)}
           {this.renderTeamDialog()}
+          {this.renderTacticSettings()}
         </TacticEditor>
       </section>
     );

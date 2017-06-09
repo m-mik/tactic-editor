@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { RaisedButton } from 'material-ui';
-import FontIcon from 'material-ui/FontIcon';
+import AddIcon from 'material-ui/svg-icons/av/add-to-queue';
 
 const CreateTacticButton = ({ onTouchTap }) => (
   <RaisedButton
     fullWidth label="Create Tactic"
     primary
-    icon={<FontIcon className="material-icons">add_circle</FontIcon>}
+    icon={<AddIcon />}
     onTouchTap={onTouchTap}
   />
 );
