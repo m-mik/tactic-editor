@@ -2,6 +2,11 @@
   {
     "id": 1,
     "name": "Barcelona vs Real M.",
+    "options": {
+      "showGrid": false,
+      "showRatings": true,
+      "showNumbers": true
+    },
     "teams": [
       {
         "id": 1,

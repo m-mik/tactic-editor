@@ -4,7 +4,6 @@ import pick from 'lodash/pick';
 import times from 'lodash/times';
 import MockAdapter from 'axios-mock-adapter';
 import tactics from './tactics.json';
-import formations from '../../lib/footballField/formations.json';
 import defaultTeam from '../../lib/footballField/defaultTeam.json';
 
 const mockApi = () => {
@@ -40,11 +39,11 @@ const mockApi = () => {
     assists: 0,
   });
 
-  const generateTeam = () => {
-    return { ...defaultTeam, id: nextId('teams'), players: times(11, generatePlayer) };
-  };
+  const generateTeam = () => ({
+    ...defaultTeam, id: nextId('teams'), players: times(11, generatePlayer),
+  });
 
-  mock.onGet('/tactics').reply(200, tactics.map(tactic => omit(tactic, ['teams'])));
+  mock.onGet('/tactics').reply(200, tactics.map(tactic => omit(tactic, ['teams', 'options'])));
 
   mock.onGet(/\/tactics\/\d+/).reply((config) => {
     const id = +config.url.split('/').pop();
@@ -52,7 +51,7 @@ const mockApi = () => {
     if (!tactic) {
       return [404, []];
     }
-    return [200, pick(tactic, ['id', 'teams'])];
+    return [200, pick(tactic, ['id', 'teams', 'options'])];
   });
 
   mock.onPost('/tactics').reply(() => [201, {
