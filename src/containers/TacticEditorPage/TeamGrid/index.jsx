@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import times from 'lodash/times';
 import isEqual from 'lodash/isEqual';
+import classNames from 'classnames/bind';
 import withDragDropContext from './withDragDropContext';
 import PlayerTile from './PlayerTile';
 import { TEAM_GRID_ID_PREFIX, TILES_COUNT } from '../../../lib/footballField';
 import styles from './TeamGrid.scss';
+
+const cx = classNames.bind(styles);
 
 class Grid extends Component {
   constructor() {
@@ -17,6 +20,7 @@ class Grid extends Component {
 
   shouldComponentUpdate(nextProps) {
     return this.props.selectedPlayerId !== nextProps.selectedPlayerId
+      || !isEqual(this.props.options, nextProps.options)
       || !isEqual(this.props.team, nextProps.team);
   }
 
@@ -28,11 +32,14 @@ class Grid extends Component {
   }
 
   renderTile(position, player, team) {
+    const { showRatings, showNumbers } = this.props.options;
     return (
       <PlayerTile
         key={position}
         position={position}
         team={{ id: team.id, shirt: team.shirt }}
+        showRating={showRatings}
+        showNumber={showNumbers}
         player={player}
         onPlayerMove={this.props.onPlayerMove}
         onPlayersSwap={this.props.onPlayersSwap}
@@ -51,10 +58,16 @@ class Grid extends Component {
   }
 
   render() {
+    const { options } = this.props;
+    const wrapperStyle = cx({
+      wrapper: true,
+      grid: options.showGrid,
+    });
+
     return (
       <div
         id={`${TEAM_GRID_ID_PREFIX}-${this.props.team.id}`}
-        className={styles.wrapper}
+        className={wrapperStyle}
         data-grid-type={this.props.type}
         onContextMenu={event => event.preventDefault()}
       >
@@ -71,6 +84,11 @@ Grid.propTypes = {
     shirt: PropTypes.object.isRequired,
   }).isRequired,
   type: PropTypes.oneOf(['home', 'away']).isRequired,
+  options: PropTypes.shape({
+    showGrid: PropTypes.bool.isRequired,
+    showNumbers: PropTypes.bool.isRequired,
+    showRatings: PropTypes.bool.isRequired,
+  }).isRequired,
   selectedPlayerId: PropTypes.number.isRequired,
   onPlayerMove: PropTypes.func.isRequired,
   onPlayersSwap: PropTypes.func.isRequired,

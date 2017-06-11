@@ -15,7 +15,18 @@ const cx = classNames.bind(styles);
 export default class Player extends Component {
   render() {
     const {
-      name, position, number, team, className, rating, cards, assists, goals, ...rest
+      name,
+      position,
+      number,
+      team,
+      className,
+      rating,
+      cards,
+      assists,
+      goals,
+      showNumber,
+      showRating,
+      ...rest
     } = this.props;
     const { border, backgroundColor, textColor } = team.shirt;
     const isGoalkeeper = position === 0;
@@ -45,16 +56,15 @@ export default class Player extends Component {
     );
 
     const renderRating = () => {
-      if (this.props.rating) {
+      if (showRating) {
         return <span className={playerRatingClassName}>{rating}</span>;
       }
-
       return null;
     };
 
     return (
       <div className={wrapperClassName} {...rest}>
-        <span className={styles.shirt} style={shirtStyle}>{number}</span>
+        <span className={styles.shirt} style={shirtStyle}>{showNumber && number}</span>
         <span className={styles.name}>{name}</span>
         {renderRating()}
         <div className={styles.cards}>
@@ -89,6 +99,8 @@ Player.defaultProps = {
   cards: { yellow: 0, red: 0 },
   goals: 0,
   assists: 0,
+  showNumber: true,
+  showRating: true,
 };
 
 Player.propTypes = {
@@ -109,6 +121,8 @@ Player.propTypes = {
       textColor: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  showNumber: PropTypes.bool,
+  showRating: PropTypes.bool,
   className: PropTypes.string,
 };
 

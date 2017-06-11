@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_TACTIC } from './constants';
+import { FETCH_TACTIC, UPDATE_TACTIC } from './constants';
 import tacticDetailSchema from '../tacticDetails/schema';
 import { isFetchingSelector } from '../../entities/tacticDetails/selectors';
 import { handleError } from '../../containers/App/actions';
@@ -28,3 +28,14 @@ export const fetchTacticIfNeeded = id => (dispatch, getState) => {
   }
   return Promise.resolve();
 };
+
+export const updateTactic = (id, tacticData) => ({
+  type: UPDATE_TACTIC,
+  payload: {
+    data: { id, ...tacticData },
+  },
+  meta: {
+    schema: tacticDetailSchema,
+    data: { id },
+  },
+});
