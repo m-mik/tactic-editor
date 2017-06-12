@@ -37,8 +37,8 @@ const errors = (state = [], action) => {
 const byId = (state = {}, action) => {
   switch (action.type) {
     case CREATE_TACTIC_FULFILLED: {
-      const { teams, id } = action.payload.data;
-      return { ...state, [id]: { id, teams: teams.map(team => team.id) } };
+      const { teams, id, options } = action.payload.data;
+      return { ...state, [id]: { id, options, teams: teams.map(team => team.id) } };
     }
     default:
       return state;

@@ -57,6 +57,14 @@ const mockApi = () => {
   mock.onPost('/tactics').reply(() => [201, {
     id: nextId('tactics'),
     teams: times(2, generateTeam),
+    options: {
+      showGrid: false,
+      showRatings: true,
+      showNumbers: true,
+      showCards: true,
+      showGoals: true,
+      showAssists: true,
+    },
   }]);
 };
 

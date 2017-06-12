@@ -5,7 +5,10 @@
     "options": {
       "showGrid": false,
       "showRatings": true,
-      "showNumbers": true
+      "showNumbers": true,
+      "showCards": true,
+      "showGoals": true,
+      "showAssists": true
     },
     "teams": [
       {
