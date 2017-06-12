@@ -32,14 +32,30 @@ class Grid extends Component {
   }
 
   renderTile(position, player, team) {
-    const { showRatings, showNumbers } = this.props.options;
+    const {
+      showName,
+      showRatings,
+      showNumbers,
+      showCards,
+      showGoals,
+      showAssists,
+    } = this.props.options;
+
+    const show = {
+      name: showName,
+      rating: showRatings,
+      number: showNumbers,
+      cards: showCards,
+      goals: showGoals,
+      assists: showAssists,
+    };
+
     return (
       <PlayerTile
         key={position}
         position={position}
         team={{ id: team.id, shirt: team.shirt }}
-        showRating={showRatings}
-        showNumber={showNumbers}
+        show={show}
         player={player}
         onPlayerMove={this.props.onPlayerMove}
         onPlayersSwap={this.props.onPlayersSwap}
@@ -86,8 +102,12 @@ Grid.propTypes = {
   type: PropTypes.oneOf(['home', 'away']).isRequired,
   options: PropTypes.shape({
     showGrid: PropTypes.bool.isRequired,
+    showName: PropTypes.bool.isRequired,
     showNumbers: PropTypes.bool.isRequired,
     showRatings: PropTypes.bool.isRequired,
+    showCards: PropTypes.bool.isRequired,
+    showGoals: PropTypes.bool.isRequired,
+    showAssists: PropTypes.bool.isRequired,
   }).isRequired,
   selectedPlayerId: PropTypes.number.isRequired,
   onPlayerMove: PropTypes.func.isRequired,
