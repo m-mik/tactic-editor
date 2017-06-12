@@ -29,19 +29,24 @@ export const movePlayer = (player, newPosition) => (dispatch) => {
   setTimeout(() => dispatch(removePlayerTransitions([player.id])), 0);
 };
 
+export const movePlayers = data => (dispatch) => {
+  const playerTransData = data.reduce((result, item) => {
+    const { player, targetPos } = item;
+    const offset = findTeamGrid(player.team.id)
+      .findTileOffset({ from: player.position, to: targetPos });
+    return { ...result, [player.id]: offset };
+  }, {});
+  dispatch(addPlayerTransitions(playerTransData));
+  const playerPosData = data.map(item => ({ id: item.player.id, position: item.targetPos }));
+  dispatch(updatePlayers(playerPosData));
+  setTimeout(() => dispatch(removePlayerTransitions(Object.keys(playerTransData))), 0);
+};
+
 export const swapPlayers = (p1, p2) => (dispatch) => {
-  const { left, top } = findTeamGrid(p1.team.id).findTileOffset(
-    { from: p1.position, to: p2.position },
-  );
-  dispatch(addPlayerTransitions({
-    [p1.id]: { left, top },
-    [p2.id]: { left: -left, top: -top },
-  }));
-  dispatch(updatePlayers([
-    { id: p1.id, position: p2.position },
-    { id: p2.id, position: p1.position },
+  dispatch(movePlayers([
+    { player: p1, targetPos: p2.position },
+    { player: p2, targetPos: p1.position },
   ]));
-  setTimeout(() => dispatch(removePlayerTransitions([p1.id, p2.id])), 0);
 };
 
 export const selectPlayer = id => ({
@@ -51,11 +56,16 @@ export const selectPlayer = id => ({
 
 export const updateFormation = (team, formation) => (dispatch) => {
   const { players } = team;
+  const playerData = [];
   Object.keys(players).sort((a, b) => a - b).forEach((pos, i) => {
     const player = players[pos];
     const targetPos = formation.positions[i];
     if (player.position !== targetPos) {
-      dispatch(movePlayer({ ...player, team: { id: team.id } }, targetPos));
+      playerData.push({
+        player: { ...player, team: { id: team.id } },
+        targetPos,
+      });
     }
   });
+  dispatch(movePlayers(playerData));
 };
