@@ -1,4 +1,4 @@
-const validate = (values) => {
+export const validate = (values) => {
   const errors = {};
   const { name } = values;
   const length = { min: 1, max: 30 };
@@ -8,4 +8,4 @@ const validate = (values) => {
   return errors;
 };
 
-export default validate;
+export const isValid = values => Object.keys(validate(values)).length === 0;
