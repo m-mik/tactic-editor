@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
 import RaisedButton from 'material-ui/RaisedButton';
+
 import { isValid } from '../../shared/validation/tactic';
 import styles from './TacticSettings.scss';
 
 const TacticSettings = (props) => {
-  const { onSettingChange } = props;
+  const { onSettingChange, onDeleteTacticTouchTap } = props;
   const { id, name, options } = props.tactic;
   const {
     showGrid,
@@ -51,7 +52,7 @@ const TacticSettings = (props) => {
         {renderOptions()}
       </div>
       <RaisedButton label="Save" primary />
-      <RaisedButton label="Delete" secondary />
+      <RaisedButton onTouchTap={onDeleteTacticTouchTap} label="Delete" secondary />
     </div>
   );
 };
@@ -71,6 +72,7 @@ TacticSettings.propTypes = {
     }).isRequired,
   }).isRequired,
   onSettingChange: PropTypes.func.isRequired,
+  onDeleteTacticTouchTap: PropTypes.func.isRequired,
 };
 
 export default TacticSettings;

@@ -9,6 +9,8 @@ export const CREATE_TACTIC_FULFILLED = 'tactic-editor/App/CREATE_TACTIC_FULFILLE
 export const CREATE_TACTIC_REJECTED = 'tactic-editor/App/CREATE_TACTIC_REJECTED';
 
 export const UPDATE_TACTIC = 'tactic-editor/App/UPDATE_TACTIC';
-export const UPDATE_TACTIC_PENDING = 'tactic-editor/App/UPDATE_TACTIC_PENDING';
-export const UPDATE_TACTIC_FULFILLED = 'tactic-editor/App/UPDATE_TACTIC_FULFiLLED';
-export const UPDATE_TACTIC_REJECTED = 'tactic-editor/App/UPDATE_TACTIC_REJECTED';
+
+export const DELETE_TACTIC = 'tactic-editor/App/DELETE_TACTIC';
+export const DELETE_TACTIC_PENDING = 'tactic-editor/App/DELETE_TACTIC_PENDING';
+export const DELETE_TACTIC_FULFILLED = 'tactic-editor/App/DELETE_TACTIC_FULFILLED';
+export const DELETE_TACTIC_REJECTED = 'tactic-editor/App/DELETE_TACTIC_REJECTED';

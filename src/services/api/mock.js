@@ -67,6 +67,8 @@ const mockApi = () => {
       showAssists: true,
     },
   }]);
+
+  mock.onDelete(/\/tactics\/\d+/).reply(() => [204]);
 };
 
 export default mockApi;
