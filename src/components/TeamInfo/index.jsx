@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import IconButton from 'material-ui/IconButton';
 import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
+import isEqual from 'lodash/isEqual';
 import { white } from 'material-ui/styles/colors';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -20,6 +21,11 @@ export default class TeamInfo extends Component {
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleTacticChange = this.handleTacticChange.bind(this);
     this.disableEditing = this.disableEditing.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.isEditing !== nextState.isEditing) return true;
+    return !isEqual(this.props.team, nextProps.team);
   }
 
   handleNameChange(e) {
@@ -135,10 +141,11 @@ TeamInfo.defaultProps = {
 
 TeamInfo.propTypes = {
   team: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    players: PropTypes.object,
-  }).isRequired,
+    name: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    players: PropTypes.object.isRequired,
+    shirt: PropTypes.object.isRequired,
+  }),
   onUpdate: PropTypes.func.isRequired,
   openEditTeamDialog: PropTypes.func.isRequired,
   onFormationChange: PropTypes.func.isRequired,

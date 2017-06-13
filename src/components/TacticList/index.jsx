@@ -36,7 +36,6 @@ TacticList.defaultProps = {
   fetching: false,
   tactics: [],
   selectedTacticId: 0,
-  onFetchTacticsRequest: () => {},
   onSelectTactic: () => {},
 };
 

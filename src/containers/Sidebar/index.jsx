@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
+import isEqual from 'lodash/isEqual';
 import * as tacticActions from '../../entities/tactics/actions';
 import * as tacticDetailActions from '../../entities/tacticDetails/actions';
 import * as sidebarActions from './actions';
@@ -23,12 +24,23 @@ class Sidebar extends Component {
     selectTactic(+match.params.id);
   }
 
+  shouldComponentUpdate(nextProps) {
+    return this.props.selectedTacticId !== nextProps.selectedTacticId
+      || this.props.tactics.length !== nextProps.tactics.length
+      || this.props.isCreateTacticDialogOpen !== nextProps.isCreateTacticDialogOpen
+      || this.props.isDeleteTacticDialogOpen !== nextProps.isDeleteTacticDialogOpen
+      || (this.props.tactic === null && nextProps.tactic !== null)
+      || !isEqual(this.props.tactic.name, nextProps.tactic.name)
+      || !isEqual(this.props.tactic.options, nextProps.tactic.options);
+  }
+
   render() {
     const {
       isFetchingTactics,
+      isCreatingTactic,
+      isDeletingTactic,
       isCreateTacticDialogOpen,
       isDeleteTacticDialogOpen,
-      isCreatingTactic,
       tactics,
       selectedTacticId,
       openCreateTacticDialog,
@@ -55,7 +67,7 @@ class Sidebar extends Component {
           <DeleteTacticDialog
             tactic={tactic}
             open={isDeleteTacticDialogOpen}
-            pending={false}
+            pending={isDeletingTactic}
             onClose={closeDeleteTacticDialog}
             onDelete={deleteTactic}
           />
@@ -103,9 +115,11 @@ Sidebar.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     teams: PropTypes.arrayOf(PropTypes.object).isRequired,
+    options: PropTypes.object.isRequired,
   }),
   isFetchingTactics: PropTypes.bool.isRequired,
   isCreatingTactic: PropTypes.bool.isRequired,
+  isDeletingTactic: PropTypes.bool.isRequired,
   isCreateTacticDialogOpen: PropTypes.bool.isRequired,
   isDeleteTacticDialogOpen: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
@@ -114,7 +128,7 @@ Sidebar.propTypes = {
 const mapStateToProps = (state) => {
   const { entities, sidebar, app } = state;
   const { tactics } = entities;
-  const { isCreating, isFetching } = tactics.status;
+  const { isCreating, isFetching, isDeleting } = tactics.status;
   const { selectedTacticId } = app;
   const { isCreateTacticDialogOpen, isDeleteTacticDialogOpen } = sidebar;
 
@@ -123,6 +137,7 @@ const mapStateToProps = (state) => {
     tactics: tacticsSelector(state),
     isFetchingTactics: isFetching,
     isCreatingTactic: isCreating,
+    isDeletingTactic: isDeleting,
     isCreateTacticDialogOpen,
     isDeleteTacticDialogOpen,
     selectedTacticId,
