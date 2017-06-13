@@ -39,7 +39,9 @@
 
 .rating {
   position: absolute;
-  top: 0;
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background: #54b33a;
   width: 30%;
   height: 20%;
