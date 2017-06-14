@@ -12,13 +12,6 @@ import './assets/styles/base.scss';
 injectTapEventPlugin();
 mockApi();
 
-if (DEVELOPMENT) {
-  const Perf = require('react-addons-perf');
-  const { whyDidYouUpdate } = require('why-did-you-update');
-  whyDidYouUpdate(React, { include: /^Sidebar/ });
-  window.Perf = Perf;
-}
-
 const store = configureStore();
 
 const render = () => {
@@ -36,4 +29,11 @@ if (module.hot) {
   module.hot.accept('./components/Root', () => {
     render();
   });
+}
+
+if (DEVELOPMENT) {
+  const Perf = require('react-addons-perf');
+  // const { whyDidYouUpdate } = require('why-did-you-update');
+  // whyDidYouUpdate(React, { include: /^Sidebar/ });
+  window.Perf = Perf;
 }

@@ -1,4 +1,7 @@
 import { combineReducers } from 'redux';
+import merge from 'lodash/merge';
+import get from 'lodash/get';
+
 import {
   FETCH_TACTIC_DETAIL_PENDING,
   FETCH_TACTIC_DETAIL_FULFILLED,
@@ -40,8 +43,12 @@ const byId = (state = {}, action) => {
       const { teams, id, options } = action.payload.data;
       return { ...state, [id]: { id, options, teams: teams.map(team => team.id) } };
     }
-    default:
+    default: {
+      if (get(action, 'payload.entities.tacticDetails')) {
+        return merge({}, state, action.payload.entities.tacticDetails);
+      }
       return state;
+    }
   }
 };
 

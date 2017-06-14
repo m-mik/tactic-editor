@@ -1,44 +1,32 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
-import isEqual from 'lodash/isEqual';
-import * as tacticActions from '../../entities/tactics/actions';
-import * as tacticDetailActions from '../../entities/tacticDetails/actions';
+
+import * as tacticActions from '../../data/tactics/actions';
+import * as tacticDetailActions from '../../data/tacticDetails/actions';
 import * as sidebarActions from './actions';
 import * as appActions from '../App/actions';
-import { tacticsSelector } from '../../entities/tactics/selectors';
+import { tacticsSelector } from '../../data/tactics/selectors';
 import CreateTacticButton from '../../components/CreateTacticButton';
 import CreateTacticDialog from '../../components/CreateTacticDialog';
 import DeleteTacticDialog from '../../components/DeleteTacticDialog';
 import TacticList from '../../components/TacticList/index';
 import TacticSettings from '../../components/TacticSettings';
-import { tacticDetailSelector } from '../../entities/tacticDetails/selectors';
+import { tacticDetailSelector } from '../../data/tacticDetails/selectors';
 import style from './Sidebar.scss';
 
-class Sidebar extends Component {
+class Sidebar extends PureComponent {
   componentDidMount() {
     const { fetchTactics, selectTactic, match } = this.props;
     fetchTactics();
     selectTactic(+match.params.id);
   }
 
-  shouldComponentUpdate(nextProps) {
-    return this.props.selectedTacticId !== nextProps.selectedTacticId
-      || this.props.tactics.length !== nextProps.tactics.length
-      || this.props.isCreateTacticDialogOpen !== nextProps.isCreateTacticDialogOpen
-      || this.props.isDeleteTacticDialogOpen !== nextProps.isDeleteTacticDialogOpen
-      || (this.props.tactic === null && nextProps.tactic !== null)
-      || !isEqual(this.props.tactic.name, nextProps.tactic.name)
-      || !isEqual(this.props.tactic.options, nextProps.tactic.options);
-  }
-
   render() {
     const {
-      isFetchingTactics,
-      isCreatingTactic,
-      isDeletingTactic,
+      status,
       isCreateTacticDialogOpen,
       isDeleteTacticDialogOpen,
       tactics,
@@ -67,7 +55,7 @@ class Sidebar extends Component {
           <DeleteTacticDialog
             tactic={tactic}
             open={isDeleteTacticDialogOpen}
-            pending={isDeletingTactic}
+            pending={status.isDeletingTactic}
             onClose={closeDeleteTacticDialog}
             onDelete={deleteTactic}
           />
@@ -76,7 +64,7 @@ class Sidebar extends Component {
           <CreateTacticButton onTouchTap={openCreateTacticDialog} />
           <TacticList
             tactics={tactics}
-            fetching={isFetchingTactics}
+            fetching={status.isFetchingTactics}
             selectedTacticId={selectedTacticId}
             onSelectTactic={(event, id) => selectTactic(id)}
           />
@@ -84,7 +72,7 @@ class Sidebar extends Component {
             onClose={closeCreateTacticDialog}
             onCreate={createTactic}
             open={isCreateTacticDialogOpen}
-            pending={isCreatingTactic}
+            pending={status.isCreatingTactic}
           />
         </Paper>
       </div>
@@ -117,17 +105,19 @@ Sidebar.propTypes = {
     teams: PropTypes.arrayOf(PropTypes.object).isRequired,
     options: PropTypes.object.isRequired,
   }),
-  isFetchingTactics: PropTypes.bool.isRequired,
-  isCreatingTactic: PropTypes.bool.isRequired,
-  isDeletingTactic: PropTypes.bool.isRequired,
+  status: PropTypes.shape({
+    isFetchingTactics: PropTypes.bool.isRequired,
+    isCreatingTactic: PropTypes.bool.isRequired,
+    isDeletingTactic: PropTypes.bool.isRequired,
+  }).isRequired,
   isCreateTacticDialogOpen: PropTypes.bool.isRequired,
   isDeleteTacticDialogOpen: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 const mapStateToProps = (state) => {
-  const { entities, sidebar, app } = state;
-  const { tactics } = entities;
+  const { data, sidebar, app } = state;
+  const { tactics } = data;
   const { isCreating, isFetching, isDeleting } = tactics.status;
   const { selectedTacticId } = app;
   const { isCreateTacticDialogOpen, isDeleteTacticDialogOpen } = sidebar;
@@ -135,9 +125,11 @@ const mapStateToProps = (state) => {
   return {
     tactic: tacticDetailSelector(state),
     tactics: tacticsSelector(state),
-    isFetchingTactics: isFetching,
-    isCreatingTactic: isCreating,
-    isDeletingTactic: isDeleting,
+    status: {
+      isFetchingTactics: isFetching,
+      isCreatingTactic: isCreating,
+      isDeletingTactic: isDeleting,
+    },
     isCreateTacticDialogOpen,
     isDeleteTacticDialogOpen,
     selectedTacticId,

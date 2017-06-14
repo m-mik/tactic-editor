@@ -12,8 +12,10 @@ export const handleError = (error) => {
 };
 
 export const selectTactic = id => (dispatch) => {
-  if (!isNaN(id)) history.push(`/tactics/${id}`);
-  dispatch({ type: SELECT_TACTIC, id });
+  if (!isNaN(id)) {
+    history.push(`/tactics/${id}`);
+    dispatch({ type: SELECT_TACTIC, id });
+  }
 };
 
 export const receiveEntity = (data, schema) => ({

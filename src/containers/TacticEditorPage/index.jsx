@@ -12,9 +12,9 @@ import LoadingIndicator from '../../components/LoadingIndicator';
 import TeamGrid from './TeamGrid';
 import { findPlayerElement } from '../../lib/footballField/index';
 import { editedTeamSelector, selectedPlayerSelector } from './selectors';
-import { fetchTacticIfNeeded } from '../../entities/tacticDetails/actions';
-import { updatePlayer } from '../../entities/players/actions';
-import { updateTeam } from '../../entities/teams/actions';
+import { fetchTacticIfNeeded } from '../../data/tacticDetails/actions';
+import { updatePlayer } from '../../data/players/actions';
+import { updateTeam } from '../../data/teams/actions';
 import {
   movePlayer,
   swapPlayers,
@@ -27,7 +27,7 @@ import {
   tacticDetailSelector,
   isFetchingSelector,
   hasErrorSelector,
-} from '../../entities/tacticDetails/selectors';
+} from '../../data/tacticDetails/selectors';
 import styles from './TacticEditorPage.scss';
 
 class TacticEditorPage extends Component {

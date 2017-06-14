@@ -1,5 +1,5 @@
 import { findTeamGrid } from '../../lib/footballField';
-import { updatePlayer, updatePlayers } from '../../entities/players/actions';
+import { updatePlayer, updatePlayers } from '../../data/players/actions';
 import {
   ADD_PLAYER_TRANSITIONS,
   REMOVE_PLAYER_TRANSITIONS,
