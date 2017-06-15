@@ -52,10 +52,19 @@ const byId = (state = {}, action) => {
   }
 };
 
-const status = (state = { fetching: [], errors: [] }, action) => ({
-  ...state,
-  fetching: fetching(state.fetching, action),
-  errors: errors(state.errors, action),
-});
+const status = (state = { fetching: [], errors: [] }, action) => {
+  switch (action.type) {
+    case FETCH_TACTIC_DETAIL_PENDING:
+    case FETCH_TACTIC_DETAIL_FULFILLED:
+    case FETCH_TACTIC_DETAIL_REJECTED:
+      return {
+        ...state,
+        fetching: fetching(state.fetching, action),
+        errors: fetching(state.errors, action),
+      };
+    default:
+      return state;
+  }
+};
 
 export default combineReducers({ byId, status });
