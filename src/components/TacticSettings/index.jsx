@@ -1,23 +1,18 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
-import Toggle from 'material-ui/Toggle';
 import RaisedButton from 'material-ui/RaisedButton';
-import isEqual from 'lodash/isEqual';
+
 import { isValid } from '../../shared/validation/tactic';
+import Options from './Options';
+import DeleteTacticContainer from '../../containers/DeleteTacticContainer';
 import styles from './TacticSettings.scss';
 
-class TacticSettings extends Component {
+class TacticSettings extends PureComponent {
   constructor() {
     super();
 
-    this.renderOptions = this.renderOptions.bind(this);
     this.handleTacticNameChange = this.handleTacticNameChange.bind(this);
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return this.props.tactic.name !== nextProps.tactic.name
-      || !isEqual(this.props.tactic.options, nextProps.tactic.options);
   }
 
   handleTacticNameChange(event) {
@@ -27,55 +22,31 @@ class TacticSettings extends Component {
     if (isValid(data)) onSettingChange(tactic.id, data);
   }
 
-  renderOptions() {
-    const { onSettingChange, tactic } = this.props;
-    const { id, options } = tactic;
-    const {
-      showGrid,
-      showName,
-      showRatings,
-      showNumbers,
-      showCards,
-      showGoals,
-      showAssists,
-    } = options;
-
-    const toggleOptions = [
-      { key: 'showGrid', label: 'Grid', toggled: showGrid },
-      { key: 'showRatings', label: 'Ratings', toggled: showRatings },
-      { key: 'showNumbers', label: 'Numbers', toggled: showNumbers },
-      { key: 'showCards', label: 'Cards', toggled: showCards },
-      { key: 'showGoals', label: 'Goals', toggled: showGoals },
-      { key: 'showAssists', label: 'Assists', toggled: showAssists },
-      { key: 'showName', label: 'Name', toggled: showName },
-    ];
-
-    return toggleOptions.map(option =>
-      <Toggle
-        key={option.key}
-        defaultToggled={option.toggled}
-        label={option.label}
-        onToggle={() => onSettingChange(id, { options: { [option.key]: !option.toggled } })}
-      />);
-  }
-
   render() {
-    const { onDeleteTacticTouchTap, tactic } = this.props;
+    const { onSettingChange, tactic } = this.props;
+    if (!tactic) return null;
+
     return (
       <div className={styles.wrapper}>
         <TextField
           floatingLabelText="Tactic name" value={tactic.name}
           onChange={this.handleTacticNameChange}
         />
-        <div className={styles.options}>
-          {this.renderOptions()}
-        </div>
+        <Options
+          className={styles.options}
+          tactic={tactic}
+          onSettingChange={onSettingChange}
+        />
         <RaisedButton label="Save" primary />
-        <RaisedButton onTouchTap={onDeleteTacticTouchTap} label="Delete" secondary />
+        <DeleteTacticContainer />
       </div>
     );
   }
 }
+
+TacticSettings.defaultProps = {
+  tactic: null,
+};
 
 TacticSettings.propTypes = {
   tactic: PropTypes.shape({
@@ -90,9 +61,8 @@ TacticSettings.propTypes = {
       showGoals: PropTypes.bool.isRequired,
       showAssists: PropTypes.bool.isRequired,
     }).isRequired,
-  }).isRequired,
+  }),
   onSettingChange: PropTypes.func.isRequired,
-  onDeleteTacticTouchTap: PropTypes.func.isRequired,
 };
 
 export default TacticSettings;
