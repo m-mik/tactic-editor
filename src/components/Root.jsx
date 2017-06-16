@@ -4,19 +4,30 @@ import { Provider } from 'react-redux';
 import PropTypes from 'prop-types';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import Paper from 'material-ui/Paper';
+
 import theme from '../assets/theme/main';
+import history from '../history';
 import App from '../containers/App';
-import Sidebar from '../containers/Sidebar';
+import Sidebar from './Sidebar';
 import Main from './Main';
 import TacticEditorPage from '../containers/TacticEditorPage';
-import history from '../history';
+import TacticListContainer from '../containers/TacticListContainer';
+import TacticSettingsContainer from '../containers/TacticSettingsContainer';
 
 const Root = ({ store }) => (
   <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
     <Provider store={store}>
       <Router history={history}>
         <App>
-          <Route path="/(tactics/)?:id?" component={Sidebar} />
+          <Sidebar>
+            <Paper zDepth={3}>
+              <TacticSettingsContainer />
+            </Paper>
+            <Paper zDepth={3}>
+              <Route path="/(tactics/)?:id?" component={TacticListContainer} />
+            </Paper>
+          </Sidebar>
           <Main>
             <Route path="/tactics/:id" component={TacticEditorPage} />
           </Main>

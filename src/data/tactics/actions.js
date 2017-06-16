@@ -3,11 +3,13 @@ import axios from 'axios';
 import { CREATE_TACTIC, UPDATE_TACTIC, DELETE_TACTIC, FETCH_TACTICS } from './constants';
 import tacticSchema from './schema';
 import teamSchema from '../teams/schema';
-import { receiveEntity, selectTactic, handleError } from '../../containers/App/actions';
 import {
+  receiveEntity,
+  selectTactic,
+  handleError,
   closeCreateTacticDialog,
   closeDeleteTacticDialog,
-} from '../../containers/Sidebar/actions';
+} from '../../containers/App/actions';
 import { updateFormation } from '../../containers/TacticEditorPage/actions';
 import { updateTacticDetail } from '../tacticDetails/actions';
 import { tacticsSelector } from './selectors';
