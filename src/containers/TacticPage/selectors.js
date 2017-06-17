@@ -1,14 +1,16 @@
 import { createSelector } from 'reselect';
 
-const getTeams = state => state.data.teams;
-const getEditedTeamId = state => state.editor.editedTeamId;
-const getPlayers = state => state.data.players;
-const getSelectedPlayerId = state => state.editor.selectedPlayerId;
+import { selectTeams } from '../../data/teams/selectors';
+import { selectPlayers } from '../../data/players/selectors';
 
-export const editedTeamSelector = createSelector(
-  [getTeams, getEditedTeamId], (teams, editedTeamId) => teams.byId[editedTeamId],
+export const selectEditedTeamId = state => state.editor.editedTeamId;
+
+export const selectActivePlayerId = state => state.editor.activePlayerId;
+
+export const selectEditedTeam = createSelector(
+  [selectTeams, selectEditedTeamId], (teams, editedTeamId) => teams.byId[editedTeamId],
 );
 
-export const selectedPlayerSelector = createSelector(
-  [getPlayers, getSelectedPlayerId], (players, selectedPlayerId) => players.byId[selectedPlayerId],
+export const selectActivePlayer = createSelector(
+  [selectPlayers, selectActivePlayerId], (players, activePlayerId) => players.byId[activePlayerId],
 );

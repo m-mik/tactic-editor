@@ -3,7 +3,6 @@ import { createSelector } from 'reselect';
 import { selectTeamPlayerItems } from '../teams/selectors';
 
 export const selectPlayers = state => state.data.players;
-
 export const selectPlayerTransitions = state => state.editor.playerTransitions;
 
 export const makeSelectTeamPlayers = () =>

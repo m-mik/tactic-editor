@@ -12,10 +12,24 @@ import ItemTypes from '../../lib/ItemTypes';
 import { canDropPlayer } from '../../lib/footballField';
 import { selectPlayer, movePlayer, swapPlayers } from '../TacticPage/actions';
 import styles from '../../components/TeamGrid/TeamGrid.scss';
+import { selectActivePlayerId } from '../TacticPage/selectors';
 
 const cx = classNames.bind(styles);
 
 class TileContainer extends Component {
+  constructor() {
+    super();
+
+    this.handleOnPlayerTouchTap = this.handleOnPlayerTouchTap.bind(this);
+  }
+
+  handleOnPlayerTouchTap(event, id) {
+    event.preventDefault();
+    if (this.props.activePlayerId !== id) {
+      this.props.onPlayerSelect(id);
+    }
+  }
+
   render() {
     const {
       connectDropTarget,
@@ -47,7 +61,7 @@ class TileContainer extends Component {
           team={team}
           onMove={this.props.onPlayerMove}
           onSwap={this.props.onPlayersSwap}
-          onTouchTap={this.props.onPlayerSelect}
+          onTouchTap={this.handleOnPlayerTouchTap}
           show={show}
           {...player}
         />}
@@ -113,6 +127,7 @@ TileContainer.propTypes = {
     goals: PropTypes.number.isRequired,
     assists: PropTypes.number.isRequired,
   }),
+  activePlayerId: PropTypes.number.isRequired,
 };
 
 const makeMapStateToProps = () => {
@@ -122,6 +137,7 @@ const makeMapStateToProps = () => {
     player: selectTeamPlayers(state, ownProps)[ownProps.position],
     team: selectTeam(state, ownProps),
     options: selectOptions(state),
+    activePlayerId: selectActivePlayerId(state),
   });
 };
 
