@@ -30,11 +30,9 @@ const Options = (props) => {
 };
 
 Options.propTypes = {
-  onSettingChange: PropTypes.func.isRequired,
   tactic: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    teams: PropTypes.arrayOf(PropTypes.object).isRequired,
     options: PropTypes.shape({
       showGrid: PropTypes.bool.isRequired,
       showNumbers: PropTypes.bool.isRequired,
@@ -42,8 +40,9 @@ Options.propTypes = {
       showCards: PropTypes.bool.isRequired,
       showGoals: PropTypes.bool.isRequired,
       showAssists: PropTypes.bool.isRequired,
-    }).isRequired,
+    }),
   }).isRequired,
+  onSettingChange: PropTypes.func.isRequired,
 };
 
 export default Options;

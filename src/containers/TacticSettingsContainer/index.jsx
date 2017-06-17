@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 
 import TacticSettings from '../../components/TacticSettings';
-import { makeSelectTactic } from '../../data/tactics/selectors';
 import { updateTactic } from '../../data/tactics/actions';
+import { makeSelectFullTacticDetail } from '../../data/tacticDetails/selectors';
 
 const makeMapStateToProps = () => {
-  const selectTactic = makeSelectTactic();
+  const selectFullTacticDetail = makeSelectFullTacticDetail();
   return state => ({
-    tactic: selectTactic(state),
+    tactic: selectFullTacticDetail(state),
   });
 };
 
