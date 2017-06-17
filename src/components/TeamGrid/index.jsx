@@ -9,18 +9,22 @@ import styles from './TeamGrid.scss';
 const cx = classNames.bind(styles);
 
 const TeamGrid = (props) => {
-  const { id, options, type, tilesCount } = props;
+  const { id, options, type, teamId, tilesCount } = props;
 
   const wrapperStyle = cx({
     wrapper: true,
     grid: options.showGrid,
   });
 
-  // const TileListItem = () => <TileContainer key={position} position={position} team={team} />
-
   const tiles = times(tilesCount).map((index) => {
     const position = type === 'home' ? index : (tilesCount - index - 1);
-    return <TileContainer key={position} position={position} />;
+    return (
+      <TileContainer
+        key={position}
+        teamId={teamId}
+        position={position}
+      />
+    );
   });
 
   return (

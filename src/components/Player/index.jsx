@@ -118,6 +118,7 @@ Player.defaultProps = {
   },
 };
 
+// todo: fix displaying
 Player.propTypes = {
   name: PropTypes.string,
   number: PropTypes.number,

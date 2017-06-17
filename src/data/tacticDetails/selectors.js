@@ -1,34 +1,33 @@
 import { createSelector } from 'reselect';
-import { denormalize } from 'normalizr';
-import mapValues from 'lodash/mapValues';
 
 import { selectActiveTacticId } from '../../containers/App/selectors';
-import tacticDetailSchema from './schema';
 
 const selectTacticDetails = state => state.data.tacticDetails;
+const selectFetchingItems = state => state.data.tacticDetails.status.fetching;
+const selectErrorItems = state => state.data.tacticDetails.status.errors;
 
-const getFetching = state => state.data.tacticDetails.status.fetching;
-const getErrors = state => state.data.tacticDetails.status.errors;
-const getTeams = state => state.data.teams;
-const getPlayers = state => state.data.players;
-const getPlayerTransitions = state => state.editor.playerTransitions;
-const getTactics = state => state.data.tactics;
+// import { denormalize } from 'normalizr';
+// import mapValues from 'lodash/mapValues';
+// const getTeams = state => state.data.teams;
+// const getPlayers = state => state.data.players;
+// const getPlayerTransitions = state => state.editor.playerTransitions;
+// const getTactics = state => state.data.tactics;
 
-const getTeamWithPlayerTrans = (denormalizedTeam, playerTransitions) => {
-  const playersWithTrans = denormalizedTeam.players.map(player =>
-    ({ ...player, transition: playerTransitions[player.id] }),
-  );
-  return { ...denormalizedTeam, players: playersWithTrans };
-};
-
-const getPlayersByPosForTeam = denormalizedTeam =>
-  denormalizedTeam.players.reduce((result, player) =>
-    ({ ...result, [player.position]: player }), {});
-
-const getTeamsWithPlayersByPos = denormalizedTeams =>
-  denormalizedTeams.map(team =>
-    ({ ...team, players: getPlayersByPosForTeam(team) }),
-  );
+// const getTeamWithPlayerTrans = (denormalizedTeam, playerTransitions) => {
+//   const playersWithTrans = denormalizedTeam.players.map(player =>
+//     ({ ...player, transition: playerTransitions[player.id] }),
+//   );
+//   return { ...denormalizedTeam, players: playersWithTrans };
+// };
+//
+// const getPlayersByPosForTeam = denormalizedTeam =>
+//   denormalizedTeam.players.reduce((result, player) =>
+//     ({ ...result, [player.position]: player }), {});
+//
+// const getTeamsWithPlayersByPos = denormalizedTeams =>
+//   denormalizedTeams.map(team =>
+//     ({ ...team, players: getPlayersByPosForTeam(team) }),
+//   );
 
 export const makeSelectTacticDetail = () => createSelector(
   [selectTacticDetails, selectActiveTacticId],
@@ -66,12 +65,12 @@ export const makeSelectOptions = () => createSelector(
 //   },
 // );
 
-export const isFetchingSelector = createSelector(
-  [getFetching, selectActiveTacticId],
+export const selectIsFetching = createSelector(
+  [selectFetchingItems, selectActiveTacticId],
   (fetching, activeTacticId) => fetching.includes(activeTacticId),
 );
 
-export const hasErrorSelector = createSelector(
-  [getErrors, selectActiveTacticId],
+export const sellectHasError = createSelector(
+  [selectErrorItems, selectActiveTacticId],
   (errors, activeTacticId) => errors.includes(activeTacticId),
 );
