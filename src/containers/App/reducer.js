@@ -7,7 +7,7 @@ import {
 } from './constants';
 
 const initialState = {
-  selectedTacticId: 0,
+  activeTacticId: 0,
   isCreateTacticDialogOpen: false,
   isDeleteTacticDialogOpen: false,
 };
@@ -15,7 +15,7 @@ const initialState = {
 const appReducer = (state = initialState, action) => {
   switch (action.type) {
     case SELECT_TACTIC:
-      return { ...state, selectedTacticId: action.id };
+      return { ...state, activeTacticId: action.id };
     case OPEN_CREATE_TACTIC_DIALOG:
       return { ...state, isCreateTacticDialogOpen: true };
     case CLOSE_CREATE_TACTIC_DIALOG:

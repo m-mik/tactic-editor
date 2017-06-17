@@ -10,9 +10,9 @@ import {
   closeCreateTacticDialog,
   closeDeleteTacticDialog,
 } from '../../containers/App/actions';
-import { updateFormation } from '../../containers/TacticEditorPage/actions';
+import { updateFormation } from '../../containers/TacticPage/actions';
 import { updateTacticDetail } from '../tacticDetails/actions';
-import { tacticsSelector } from './selectors';
+import { selectTactics } from './selectors';
 import history from '../../history';
 import formations from '../../lib/footballField/formations.json';
 
@@ -66,7 +66,7 @@ export const deleteTactic = id => (dispatch, getState) => {
     meta: { id },
   }).then(() => {
     dispatch(closeDeleteTacticDialog());
-    const tactics = tacticsSelector(getState());
+    const tactics = selectTactics(getState());
     const firstTacticId = tactics[0] ? tactics[0].id : null;
     if (firstTacticId) {
       dispatch(selectTactic(firstTacticId));

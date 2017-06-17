@@ -6,7 +6,7 @@ import tacticDetails from '../data/tacticDetails/reducer';
 import teams from '../data/teams/reducer';
 import players from '../data/players/reducer';
 import app from '../containers/App/reducer';
-import editor from '../containers/TacticEditorPage/reducer';
+import editor from '../containers/TacticPage/reducer';
 
 const data = combineReducers({ tactics, tacticDetails, teams, players });
 

@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { DropTarget } from 'react-dnd';
 import classNames from 'classnames/bind';
-import isEqual from 'lodash/isEqual';
-import ItemTypes from '../ItemTypes';
-import { canDropPlayer } from '../../../../lib/footballField/index';
-import styles from '../TeamGrid.scss';
+
+import DraggablePlayer from '../../containers/DraggablePlayer';
+import ItemTypes from '../../lib/ItemTypes';
+import { canDropPlayer } from '../../lib/footballField';
+import styles from '../../components/TeamGrid';
 
 const cx = classNames.bind(styles);
 
-class Tile extends Component {
-  shouldComponentUpdate(nextProps) {
-    return (this.props.isOver !== nextProps.isOver)
-      || !isEqual(this.props.children, nextProps.children);
-  }
-
+class TileContainer extends Component {
   render() {
     const {
       connectDropTarget,
@@ -22,6 +19,17 @@ class Tile extends Component {
       isOver,
       canDrop,
     } = this.props;
+    
+    const { options } = this.props;
+
+    const show = {
+      name: options.showName,
+      rating: options.showRatings,
+      number: options.showNumbers,
+      cards: options.showCards,
+      goals: options.showGoals,
+      assists: options.showAssists,
+    };
 
     const tileClass = cx(
       { fullWidthTile: position === 0 },
@@ -30,7 +38,14 @@ class Tile extends Component {
 
     return connectDropTarget(
       <div className={tileClass || undefined}>
-        {this.props.children}
+        {player && <DraggablePlayer
+          team={team}
+          onMove={this.props.onPlayerMove}
+          onSwap={this.props.onPlayersSwap}
+          onTouchTap={this.props.onPlayerSelect}
+          show={show}
+          {...player}
+        />}
       </div>,
     );
   }
@@ -55,12 +70,12 @@ const collect = (connect, monitor) => ({
   canDrop: monitor.canDrop(),
 });
 
-Tile.defaultProps = {
+TileContainer.defaultProps = {
   className: undefined,
   children: null,
 };
 
-Tile.propTypes = {
+TileContainer.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
   position: PropTypes.number.isRequired,
   team: PropTypes.shape({ // eslint-disable-line react/no-unused-prop-types
@@ -72,4 +87,11 @@ Tile.propTypes = {
   children: PropTypes.node,
 };
 
-export default DropTarget(ItemTypes.PLAYER, tileTarget, collect)(Tile);
+const mapStateToProps = (state, ownProps) => {
+
+  return {};
+};
+
+const DropTargetTileContainer = DropTarget(ItemTypes.PLAYER, tileTarget, collect)(TileContainer);
+
+export default connect(mapStateToProps)(DropTargetTileContainer);

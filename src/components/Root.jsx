@@ -11,7 +11,7 @@ import history from '../history';
 import App from '../containers/App';
 import Sidebar from './Sidebar';
 import Main from './Main';
-import TacticEditorPage from '../containers/TacticEditorPage';
+import TacticPage from '../containers/TacticPage';
 import TacticListContainer from '../containers/TacticListContainer';
 import TacticSettingsContainer from '../containers/TacticSettingsContainer';
 
@@ -22,14 +22,14 @@ const Root = ({ store }) => (
         <App>
           <Sidebar>
             <Paper zDepth={3}>
-              <TacticSettingsContainer />
+              {/*<TacticSettingsContainer /> todo*/}
             </Paper>
             <Paper zDepth={3}>
               <Route path="/(tactics/)?:id?" component={TacticListContainer} />
             </Paper>
           </Sidebar>
           <Main>
-            <Route path="/tactics/:id" component={TacticEditorPage} />
+            <Route path="/tactics/:id" component={TacticPage} />
           </Main>
         </App>
       </Router>

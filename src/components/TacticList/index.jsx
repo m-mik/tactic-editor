@@ -11,7 +11,7 @@ const TacticList = props => (
   <div>
     <CreateTacticContainer />
     <SelectableList
-      value={props.selectedTacticId}
+      value={props.activeTacticId}
       onChange={props.onSelectTactic}
     >
       {props.fetching && <LoadingIndicator />}
@@ -31,7 +31,7 @@ TacticList.propTypes = {
     name: PropTypes.string.isRequired,
   })).isRequired,
   fetching: PropTypes.bool.isRequired,
-  selectedTacticId: PropTypes.number.isRequired,
+  activeTacticId: PropTypes.number.isRequired,
   onSelectTactic: PropTypes.func.isRequired,
 };
 

@@ -1,4 +1,4 @@
-@import '../TeamGrid/variables';
+@import '../../components/TeamGrid/variables';
 
 .wrapper {
   transition: transform 1s ease;
@@ -11,6 +11,6 @@
 }
 
 .dropTarget {
-  composes: dropTarget from '../TeamGrid/TeamGrid.scss';
+  composes: dropTarget from '../../components/TeamGrid/TeamGrid.scss';
   padding: 10%;
 }
