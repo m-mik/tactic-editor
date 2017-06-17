@@ -125,11 +125,11 @@ const makeMapStateToProps = () => {
   });
 };
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = {
   onPlayerMove: movePlayer,
   onPlayersSwap: swapPlayers,
   onPlayerSelect: selectPlayer,
-});
+};
 
 const DropTargetTileContainer = DropTarget(ItemTypes.PLAYER, tileTarget, collect)(TileContainer);
 
