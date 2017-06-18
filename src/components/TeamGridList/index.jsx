@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import FootballField from '../FootballField';
 import TeamGridContainer from '../../containers/TeamGridContainer';
+import styles from './TeamGridList.scss';
 
 const TeamGridList = ({ teamIds }) => (
-  <FootballField>
+  <div className={styles.wrapper}>
     {teamIds.map((teamId, index) => (
       <TeamGridContainer
         key={teamId}
@@ -13,7 +13,7 @@ const TeamGridList = ({ teamIds }) => (
         teamId={teamId}
       />
     ))}
-  </FootballField>
+  </div>
 );
 
 TeamGridList.propTypes = {

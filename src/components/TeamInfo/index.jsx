@@ -8,6 +8,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import Color from 'color';
+
 import formations from '../../lib/footballField/formations.json';
 import { getFormationText, getFormation } from '../../lib/footballField';
 import defaultTeam from '../../lib/footballField/defaultTeam.json';

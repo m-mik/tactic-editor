@@ -5,11 +5,16 @@ import PropTypes from 'prop-types';
 
 import TeamGridList from '../../components/TeamGridList';
 import TeamInfo from '../../components/TeamInfo';
+import TeamInfoContainer from '../TeamInfoContainer';
 import PlayerPopover from '../../components/PlayerPopover';
+import FootballField from '../../components/FootballField';
 import { findPlayerElement } from '../../lib/footballField/index';
 import { selectEditedTeam, selectActivePlayer } from './selectors';
 import { selectDenormalizedTeams } from '../../data/teams/selectors';
-import { makeSelectTacticDetail } from '../../data/tacticDetails/selectors';
+import {
+  makeSelectTacticDetail, selectHasError,
+  selectIsFetching
+} from '../../data/tacticDetails/selectors';
 import { fetchTacticIfNeeded } from '../../data/tacticDetails/actions';
 import { updatePlayer } from '../../data/players/actions';
 import { updateTeam } from '../../data/teams/actions';
@@ -23,7 +28,7 @@ import {
 } from './actions';
 
 import styles from './TacticPage.scss';
-
+import LoadingIndicator from '../../components/LoadingIndicator/index';
 
 class TacticPage extends Component {
   componentDidMount() {
@@ -39,15 +44,9 @@ class TacticPage extends Component {
     }
   }
 
-  renderErrorMessage() {
-    const { hasError } = this.props;
-    const message = 'Tactic does not exist';
-    return hasError && <span className={styles.errorMessage}>{message}</span>;
-  }
-
   renderTeamInfo(index) {
-    const { tactic } = this.props;
-    const team = !tactic ? TeamInfo.defaultProps.team : tactic.teams[index];
+    const { teams } = this.props;
+    const team = !teams ? TeamInfo.defaultProps.team : teams[index];
     return (<TeamInfo
       onUpdate={this.props.updateTeam}
       onFormationChange={this.props.updateFormation}
@@ -95,23 +94,28 @@ class TacticPage extends Component {
     />;
   }
 
-  render() {
-    const { tacticDetail } = this.props;
+  renderErrorMessage() {
+    return <span className={styles.errorMessage}>Tactic does not exist</span>;
+  }
 
+  render() {
+    const { tacticDetail, hasError, isFetching } = this.props;
     return (
       <section className={styles.wrapper}>
-        {this.renderTeamInfo(0)}
-        {tacticDetail && <TeamGridList teamIds={tacticDetail.teams} />}
+        {/*<TeamInfoContainer teamId={tacticDetail.teams[0]}/>*/}
+        <FootballField>
+          {tacticDetail && <TeamGridList teamIds={tacticDetail.teams} />}
+          {hasError && this.renderErrorMessage()}
+          {isFetching && <LoadingIndicator className={styles.loadingIndicator} />}
+        </FootballField>
         {this.renderPlayerPopover()}
-        {this.renderTeamInfo(1)}
-        {this.renderTeamDialog()}
+        {/*{this.renderTeamDialog()}*/}
       </section>
     );
   }
 }
 
 TacticPage.defaultProps = {
-  tactic: null,
   selectedPlayer: null,
   editedTeam: null,
 };
@@ -142,8 +146,10 @@ const makeMapStateToProps = () => {
   return state => ({
     tacticDetail: selectTacticDetail(state),
     selectedPlayer: selectActivePlayer(state),
-    teams: selectDenormalizedTeams(state),
     editedTeam: selectEditedTeam(state),
+    teams: selectDenormalizedTeams(state),
+    hasError: selectHasError(state),
+    isFetching: selectIsFetching(state),
   });
 };
 //
