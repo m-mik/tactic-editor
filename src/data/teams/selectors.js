@@ -8,7 +8,11 @@ const selectPlayers = state => state.data.players;
 
 export const selectTeam = (state, props) => state.data.teams.byId[props.teamId];
 export const selectTeams = state => state.data.teams;
-export const selectTeamPlayerItems = (state, props) => state.data.teams.byId[props.teamId].players;
+
+export const selectTeamPlayerItems = (state, props) => {
+  const team = selectTeam(state, props);
+  return team ? team.players : [];
+};
 
 export const selectDenormalizedTeams = createSelector(
   [selectTeams, selectPlayers],
