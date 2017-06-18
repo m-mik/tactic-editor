@@ -6,8 +6,8 @@ import { SelectField, TextField, RadioButtonGroup } from 'redux-form-material-ui
 import { ChromePicker } from 'react-color';
 import MenuItem from 'material-ui/MenuItem';
 import RadioButton from 'material-ui/RadioButton';
-import Divider from 'material-ui/Divider';
 import throttle from 'lodash/throttle';
+
 import FootballField from '../../FootballField';
 import Player from '../../Player';
 import styles from './Form.scss';

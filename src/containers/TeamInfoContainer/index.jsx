@@ -1,12 +1,21 @@
 import { connect } from 'react-redux';
 
 import TeamInfo from '../../components/TeamInfo';
+import { updateTeam } from '../../data/teams/actions';
+import { openEditTeamDialog, updateFormation } from '../TacticPage/actions';
+import { makeSelectTeamInfo } from './selectors';
 
 const makeMapStateToProps = () => {
-  const selectOptions = makeSelectOptions();
+  const selectTeamInfo = makeSelectTeamInfo();
   return (state, ownProps) => ({
-    options: selectOptions(state),
+    team: selectTeamInfo(state, ownProps),
   });
 };
 
-export default connect(makeMapStateToProps)(TeamInfo);
+const mapDispatchToprops = {
+  onUpdate: updateTeam,
+  onEditTeamTouchTap: openEditTeamDialog,
+  onFormationChange: updateFormation,
+};
+
+export default connect(makeMapStateToProps, mapDispatchToprops)(TeamInfo);

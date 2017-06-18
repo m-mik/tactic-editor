@@ -4,17 +4,19 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import TeamGridList from '../../components/TeamGridList';
-import TeamInfo from '../../components/TeamInfo';
 import TeamInfoContainer from '../TeamInfoContainer';
 import PlayerPopover from '../../components/PlayerPopover';
+import LoadingIndicator from '../../components/LoadingIndicator';
 import FootballField from '../../components/FootballField';
+import EditTeamDialog from '../../components/EditTeamDialog';
 import { findPlayerElement } from '../../lib/footballField/index';
 import { selectEditedTeam, selectActivePlayer } from './selectors';
-import { selectDenormalizedTeams } from '../../data/teams/selectors';
 import {
-  makeSelectTacticDetail, selectHasError,
-  selectIsFetching
+  makeSelectTacticDetail,
+  selectHasError,
+  selectIsFetching,
 } from '../../data/tacticDetails/selectors';
+import { selectDenormalizedTeams } from '../../data/teams/selectors';
 import { fetchTacticIfNeeded } from '../../data/tacticDetails/actions';
 import { updatePlayer } from '../../data/players/actions';
 import { updateTeam } from '../../data/teams/actions';
@@ -26,9 +28,7 @@ import {
   openEditTeamDialog,
   updateFormation,
 } from './actions';
-
 import styles from './TacticPage.scss';
-import LoadingIndicator from '../../components/LoadingIndicator/index';
 
 class TacticPage extends Component {
   componentDidMount() {
@@ -44,37 +44,9 @@ class TacticPage extends Component {
     }
   }
 
-  renderTeamInfo(index) {
-    const { teams } = this.props;
-    const team = !teams ? TeamInfo.defaultProps.team : teams[index];
-    return (<TeamInfo
-      onUpdate={this.props.updateTeam}
-      onFormationChange={this.props.updateFormation}
-      openEditTeamDialog={this.props.openEditTeamDialog}
-      team={team}
-    />);
-  }
-
-  // renderFootballField() {
-  //   const { tactic, isFetching } = this.props;
-  //   return (
-  //     <FootballField>
-  //       {isFetching && <LoadingIndicator size={200} className={styles.loadingIndicator} />}
-  //       {this.renderErrorMessage()}
-  //       {tactic && tactic.teams.map((team, index) => (
-  //         <TeamGrid
-  //           key={team.id}
-  //           type={index === 0 ? 'home' : 'away'}
-  //           teamId={team.id}
-  //         />
-  //         ))}
-  //     </FootballField>
-  //   );
-  // }
-
   renderPlayerPopover() {
-    const { selectedPlayer, teams } = this.props;
-    const anchorEl = selectedPlayer ? findPlayerElement(teams, selectedPlayer) : null;
+    const { selectedPlayer, denormalizedTeams } = this.props;
+    const anchorEl = selectedPlayer ? findPlayerElement(denormalizedTeams, selectedPlayer) : null;
 
     return (
       selectedPlayer && <PlayerPopover
@@ -100,44 +72,47 @@ class TacticPage extends Component {
 
   render() {
     const { tacticDetail, hasError, isFetching } = this.props;
+    const teams = (tacticDetail && tacticDetail.teams) || [];
+
     return (
       <section className={styles.wrapper}>
-        {/*<TeamInfoContainer teamId={tacticDetail.teams[0]}/>*/}
+        <TeamInfoContainer teamId={teams[0]} />
         <FootballField>
           {tacticDetail && <TeamGridList teamIds={tacticDetail.teams} />}
           {hasError && this.renderErrorMessage()}
           {isFetching && <LoadingIndicator className={styles.loadingIndicator} />}
         </FootballField>
+        <TeamInfoContainer teamId={teams[1]} />
         {this.renderPlayerPopover()}
-        {/*{this.renderTeamDialog()}*/}
+        {this.renderTeamDialog()}
       </section>
     );
   }
 }
 
 TacticPage.defaultProps = {
+  tacticDetail: null,
   selectedPlayer: null,
   editedTeam: null,
+  denormalizedTeams: null,
 };
 
 TacticPage.propTypes = {
-  // fetchTacticIfNeeded: PropTypes.func.isRequired,
-  // selectPlayer: PropTypes.func.isRequired,
-  // movePlayer: PropTypes.func.isRequired,
-  // updateFormation: PropTypes.func.isRequired,
-  // swapPlayers: PropTypes.func.isRequired,
-  // updatePlayer: PropTypes.func.isRequired,
-  // closeEditTeamDialog: PropTypes.func.isRequired,
-  // openEditTeamDialog: PropTypes.func.isRequired,
-  // updateTeam: PropTypes.func.isRequired,
-  // isFetching: PropTypes.bool.isRequired,
-  // hasError: PropTypes.bool.isRequired,
-  // activePlayerId: PropTypes.number.isRequired,
-  // tactic: PropTypes.shape({
-  //   teams: PropTypes.arrayOf(PropTypes.object).isRequired,
-  // }),
-  // editedTeam: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  // selectedPlayer: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  fetchTacticIfNeeded: PropTypes.func.isRequired,
+  selectPlayer: PropTypes.func.isRequired,
+  updatePlayer: PropTypes.func.isRequired,
+  closeEditTeamDialog: PropTypes.func.isRequired,
+  updateTeam: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  hasError: PropTypes.bool.isRequired,
+  tacticDetail: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    options: PropTypes.object.isRequired,
+    teams: PropTypes.arrayOf(PropTypes.number).isRequired,
+  }),
+  denormalizedTeams: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  editedTeam: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  selectedPlayer: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
@@ -147,27 +122,11 @@ const makeMapStateToProps = () => {
     tacticDetail: selectTacticDetail(state),
     selectedPlayer: selectActivePlayer(state),
     editedTeam: selectEditedTeam(state),
-    teams: selectDenormalizedTeams(state),
     hasError: selectHasError(state),
     isFetching: selectIsFetching(state),
+    denormalizedTeams: selectDenormalizedTeams(state),
   });
 };
-//
-// const mapStateToProps = (state) => {
-//   const activeTacticId = state.app.activeTacticId;
-//   //const activePlayerId = state.editor.activePlayerId;
-//
-//   return {
-//     // isFetching: isFetchingSelector(state),
-//     // hasError: hasErrorSelector(state),
-//     // tactic: tacticDetailSelector(state),
-//     // selectedPlayer: selectActivePlayer(state),
-//     // editedTeam: selectEditedTeam(state),
-//     // activePlayerId,
-//     // activeTacticId,
-//     tacticDetail: state.data.tacticDetails.byId[activeTacticId],
-//   };
-// };
 
 const ConnectedTacticPage = connect(
   makeMapStateToProps, {
