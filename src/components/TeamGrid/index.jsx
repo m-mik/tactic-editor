@@ -4,26 +4,45 @@ import times from 'lodash/times';
 import classNames from 'classnames/bind';
 
 import TileContainer from '../../containers/TileContainer';
+import DraggablePlayer from '../../containers/DraggablePlayer';
 import styles from './TeamGrid.scss';
 
 const cx = classNames.bind(styles);
 
 const TeamGrid = (props) => {
-  const { id, options, type, teamId, tilesCount } = props;
+  const { id, options, type, tilesCount, players, team, playerOptions } = props;
 
   const wrapperStyle = cx({
     wrapper: true,
     grid: options.showGrid,
   });
 
+  const handleOnPlayerTouchTap = (event, id) => {
+    event.preventDefault();
+    if (props.activePlayerId !== id) {
+      props.onPlayerSelect(id);
+    }
+  };
+
   const tiles = times(tilesCount).map((index) => {
     const position = type === 'home' ? index : (tilesCount - index - 1);
+    const player = players[position];
+
     return (
       <TileContainer
         key={position}
-        teamId={teamId}
+        team={team}
         position={position}
-      />
+      >
+        {player && <DraggablePlayer
+          team={team}
+          onMove={props.onPlayerMove}
+          onSwap={props.onPlayersSwap}
+          onTouchTap={handleOnPlayerTouchTap}
+          options={playerOptions}
+          {...player}
+        />}
+      </TileContainer>
     );
   });
 
@@ -39,6 +58,7 @@ const TeamGrid = (props) => {
   );
 };
 
+// todo: add missing proptypes
 TeamGrid.propTypes = {
   teamId: PropTypes.number.isRequired,
   tilesCount: PropTypes.number.isRequired,
@@ -46,13 +66,8 @@ TeamGrid.propTypes = {
   type: PropTypes.oneOf(['home', 'away']).isRequired,
   options: PropTypes.shape({
     showGrid: PropTypes.bool.isRequired,
-    showName: PropTypes.bool.isRequired,
-    showNumbers: PropTypes.bool.isRequired,
-    showRatings: PropTypes.bool.isRequired,
-    showCards: PropTypes.bool.isRequired,
-    showGoals: PropTypes.bool.isRequired,
-    showAssists: PropTypes.bool.isRequired,
   }).isRequired,
+  activePlayerId: PropTypes.number.isRequired,
 };
 
 export default TeamGrid;

@@ -35,6 +35,6 @@ if (module.hot) {
 if (DEVELOPMENT) {
   const Perf = require('react-addons-perf');
   // const { whyDidYouUpdate } = require('why-did-you-update');
-  // whyDidYouUpdate(React, { include: /^Sidebar/ });
+  // whyDidYouUpdate(React, { include: /^TileContainer/ });
   window.Perf = Perf;
 }
