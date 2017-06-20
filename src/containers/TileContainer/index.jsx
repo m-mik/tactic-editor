@@ -5,6 +5,7 @@ import classNames from 'classnames/bind';
 import isEqual from 'lodash/isEqual';
 
 import ItemTypes from '../../lib/ItemTypes';
+import DraggablePlayer from '../DraggablePlayer';
 import { canDropPlayer } from '../../lib/footballField';
 import styles from '../../components/TeamGrid/TeamGrid.scss';
 
@@ -13,7 +14,7 @@ const cx = classNames.bind(styles);
 class TileContainer extends Component {
   shouldComponentUpdate(nextProps) {
     return this.props.isOver !== nextProps.isOver
-      || !isEqual(this.props.children, nextProps.children);
+      || !isEqual(this.props.player, nextProps.player);
   }
 
   render() {
@@ -22,6 +23,12 @@ class TileContainer extends Component {
       position,
       isOver,
       canDrop,
+      playerOptions,
+      onPlayerMove,
+      onPlayersSwap,
+      onPlayerTouchTap,
+      player,
+      team,
     } = this.props;
 
     const tileClass = cx(
@@ -31,7 +38,14 @@ class TileContainer extends Component {
 
     return connectDropTarget(
       <div className={tileClass || undefined}>
-        {this.props.children}
+        {player && <DraggablePlayer
+          team={team}
+          onMove={onPlayerMove}
+          onSwap={onPlayersSwap}
+          onTouchTap={onPlayerTouchTap}
+          options={playerOptions}
+          {...player}
+        />}
       </div>,
     );
   }
@@ -63,13 +77,42 @@ TileContainer.defaultProps = {
 
 TileContainer.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
+  onPlayerMove: PropTypes.func.isRequired,
+  onPlayersSwap: PropTypes.func.isRequired,
+  onPlayerTouchTap: PropTypes.func.isRequired,
   position: PropTypes.number.isRequired,
   team: PropTypes.shape({ // eslint-disable-line react/no-unused-prop-types
     id: PropTypes.number.isRequired,
   }),
   isOver: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,
+  player: PropTypes.shape({
+    name: PropTypes.string,
+    number: PropTypes.number,
+    rating: PropTypes.number,
+    position: PropTypes.number,
+    cards: PropTypes.shape({
+      yellow: PropTypes.number,
+      red: PropTypes.number,
+    }),
+    goals: PropTypes.number,
+    assists: PropTypes.number,
+    team: PropTypes.shape({
+      shirt: PropTypes.shape({
+        border: PropTypes.object,
+        backgroundColor: PropTypes.string,
+        textColor: PropTypes.string,
+      }),
+    }),
+  }),
+  playerOptions: PropTypes.shape({
+    showAssists: PropTypes.bool.isRequired,
+    showCards: PropTypes.bool.isRequired,
+    showGoals: PropTypes.bool.isRequired,
+    showName: PropTypes.bool.isRequired,
+    showNumber: PropTypes.bool.isRequired,
+    showRating: PropTypes.bool.isRequired,
+  }).isRequired,
 };
 
 export default DropTarget(ItemTypes.PLAYER, tileTarget, collect)(TileContainer);
-
