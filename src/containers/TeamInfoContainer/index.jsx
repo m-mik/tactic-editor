@@ -12,10 +12,10 @@ const makeMapStateToProps = () => {
   });
 };
 
-const mapDispatchToprops = {
+const mapDispatchToProps = {
   onUpdate: updateTeam,
   onEditTeamTouchTap: openEditTeamDialog,
   onFormationChange: updateFormation,
 };
 
-export default connect(makeMapStateToProps, mapDispatchToprops)(TeamInfo);
+export default connect(makeMapStateToProps, mapDispatchToProps)(TeamInfo);

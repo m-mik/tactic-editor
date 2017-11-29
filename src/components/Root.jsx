@@ -22,7 +22,7 @@ const Root = ({ store }) => (
         <App>
           <Sidebar>
             <Paper zDepth={3}>
-              {/*<TacticSettingsContainer />*/}
+              <TacticSettingsContainer />
             </Paper>
             <Paper zDepth={3}>
               <Route path="/(tactics/)?:id?" component={TacticListContainer} />
