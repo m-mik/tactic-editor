@@ -5,3 +5,5 @@ $tile-width: 100% / $horizontal-tiles-count;
 $tile-height: 100% / $vertical-tiles-count;
 
 $dragged-player-opacity: 0.5;
+$drop-target-opacity: $dragged-player-opacity;
+$drop-target-border: 2px solid #ffef00;

@@ -12,8 +12,8 @@ const cx = classNames.bind(styles);
 
 class Tile extends Component {
   shouldComponentUpdate(nextProps) {
-    return (this.props.isOver !== nextProps.isOver
-    || !isEqual(this.props.children, nextProps.children));
+    return this.props.isOver !== nextProps.isOver
+      || !isEqual(this.props.children, nextProps.children);
   }
 
   render() {
@@ -40,15 +40,11 @@ class Tile extends Component {
 const tileTarget = {
   canDrop(props, monitor) {
     const player = monitor.getItem();
-    return canDropPlayer(player, props);
+    return !props.children && canDropPlayer(player, props);
   },
 
   drop(props, monitor, component) {
-    if (monitor.didDrop()) {
-      return;
-    }
-
-    return { component };
+    return monitor.didDrop() ? undefined : { component };
   },
 };
 
@@ -67,9 +63,7 @@ Tile.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
   position: PropTypes.number.isRequired,
   team: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    shirt: PropTypes.object,
+    id: PropTypes.number.isRequired,
   }).isRequired,
   isOver: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,

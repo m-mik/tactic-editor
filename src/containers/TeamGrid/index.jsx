@@ -22,10 +22,10 @@ class TeamGrid extends Component {
 
   renderPlayer(player, team) {
     return (<DraggablePlayer
-      data={player}
-      team={team}
+      team={{ id: team.id, shirt: team.shirt }}
       onMove={this.props.movePlayer}
       onSwap={this.props.swapPlayers}
+      {...player}
     />);
   }
 
@@ -33,7 +33,7 @@ class TeamGrid extends Component {
     return (<Tile
       key={position}
       position={position}
-      team={team}
+      team={{ id: team.id }}
     >
       {player && this.renderPlayer(player, team)}
     </Tile>);
