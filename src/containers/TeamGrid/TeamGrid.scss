@@ -20,7 +20,7 @@
     margin: 0 $margin;
   }
 
-  > .dropTarget {
+  .dropTarget {
     border: $drop-target-border;
     opacity: $drop-target-opacity;
   }
