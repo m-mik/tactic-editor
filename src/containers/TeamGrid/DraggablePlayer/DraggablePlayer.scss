@@ -1,7 +1,7 @@
 @import '../variables';
 
 .wrapper {
-  transition: left 1s ease, top 1s ease;
+  transition: transform 1s ease;
   z-index: 4;
   cursor: grab;
 };
