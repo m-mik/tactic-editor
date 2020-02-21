@@ -60,7 +60,7 @@
     "color": "^1.0.3",
     "deep-diff": "^0.3.8",
     "history": "^4.6.1",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.13",
     "material-ui": "^0.17.4",
     "normalize.css": "^6.0.0",
     "normalizr": "^3.2.2",
