@@ -44,8 +44,9 @@ class DraggablePlayer extends Component {
       <Player
         className={wrapperStyle}
         ref={(instance) => {
-          connectDropTarget(findDOMNode(instance));
-          connectDragSource(findDOMNode(instance));
+          const playerNode = findDOMNode(instance);
+          connectDropTarget(playerNode);
+          connectDragSource(playerNode);
         }}
         style={{
           transform: `translate(${left}px, ${top}px)`,
@@ -126,7 +127,7 @@ const collectSource = (connect, monitor) => ({
 
 const collectTarget = (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
-  isOver: monitor.isOver(),
+  isOver: monitor.isOver({ shallow: true }),
   canDrop: monitor.canDrop(),
 });
 

@@ -5,8 +5,7 @@ import times from 'lodash/times';
 import isEqual from 'lodash/isEqual';
 import withDragDropContext from './withDragDropContext';
 import { movePlayer, swapPlayers } from '../../entities/players/actions';
-import Tile from './Tile';
-import DraggablePlayer from './DraggablePlayer';
+import PlayerTile from './PlayerTile';
 import styles from './TeamGrid.scss';
 
 class TeamGrid extends Component {
@@ -20,23 +19,15 @@ class TeamGrid extends Component {
     return !isEqual(this.props.team.players, nextProps.team.players);
   }
 
-  renderPlayer(player, team) {
-    return (<DraggablePlayer
-      team={{ id: team.id, shirt: team.shirt }}
-      onMove={this.props.movePlayer}
-      onSwap={this.props.swapPlayers}
-      {...player}
-    />);
-  }
-
   renderTile(position, player, team) {
-    return (<Tile
+    return (<PlayerTile
       key={position}
       position={position}
-      team={{ id: team.id }}
-    >
-      {player && this.renderPlayer(player, team)}
-    </Tile>);
+      team={{ id: team.id, shirt: team.shirt }}
+      player={player}
+      onPlayerMove={this.props.movePlayer}
+      onPlayersSwap={this.props.swapPlayers}
+    />);
   }
 
   renderTiles() {
