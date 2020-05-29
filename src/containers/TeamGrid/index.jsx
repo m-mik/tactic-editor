@@ -6,6 +6,7 @@ import isEqual from 'lodash/isEqual';
 import withDragDropContext from './withDragDropContext';
 import { movePlayer, swapPlayers } from '../../entities/players/actions';
 import PlayerTile from './PlayerTile';
+import { TEAM_GRID_ID_PREFIX } from '../../services/footballField';
 import styles from './TeamGrid.scss';
 
 class TeamGrid extends Component {
@@ -41,7 +42,11 @@ class TeamGrid extends Component {
 
   render() {
     return (
-      <div id={`team-grid-${this.props.team.id}`} className={styles.wrapper}>
+      <div
+        id={`${TEAM_GRID_ID_PREFIX}-${this.props.team.id}`}
+        className={styles.wrapper}
+        data-grid-type={this.props.type}
+      >
         {this.renderTiles()}
       </div>
     );

@@ -33,16 +33,6 @@ class TacticEditorPage extends Component {
     return hasError && <span className="error">{message}</span>;
   }
 
-  renderTeamGrids(teams) {
-    return teams.map((team, index) => (
-      <TeamGrid
-        key={team.id}
-        type={index === 0 ? 'home' : 'away'}
-        team={team}
-      />
-    ));
-  }
-
   render() {
     // TODO: Add LoadingIndicator
     const { isFetching, tactic } = this.props;
@@ -54,9 +44,14 @@ class TacticEditorPage extends Component {
         {this.renderErrorMessage()}
         <TacticEditor loading={isFetching} tactic={tactic}>
           <FootballField>
-            {this.renderTeamGrids(tactic.teams)}
+            {tactic.teams.map((team, index) =>
+              <TeamGrid
+                key={team.id}
+                type={index === 0 ? 'home' : 'away'}
+                team={team}
+              />)}
           </FootballField>
-          {/*<PlayerPopover />*/}
+          {/* <PlayerPopover />*/}
         </TacticEditor>
       </section>
     );
