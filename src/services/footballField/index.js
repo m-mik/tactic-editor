@@ -2,20 +2,6 @@ import { findDOMNode } from 'react-dom';
 
 export const TEAM_GRID_ID_PREFIX = 'team-grid';
 
-export const getNodeOffset = (sourceNode, targetNode) => ({
-  left: targetNode.offsetLeft - sourceNode.offsetLeft,
-  top: targetNode.offsetTop - sourceNode.offsetTop,
-});
-
-export const getCompOffset = (sourceComp, targetComp) =>
-  getNodeOffset(findDOMNode(sourceComp), findDOMNode(targetComp));
-
-export const canDropPlayer = (draggedPlayer, target) => {
-  const sameTeam = draggedPlayer.team.id === target.team.id;
-  const isNewPosition = draggedPlayer.position !== target.position;
-  return sameTeam && isNewPosition;
-};
-
 export const findTeamGrid = (teamId) => {
   const teamGridId = `#${TEAM_GRID_ID_PREFIX}-${teamId}`;
   const teamGridEl = document.querySelector(teamGridId);
@@ -38,9 +24,9 @@ export const findTeamGrid = (teamId) => {
 
     getTileElement(position) {
       const index = this.getTileIndexForPos(position);
-      const element = teamGridEl.children[index];
-      if (!element) throw new Error(`Invalid tile position: ${position}`);
-      return element;
+      const tileEl = teamGridEl.children[index];
+      if (!tileEl) throw new Error(`Invalid tile position: ${position}`);
+      return tileEl;
     },
 
     getTileCoords(position) {
@@ -69,4 +55,31 @@ export const findTeamGrid = (teamId) => {
       return offsets[tilePosition.from][tilePosition.to];
     },
   };
+};
+
+export const getNodeOffset = (sourceNode, targetNode) => ({
+  left: targetNode.offsetLeft - sourceNode.offsetLeft,
+  top: targetNode.offsetTop - sourceNode.offsetTop,
+});
+
+export const getCompOffset = (sourceComp, targetComp) =>
+  getNodeOffset(findDOMNode(sourceComp), findDOMNode(targetComp));
+
+export const getTeamForPlayer = (denormalizedTeams, player) =>
+  denormalizedTeams.find((team) => {
+    const playerMatch = team.players[player.position];
+    if (!playerMatch) return false;
+    return playerMatch.id === player.id;
+  });
+
+export const findPlayerElement = (denormalizedTeams, player) => {
+  const team = getTeamForPlayer(denormalizedTeams, player);
+  if (!team) return null;
+  return findTeamGrid(team.id).getTileElement(player.position);
+};
+
+export const canDropPlayer = (draggedPlayer, target) => {
+  const sameTeam = draggedPlayer.team.id === target.team.id;
+  const isNewPosition = draggedPlayer.position !== target.position;
+  return sameTeam && isNewPosition;
 };

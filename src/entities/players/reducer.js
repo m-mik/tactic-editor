@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux';
+
 // TODO: update reducer
 const player = (state = {}, action) => {
   switch (action.type) {
@@ -13,4 +15,4 @@ const byId = (state = {}, action) => {
   }
 };
 
-export default byId;
+export default combineReducers({ byId });

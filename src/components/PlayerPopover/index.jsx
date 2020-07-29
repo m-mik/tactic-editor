@@ -1,41 +1,19 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 
 export default class PlayerPopover extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      open: false,
-    };
-  }
-
-  handleTouchTap(event) {
-    event.preventDefault();
-
-    this.setState({
-      open: true,
-      anchorEl: event.currentTarget,
-    });
-  }
-
-  handleRequestClose() {
-    this.setState({
-      open: false,
-    });
-  }
-
   render() {
     return (
       <div>
         <Popover
-          open={this.state.open}
-          anchorEl={this.state.anchorEl}
+          open={!!this.props.player}
+          anchorEl={this.props.anchorEl}
           anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
           targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-          onRequestClose={this.handleRequestClose}
+          onRequestClose={this.props.onRequestClose}
         >
           <Menu>
             <MenuItem primaryText="Refresh" />
@@ -48,3 +26,18 @@ export default class PlayerPopover extends Component {
     );
   }
 }
+
+PlayerPopover.defaultProps = {
+  anchorEl: null,
+};
+
+PlayerPopover.propTypes = {
+  player: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    position: PropTypes.number.isRequired,
+    number: PropTypes.number.isRequired,
+  }).isRequired,
+  anchorEl: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  onRequestClose: PropTypes.func.isRequired,
+};

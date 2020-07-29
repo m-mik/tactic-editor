@@ -14,10 +14,18 @@ class TeamGrid extends Component {
     super();
 
     this.tilesCount = 36;
+    this.handleOnPlayerTouchTap = this.handleOnPlayerTouchTap.bind(this);
   }
 
   shouldComponentUpdate(nextProps) {
-    return !isEqual(this.props.team.players, nextProps.team.players);
+    return this.props.selectedPlayerId !== nextProps.selectedPlayerId
+      || !isEqual(this.props.team.players, nextProps.team.players);
+  }
+
+  handleOnPlayerTouchTap(event, id) {
+    if (this.props.selectedPlayerId !== id) {
+      this.props.selectPlayer(id);
+    }
   }
 
   renderTile(position, player, team) {
@@ -28,7 +36,7 @@ class TeamGrid extends Component {
       player={player}
       onPlayerMove={this.props.movePlayer}
       onPlayersSwap={this.props.swapPlayers}
-      onPlayerTouchTap={(event, id) => this.props.selectPlayer(id)}
+      onPlayerTouchTap={this.handleOnPlayerTouchTap}
     />);
   }
 
@@ -61,13 +69,18 @@ TeamGrid.propTypes = {
     shirt: PropTypes.object.isRequired,
   }).isRequired,
   type: PropTypes.oneOf(['home', 'away']).isRequired,
+  selectedPlayerId: PropTypes.number.isRequired,
   movePlayer: PropTypes.func.isRequired,
   swapPlayers: PropTypes.func.isRequired,
   selectPlayer: PropTypes.func.isRequired,
 };
 
+const mapStateToProps = state => ({
+  selectedPlayerId: state.editor.selectedPlayerId,
+});
+
 const ConnectedTeamGrid = connect(
-  null,
+  mapStateToProps,
   { movePlayer, swapPlayers, selectPlayer },
 )(TeamGrid);
 
