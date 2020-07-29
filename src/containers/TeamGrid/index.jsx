@@ -23,6 +23,7 @@ class TeamGrid extends Component {
   }
 
   handleOnPlayerTouchTap(event, id) {
+    event.preventDefault();
     if (this.props.selectedPlayerId !== id) {
       this.props.selectPlayer(id);
     }
