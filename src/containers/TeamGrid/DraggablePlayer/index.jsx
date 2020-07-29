@@ -25,6 +25,7 @@ class DraggablePlayer extends Component {
       connectDropTarget,
       onMove,
       onSwap,
+      onTouchTap,
       isOver,
       canDrop,
       id,
@@ -50,7 +51,9 @@ class DraggablePlayer extends Component {
         }}
         style={{
           transform: `translate(${left}px, ${top}px)`,
-          transition: cssTransition }}
+          transition: cssTransition,
+        }}
+        onTouchTap={event => onTouchTap(event, id)}
         {...rest}
       />
     );
@@ -68,6 +71,7 @@ DraggablePlayer.propTypes = {
   canDrop: PropTypes.bool.isRequired,
   onMove: PropTypes.func.isRequired,
   onSwap: PropTypes.func.isRequired,
+  onTouchTap: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired,
   position: PropTypes.number.isRequired,
   transition: PropTypes.shape({

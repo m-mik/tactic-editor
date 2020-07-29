@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import times from 'lodash/times';
 import isEqual from 'lodash/isEqual';
 import withDragDropContext from './withDragDropContext';
-import { movePlayer, swapPlayers } from '../../entities/players/actions';
+import { movePlayer, swapPlayers, selectPlayer } from '../TacticEditorPage/actions';
 import PlayerTile from './PlayerTile';
 import { TEAM_GRID_ID_PREFIX } from '../../services/footballField';
 import styles from './TeamGrid.scss';
@@ -28,6 +28,7 @@ class TeamGrid extends Component {
       player={player}
       onPlayerMove={this.props.movePlayer}
       onPlayersSwap={this.props.swapPlayers}
+      onPlayerTouchTap={(event, id) => this.props.selectPlayer(id)}
     />);
   }
 
@@ -62,11 +63,12 @@ TeamGrid.propTypes = {
   type: PropTypes.oneOf(['home', 'away']).isRequired,
   movePlayer: PropTypes.func.isRequired,
   swapPlayers: PropTypes.func.isRequired,
+  selectPlayer: PropTypes.func.isRequired,
 };
 
 const ConnectedTeamGrid = connect(
   null,
-  { movePlayer, swapPlayers },
+  { movePlayer, swapPlayers, selectPlayer },
 )(TeamGrid);
 
 export default withDragDropContext(ConnectedTeamGrid);

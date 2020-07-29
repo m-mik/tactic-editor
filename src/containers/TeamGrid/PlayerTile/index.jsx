@@ -16,6 +16,7 @@ class PlayerTile extends Component {
       player,
       onPlayerMove,
       onPlayersSwap,
+      onPlayerTouchTap,
     } = this.props;
 
     return (
@@ -28,6 +29,7 @@ class PlayerTile extends Component {
           team={{ id: team.id, shirt: team.shirt }}
           onMove={onPlayerMove}
           onSwap={onPlayersSwap}
+          onTouchTap={onPlayerTouchTap}
           {...player}
         />}
       </Tile>
@@ -51,6 +53,7 @@ PlayerTile.propTypes = {
   }),
   onPlayerMove: PropTypes.func.isRequired,
   onPlayersSwap: PropTypes.func.isRequired,
+  onPlayerTouchTap: PropTypes.func.isRequired,
 };
 
 export default PlayerTile;
