@@ -56,6 +56,7 @@ class TeamGrid extends Component {
         id={`${TEAM_GRID_ID_PREFIX}-${this.props.team.id}`}
         className={styles.wrapper}
         data-grid-type={this.props.type}
+        onContextMenu={event => event.preventDefault()}
       >
         {this.renderTiles()}
       </div>
