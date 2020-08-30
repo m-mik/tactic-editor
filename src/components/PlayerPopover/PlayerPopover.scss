@@ -1,0 +1,46 @@
+.wrapper {
+  max-width: 300px;
+  padding: 10px;
+  text-align: center;
+  background: #000 !important;
+  opacity: 0.8 !important;
+
+  > div {
+    height: 100% !important;
+    overflow: hidden;
+  }
+}
+
+.textField > input {
+  color: #fff !important;
+}
+
+.numberField {
+  composes: textField;
+  width: 20% !important;
+}
+
+.nameField {
+  composes: textField;
+  width: 75% !important;
+  margin-left: 5%;
+}
+
+.list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  > li {
+    width: 140px;
+    border: 1px dashed #333333;
+  }
+
+  > li:last-of-type {
+    border: none;
+  }
+
+  .fullWidth {
+    width: 100%;
+  }
+}
