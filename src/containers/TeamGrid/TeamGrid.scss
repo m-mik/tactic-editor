@@ -14,6 +14,10 @@
     width: $tile-width;
     height: $tile-height;
     border: 1px dashed #8abf93;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
   }
 
   > .fullWidthTile {

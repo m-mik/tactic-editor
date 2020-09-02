@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import Color from 'color';
-import YellowCard from '../YellowCard';
-import RedCard from '../RedCard';
+import YellowCardIcon from '../YellowCardIcon';
+import RedCardIcon from '../RedCardIcon';
+import GoalIcon from '../GoalIcon';
+import AssistIcon from '../AssistIcon';
 import styles from './Player.scss';
 
 const cx = classNames.bind(styles);
@@ -32,8 +34,20 @@ export default class Player extends Component {
       <div className={wrapperClassName} {...rest}>
         <span className={styles.shirt} style={shirtStyle}>{number}</span>
         <span className={styles.name}>{name}</span>
-        <YellowCard className={styles.yellowCard} />
-        <RedCard className={styles.redCard} />
+        <div className={styles.cards}>
+          <YellowCardIcon className={styles.yellowCard} />
+          <YellowCardIcon className={styles.yellowCard} />
+          <RedCardIcon className={styles.redCard} />
+        </div>
+        <div className={styles.assists}>
+          <AssistIcon />
+          <AssistIcon />
+        </div>
+        <div className={styles.goals}>
+          <GoalIcon />
+          <GoalIcon />
+          <GoalIcon />
+        </div>
       </div>
     );
   }

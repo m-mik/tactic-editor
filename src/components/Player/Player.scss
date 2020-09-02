@@ -6,11 +6,12 @@
   flex-direction: column;
   align-items: center;
   position: relative;
+  padding: 3%;
 }
 
 .shirt {
-  width: 60%;
-  height: 60%;
+  width: 50%;
+  height: 50%;
   text-align: center;
   font-size: 1.5vmin;
   border: 6px groove;
@@ -24,7 +25,7 @@
   width: 100%;
   text-align: center;
   font-weight: bold;
-  font-size: 1vmin;
+  font-size: 0.8vmin;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -34,18 +35,52 @@
   padding: 4px;
 }
 
-.card {
+.cards {
   position: absolute;
+  left: 0;
+  top: 0;
+  width: 30%;
+  height: 15%;
+
+  & > .yellowCard:nth-of-type(2) {
+    margin-left: -25%;
+    border-left: 1px solid #cbc100;
+  }
+}
+
+.card {
+  display: inline-block;
+  top: 0;
+  width: 27%;
+  height: 100%;
+  margin-right: 10%;
 }
 
 .redCard {
   composes: card;
-  top: 0;
-  left: 50px;
 }
 
 .yellowCard {
   composes: card;
+}
+
+.balls {
   top: 0;
-  left: 5px;
+  height: 100%;
+  position: absolute;
+
+  & > span {
+    font-size: 1.1vmin !important;
+    display: block !important;
+  }
+}
+
+.assists {
+  composes: balls;
+  right: 0;
+}
+
+.goals {
+  composes: balls;
+  right: 15%;
 }

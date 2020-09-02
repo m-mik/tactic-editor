@@ -8,6 +8,9 @@ import { fade } from 'material-ui/utils/colorManipulator';
 import spacing from 'material-ui/styles/spacing';
 
 export default {
+  ripple: {
+    color: '#eafff6',
+  },
   spacing,
   fontFamily: 'Roboto, sans-serif',
   palette: {
