@@ -1,0 +1,12 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2017 by original authors @ fontello.com</metadata>
+<defs>
+<font id="ball" horiz-adv-x="1000" >
+<font-face font-family="ball" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="soccer-ball" unicode="&#xf1e3;" d="M340 395l160 116 160-116-61-188h-198z m160 455q102 0 194-40t160-106 106-160 40-194-40-194-106-160-160-106-194-40-194 40-160 106-106 160-40 194 40 194 106 160 160 106 194 40z m345-753q84 113 84 253v2l-57-50-134 125 35 180 75-6q-84 115-217 157l29-69-160-89-160 89 29 69q-133-42-217-157l76 6 34-180-134-125-57 50v-2q0-140 84-253l16 73 182-22 78-166-65-39q65-22 134-22t134 22l-65 39 78 166 182 22z" horiz-adv-x="1000" />
+</font>
+</defs>
+</svg>
