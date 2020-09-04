@@ -16,17 +16,16 @@ export default class PlayerPopover extends Component {
   constructor() {
     super();
 
-    this.handleNumberChange = this.handleNumberChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   shouldComponentUpdate(nextProps) {
     return this.props.player !== nextProps.player;
   }
 
-  handleNumberChange(event) {
-    const number = +event.target.value;
-    if (number >= 0 && number < 99) {
-      this.props.onPlayerChange(this.props.player.id, { number });
+  handleChange(key, val, validate) {
+    if (validate(val)) {
+      this.props.onPlayerChange(this.props.player.id, { [key]: val });
     }
   }
 
@@ -66,18 +65,33 @@ export default class PlayerPopover extends Component {
           <li className={styles.fullWidth}>
             <TextField
               className={styles.numberField}
-              hintText="Number"
+              floatingLabelText="Number"
               floatingLabelFixed
               name="number"
               type="number"
               value={player.number <= 0 ? '' : player.number}
-              onChange={this.handleNumberChange}
+              onChange={e => this.handleChange('number', +e.target.value, val =>
+                val >= 0 && val < 99,
+              )}
               min={1}
               max={99}
             />
             <TextField
+              className={styles.ratingField}
+              floatingLabelText="Rating"
+              floatingLabelFixed
+              name="rating"
+              type="number"
+              value={player.rating <= 0 ? '' : player.rating}
+              onChange={e => this.handleChange('rating', +e.target.value, val =>
+                val >= 0 && val <= 10,
+              )}
+              min={1}
+              max={10}
+            />
+            <TextField
               className={styles.nameField}
-              hintText="Name"
+              floatingLabelText="Name"
               floatingLabelFixed
               name="name"
               value={player.name}
