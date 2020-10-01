@@ -31,5 +31,21 @@
   background: #000;
   border-radius: 5px;
   color: #fff;
-  padding: 2px;
+  padding: 4px;
+}
+
+.card {
+  position: absolute;
+}
+
+.redCard {
+  composes: card;
+  top: 0;
+  left: 50px;
+}
+
+.yellowCard {
+  composes: card;
+  top: 0;
+  left: 5px;
 }
