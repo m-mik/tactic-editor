@@ -30,6 +30,26 @@ export default class PlayerPopover extends Component {
     }
   }
 
+  renderButtons(path, val, label, validate) {
+    return (
+    [
+      <RemoveButton
+        key={`remove.${path}`}
+        tooltip={`Remove ${label}`}
+        disabled={!validate(val - 1)}
+        onTouchTap={() =>
+          this.handleChange(path, val - 1, validate)}
+      />,
+      <AddButton
+        key={`add.${path}`}
+        tooltip={`Add ${label}`}
+        disabled={!validate(val + 1)}
+        onTouchTap={() =>
+          this.handleChange(path, val + 1, validate)}
+      />,
+    ]);
+  }
+
   render() {
     const { player } = this.props;
     const validate = {
@@ -57,63 +77,20 @@ export default class PlayerPopover extends Component {
         <ul className={styles.list}>
           <li>
             <YellowCardIcon className={styles.card} />
-            <RemoveButton
-              tooltip="Remove Yellow Card"
-              disabled={!validate.cards.yellow(player.cards.yellow - 1)}
-              onTouchTap={() =>
-                this.handleChange('cards.yellow', player.cards.yellow - 1, validate.cards.yellow)}
-            />
-            <AddButton
-              tooltip="Add Yellow Card"
-              disabled={!validate.cards.yellow(player.cards.yellow + 1)}
-              onTouchTap={() =>
-                this.handleChange('cards.yellow', player.cards.yellow + 1, validate.cards.yellow)}
-            />
+            {this.renderButtons('cards.yellow', player.cards.yellow, 'Yellow Card',
+              validate.cards.yellow)}
           </li>
           <li>
             <GoalIcon className={styles.ball} />
-            <RemoveButton
-              tooltip="Remove Goal"
-              disabled={!validate.goals(player.goals - 1)}
-              onTouchTap={() =>
-                this.handleChange('goals', player.goals - 1, validate.goals)}
-            />
-            <AddButton
-              tooltip="Add Goal"
-              disabled={!validate.goals(player.goals + 1)}
-              onTouchTap={() =>
-                this.handleChange('goals', player.goals + 1, validate.goals)}
-            />
+            {this.renderButtons('goals', player.goals, 'Goal', validate.goals)}
           </li>
           <li>
             <RedCardIcon className={styles.card} />
-            <RemoveButton
-              tooltip="Remove Red Card"
-              disabled={!validate.cards.red(player.cards.red - 1)}
-              onTouchTap={() =>
-                this.handleChange('cards.red', player.cards.red - 1, validate.cards.red)}
-            />
-            <AddButton
-              tooltip="Add Red Card"
-              disabled={!validate.cards.red(player.cards.red + 1)}
-              onTouchTap={() =>
-                this.handleChange('cards.red', player.cards.red + 1, validate.cards.red)}
-            />
+            {this.renderButtons('cards.red', player.cards.red, 'Red Card', validate.cards.red)}
           </li>
           <li>
             <AssistIcon className={styles.ball} />
-            <RemoveButton
-              tooltip="Remove Assist"
-              disabled={!validate.assists(player.assists - 1)}
-              onTouchTap={() =>
-                this.handleChange('assists', player.assists - 1, validate.assists)}
-            />
-            <AddButton
-              tooltip="Add Assist"
-              disabled={!validate.assists(player.assists + 1)}
-              onTouchTap={() =>
-                this.handleChange('assists', player.assists + 1, validate.assists)}
-            />
+            {this.renderButtons('assists', player.assists, 'Assist', validate.assists)}
           </li>
           <li className={styles.fullWidth}>
             <TextField
