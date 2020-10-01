@@ -24,7 +24,9 @@
             "cards": {
               "yellow": 0,
               "red": 0
-            }
+            },
+            "goals": 0,
+            "assists": 0
           },
           {
             "id": 2,
@@ -35,7 +37,9 @@
             "cards": {
               "yellow": 0,
               "red": 0
-            }
+            },
+            "goals": 0,
+            "assists": 0
           },
           {
             "id": 3,
@@ -46,7 +50,9 @@
             "cards": {
               "yellow": 0,
               "red": 0
-            }
+            },
+            "goals": 0,
+            "assists": 0
           },
           {
             "id": 4,
@@ -57,7 +63,9 @@
             "cards": {
               "yellow": 0,
               "red": 0
-            }
+            },
+            "goals": 0,
+            "assists": 0
           },
           {
             "id": 5,
@@ -68,7 +76,9 @@
             "cards": {
               "yellow": 2,
               "red": 1
-            }
+            },
+            "goals": 0,
+            "assists": 0
           },
           {
             "id": 6,
@@ -79,7 +89,9 @@
             "cards": {
               "yellow": 1,
               "red": 0
-            }
+            },
+            "goals": 0,
+            "assists": 0
           },
           {
             "id": 7,
@@ -90,7 +102,9 @@
             "cards": {
               "yellow": 0,
               "red": 0
-            }
+            },
+            "goals": 0,
+            "assists": 0
           },
           {
             "id": 8,
@@ -101,7 +115,9 @@
             "cards": {
               "yellow": 0,
               "red": 0
-            }
+            },
+            "goals": 0,
+            "assists": 0
           },
           {
             "id": 9,
@@ -112,7 +128,9 @@
             "cards": {
               "yellow": 0,
               "red": 0
-            }
+            },
+            "goals": 0,
+            "assists": 0
           },
           {
             "id": 10,
@@ -123,7 +141,9 @@
             "cards": {
               "yellow": 0,
               "red": 1
-            }
+            },
+            "goals": 3,
+            "assists": 0
           },
           {
             "id": 11,
@@ -134,7 +154,9 @@
             "cards": {
               "yellow": 1,
               "red": 1
-            }
+            },
+            "goals": 0,
+            "assists": 2
           }
         ]
       },
@@ -159,7 +181,9 @@
             "cards": {
               "yellow": 0,
               "red": 0
-            }
+            },
+            "goals": 0,
+            "assists": 0
           },
           {
             "id": 13,
@@ -170,7 +194,9 @@
             "cards": {
               "yellow": 0,
               "red": 0
-            }
+            },
+            "goals": 0,
+            "assists": 0
           },
           {
             "id": 14,
@@ -181,7 +207,9 @@
             "cards": {
               "yellow": 0,
               "red": 0
-            }
+            },
+            "goals": 0,
+            "assists": 0
           },
           {
             "id": 15,
@@ -192,7 +220,9 @@
             "cards": {
               "yellow": 0,
               "red": 0
-            }
+            },
+            "goals": 0,
+            "assists": 0
           },
           {
             "id": 16,
@@ -203,7 +233,9 @@
             "cards": {
               "yellow": 0,
               "red": 0
-            }
+            },
+            "goals": 0,
+            "assists": 0
           },
           {
             "id": 17,
@@ -214,7 +246,9 @@
             "cards": {
               "yellow": 0,
               "red": 0
-            }
+            },
+            "goals": 0,
+            "assists": 0
           },
           {
             "id": 18,
@@ -225,7 +259,9 @@
             "cards": {
               "yellow": 0,
               "red": 0
-            }
+            },
+            "goals": 0,
+            "assists": 0
           },
           {
             "id": 19,
@@ -236,7 +272,9 @@
             "cards": {
               "yellow": 0,
               "red": 0
-            }
+            },
+            "goals": 0,
+            "assists": 0
           },
           {
             "id": 20,
@@ -247,7 +285,9 @@
             "cards": {
               "yellow": 0,
               "red": 0
-            }
+            },
+            "goals": 0,
+            "assists": 0
           },
           {
             "id": 21,
@@ -258,7 +298,9 @@
             "cards": {
               "yellow": 0,
               "red": 0
-            }
+            },
+            "goals": 0,
+            "assists": 0
           },
           {
             "id": 22,
@@ -269,7 +311,9 @@
             "cards": {
               "yellow": 0,
               "red": 0
-            }
+            },
+            "goals": 0,
+            "assists": 0
           }
         ]
       }
