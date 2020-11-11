@@ -33,11 +33,18 @@ export default class Player extends Component {
       { [className]: !!className },
     );
 
+    const playerRatingClassName = cx(
+      { ratingMax: rating === 10 },
+      { ratingHigh: rating >= 7 && rating <= 9 },
+      { ratingAvg: rating >= 4 && rating <= 6 },
+      { ratingLow: rating >= 1 && rating <= 3 },
+    );
+
     return (
       <div className={wrapperClassName} {...rest}>
         <span className={styles.shirt} style={shirtStyle}>{number}</span>
         <span className={styles.name}>{name}</span>
-        <span className={styles.rating}>{rating}</span>
+        <span className={playerRatingClassName}>{rating}</span>
         <div className={styles.cards}>
           {times(cards.yellow).map(index =>
             <YellowCardIcon key={index} className={styles.yellowCard} />,

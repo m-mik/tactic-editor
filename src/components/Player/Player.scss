@@ -46,7 +46,29 @@
   text-align: center;
   font-weight: bold;
   font-size: 1vmin;
-  color: #ffef00;
+  color: #000;
+}
+
+.ratingMax {
+  composes: rating;
+  background: #23ff00;
+}
+
+.ratingHigh {
+  composes: rating;
+  background: #258023;
+  color: #fff;
+}
+
+.ratingAvg {
+  composes: rating;
+  background: #fbff00;
+}
+
+.ratingLow {
+  composes: rating;
+  background: #ab0101;
+  color: #fff;
 }
 
 .cards {
@@ -72,7 +94,6 @@
 
 .redCard {
   composes: card;
-
 }
 
 .yellowCard {
