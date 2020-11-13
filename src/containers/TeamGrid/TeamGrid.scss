@@ -13,7 +13,7 @@
   > div {
     width: $tile-width;
     height: $tile-height;
-    border: 1px dashed #8abf93;
+    border: $tile-border;
     display: flex;
     justify-content: center;
     flex-direction: column;
