@@ -5,9 +5,9 @@ import { DragSource, DropTarget } from 'react-dnd';
 import classNames from 'classnames/bind';
 import flow from 'lodash/flow';
 import isEqual from 'lodash/isEqual';
-import Player from '../../../components/Player/index';
-import ItemTypes from '../ItemTypes';
-import { canDropPlayer } from '../../../services/footballField';
+import Player from '../../../../components/Player';
+import ItemTypes from '../Grid/ItemTypes';
+import { canDropPlayer } from '../../../../services/footballField';
 import styles from './DraggablePlayer.scss';
 
 const cx = classNames.bind(styles);

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
-import Tile from '../Tile';
-import DraggablePlayer from '../DraggablePlayer';
+import Tile from '../Tile/index';
+import DraggablePlayer from '../../DraggablePlayer/index';
 
 class PlayerTile extends Component {
   shouldComponentUpdate(nextProps) {
