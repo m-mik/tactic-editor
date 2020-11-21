@@ -50,11 +50,13 @@ class TacticEditorPage extends Component {
         <TacticEditor loading={isFetching} tactic={tactic}>
           <FootballField>
             {tactic.teams.map((team, index) => (
-              <Team data={team} key={team.id} index={index}>
-                <Team.Title />
+              <Team
+                key={team.id}
+                type={index === 0 ? 'home' : 'away'}
+                team={team}
+              >
+                <Team.Info />
                 <Team.Grid
-                  type={index === 0 ? 'home' : 'away'}
-                  team={team}
                   onPlayerMove={this.props.movePlayer}
                   onPlayersSwap={this.props.swapPlayers}
                   onPlayerSelect={this.props.selectPlayer}
