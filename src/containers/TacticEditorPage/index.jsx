@@ -4,17 +4,19 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { fetchTacticIfNeeded } from '../../entities/tacticDetails/actions';
 import { updatePlayer } from '../../entities/players/actions';
+import { updateTeam } from '../../entities/teams/actions';
 import { movePlayer, swapPlayers, selectPlayer } from './actions';
 import TacticEditor from '../../components/TacticEditor';
 import FootballField from '../../components/FootballField';
+import TeamInfo from '../../components/TeamInfo';
 import PlayerPopover from '../../components/PlayerPopover';
-import Team from './Team';
+import TeamGrid from './TeamGrid';
 import {
   tacticDetailSelector,
   isFetchingSelector,
   hasErrorSelector,
 } from '../../entities/tacticDetails/selectors';
-import { findPlayerElement } from '../../services/footballField/index';
+import { findPlayerElement } from '../../lib/footballField/index';
 
 class TacticEditorPage extends Component {
   componentDidMount() {
@@ -48,21 +50,18 @@ class TacticEditorPage extends Component {
       <section>
         {this.renderErrorMessage()}
         <TacticEditor loading={isFetching} tactic={tactic}>
+          <TeamInfo onUpdate={this.props.updateTeam} team={tactic.teams[0]} />
           <FootballField>
             {tactic.teams.map((team, index) => (
-              <Team
+              <TeamGrid
                 key={team.id}
                 type={index === 0 ? 'home' : 'away'}
                 team={team}
-              >
-                <Team.Info />
-                <Team.Grid
-                  onPlayerMove={this.props.movePlayer}
-                  onPlayersSwap={this.props.swapPlayers}
-                  onPlayerSelect={this.props.selectPlayer}
-                  selectedPlayerId={this.props.selectedPlayerId}
-                />
-              </Team>
+                onPlayerMove={this.props.movePlayer}
+                onPlayersSwap={this.props.swapPlayers}
+                onPlayerSelect={this.props.selectPlayer}
+                selectedPlayerId={this.props.selectedPlayerId}
+              />
             ))}
           </FootballField>
           {selectedPlayer && <PlayerPopover
@@ -71,6 +70,7 @@ class TacticEditorPage extends Component {
             anchorEl={anchorEl}
             onRequestClose={() => this.props.selectPlayer(0)}
           />}
+          <TeamInfo onUpdate={this.props.updateTeam} team={tactic.teams[1]} />
         </TacticEditor>
       </section>
     );
@@ -88,6 +88,7 @@ TacticEditorPage.propTypes = {
   movePlayer: PropTypes.func.isRequired,
   swapPlayers: PropTypes.func.isRequired,
   updatePlayer: PropTypes.func.isRequired,
+  updateTeam: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
   selectedPlayerId: PropTypes.number.isRequired,
@@ -119,7 +120,7 @@ const mapStateToProps = (state) => {
 
 const ConnectedTacticEditorPage = connect(
   mapStateToProps,
-  { fetchTacticIfNeeded, movePlayer, swapPlayers, selectPlayer, updatePlayer },
+  { fetchTacticIfNeeded, movePlayer, swapPlayers, selectPlayer, updatePlayer, updateTeam },
 )(TacticEditorPage);
 
 export default withRouter(ConnectedTacticEditorPage);
