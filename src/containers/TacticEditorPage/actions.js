@@ -4,7 +4,12 @@ import {
   ADD_PLAYER_TRANSITIONS,
   REMOVE_PLAYER_TRANSITIONS,
   SELECT_PLAYER,
+  OPEN_EDIT_TEAM_DIALOG,
+  CLOSE_EDIT_TEAM_DIALOG,
 } from './constants';
+
+export const openEditTeamDialog = teamId => ({ type: OPEN_EDIT_TEAM_DIALOG, payload: teamId });
+export const closeEditTeamDialog = () => ({ type: CLOSE_EDIT_TEAM_DIALOG });
 
 export const addPlayerTransitions = data => ({
   type: ADD_PLAYER_TRANSITIONS,
@@ -43,4 +48,3 @@ export const selectPlayer = id => ({
   type: SELECT_PLAYER,
   payload: id,
 });
-

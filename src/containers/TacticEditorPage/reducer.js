@@ -3,10 +3,13 @@ import {
   ADD_PLAYER_TRANSITIONS,
   REMOVE_PLAYER_TRANSITIONS,
   SELECT_PLAYER,
+  OPEN_EDIT_TEAM_DIALOG,
+  CLOSE_EDIT_TEAM_DIALOG,
 } from './constants';
 
 const initialState = {
   selectedPlayerId: 0,
+  editedTeamId: 0,
   playerTransitions: {},
 };
 
@@ -31,6 +34,10 @@ const editor = (state = initialState, action) => {
       };
     case SELECT_PLAYER:
       return { ...state, selectedPlayerId: action.payload };
+    case OPEN_EDIT_TEAM_DIALOG:
+      return { ...state, editedTeamId: action.payload };
+    case CLOSE_EDIT_TEAM_DIALOG:
+      return { ...state, editedTeamId: initialState.editedTeamId };
     default:
       return state;
   }
