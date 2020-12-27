@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux';
+
 const byId = (state = {}, action) => {
   switch (action.type) {
     default:
@@ -5,4 +7,4 @@ const byId = (state = {}, action) => {
   }
 };
 
-export default byId;
+export default combineReducers({ byId });
