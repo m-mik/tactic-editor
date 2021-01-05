@@ -35,7 +35,7 @@ const EditTeamDialog = (props) => {
         ref={(form) => { this.form = form; }}
         open={open}
         onSubmit={onSubmit}
-        initialValues={team}
+        team={team}
       />
     </Dialog>
   );
