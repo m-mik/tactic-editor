@@ -6,7 +6,7 @@ import Form from './Form';
 import styles from './EditTeamDialog.scss';
 
 const EditTeamDialog = (props) => {
-  const { onSubmit, onClose, team } = props;
+  const { onConfirm, onClose, team } = props;
 
   const actions = [
     <FlatButton
@@ -18,13 +18,25 @@ const EditTeamDialog = (props) => {
       label="Edit"
       primary
       type="submit"
-      onTouchTap={() => { this.form.submit(); }}
+      onTouchTap={() => { this.form.getWrappedInstance().submit(); }}
     />,
   ];
 
+  const handleSubmit = (val) => {
+    const { name, textColor, backgroundColor } = val;
+    onConfirm(team.id, {
+      name,
+      shirt: {
+        backgroundColor,
+        textColor,
+        border: { color: val.borderColor, style: val.borderStyle },
+      },
+    });
+    onClose();
+  };
+
   return (
     <Dialog
-      bodyClassName={styles.body}
       title="Edit Team"
       actions={actions}
       onRequestClose={onClose}
@@ -34,7 +46,7 @@ const EditTeamDialog = (props) => {
       <Form
         ref={(form) => { this.form = form; }}
         open={open}
-        onSubmit={onSubmit}
+        onSubmit={handleSubmit}
         team={team}
       />
     </Dialog>
@@ -48,7 +60,7 @@ EditTeamDialog.propTypes = {
     shirt: PropTypes.object,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired,
 };
 
 export default EditTeamDialog;

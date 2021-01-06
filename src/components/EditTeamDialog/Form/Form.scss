@@ -4,7 +4,7 @@
   }
 }
 
-.shirtOptions {
+.shirtColorOptions {
   display: flex;
   flex-direction: row;
 
@@ -18,4 +18,10 @@
   width: 100px;
   height: 100px;
   padding: 0;
+  z-index: 2;
+  margin: 50px auto;
+}
+
+.playerPreview {
+  width: 120px;
 }

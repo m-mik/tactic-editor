@@ -63,6 +63,7 @@ Tile.propTypes = {
   position: PropTypes.number.isRequired,
   team: PropTypes.shape({ // eslint-disable-line react/no-unused-prop-types
     id: PropTypes.number.isRequired,
+    shirt: PropTypes.object.isRequired,
   }).isRequired,
   isOver: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,

@@ -6,7 +6,8 @@ import DraggablePlayer from '../../DraggablePlayer/index';
 
 class PlayerTile extends Component {
   shouldComponentUpdate(nextProps) {
-    return !isEqual(this.props.player, nextProps.player);
+    return !isEqual(this.props.player, nextProps.player)
+      || !isEqual(this.props.team.shirt, nextProps.team.shirt);
   }
 
   render() {
