@@ -6,6 +6,7 @@ import { SelectField, TextField, RadioButtonGroup } from 'redux-form-material-ui
 import { ChromePicker } from 'react-color';
 import MenuItem from 'material-ui/MenuItem';
 import RadioButton from 'material-ui/RadioButton';
+import throttle from 'lodash/throttle';
 import FootballField from '../../FootballField';
 import Player from '../../Player';
 import styles from './Form.scss';
@@ -18,6 +19,7 @@ class Form extends Component {
     this.handleShirtStyleChange = this.handleShirtStyleChange.bind(this);
     this.handleShirtColorChange = this.handleShirtColorChange.bind(this);
     this.getColor = this.getColor.bind(this);
+    this.handleShirtColorChange = throttle(this.handleShirtColorChange, 200);
   }
 
   getColor() {
@@ -85,7 +87,7 @@ class Form extends Component {
     return (<ChromePicker
       disableAlpha
       color={this.getColor()}
-      onChangeComplete={this.handleShirtColorChange}
+      onChange={this.handleShirtColorChange}
     />);
   }
 
