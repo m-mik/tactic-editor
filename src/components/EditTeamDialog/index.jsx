@@ -5,6 +5,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Form from './Form';
 import styles from './EditTeamDialog.scss';
 
+// todo: rwd
 const EditTeamDialog = (props) => {
   const { onConfirm, onClose, team } = props;
 
@@ -42,6 +43,7 @@ const EditTeamDialog = (props) => {
       onRequestClose={onClose}
       modal
       open
+      contentStyle={{ width: 420 }}
     >
       <Form
         ref={(form) => { this.form = form; }}
