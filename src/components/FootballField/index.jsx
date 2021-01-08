@@ -6,8 +6,8 @@ import styles from './FootballField.scss';
 const FootballField = props => (
   <div className={styles.wrapper}>
     <div className={styles.body}>
-      {props.children}
       <Overlay />
+      {props.children}
     </div>
   </div>
   );
