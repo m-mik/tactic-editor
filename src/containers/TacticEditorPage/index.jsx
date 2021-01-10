@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import TacticEditor from '../../components/TacticEditor';
+import FootballField from '../../components/FootballField';
+import TeamInfo from '../../components/TeamInfo';
+import PlayerPopover from '../../components/PlayerPopover';
+import EditTeamDialog from '../../components/EditTeamDialog';
+import TeamGrid from './TeamGrid';
+import { findPlayerElement } from '../../lib/footballField/index';
+import { editedTeamSelector, selectedPlayerSelector } from './selectors';
 import { fetchTacticIfNeeded } from '../../entities/tacticDetails/actions';
 import { updatePlayer } from '../../entities/players/actions';
 import { updateTeam } from '../../entities/teams/actions';
@@ -12,19 +20,11 @@ import {
   closeEditTeamDialog,
   openEditTeamDialog,
 } from './actions';
-import TacticEditor from '../../components/TacticEditor';
-import FootballField from '../../components/FootballField';
-import TeamInfo from '../../components/TeamInfo';
-import PlayerPopover from '../../components/PlayerPopover';
-import EditTeamDialog from '../../components/EditTeamDialog';
-import TeamGrid from './TeamGrid';
 import {
   tacticDetailSelector,
   isFetchingSelector,
   hasErrorSelector,
 } from '../../entities/tacticDetails/selectors';
-import { editedTeamSelector, selectedPlayerSelector } from './selectors';
-import { findPlayerElement } from '../../lib/footballField/index';
 
 class TacticEditorPage extends Component {
   componentDidMount() {
@@ -49,8 +49,9 @@ class TacticEditorPage extends Component {
   renderTeamInfo(team) {
     return (<TeamInfo
       onUpdate={this.props.updateTeam}
-      team={team}
+      onPlayerPositionChange={this.props.movePlayer}
       openEditTeamDialog={this.props.openEditTeamDialog}
+      team={team}
     />);
   }
 
