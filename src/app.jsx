@@ -12,9 +12,9 @@ import './assets/styles/base.scss';
 window.Perf = Perf;
 
 injectTapEventPlugin();
+mockApi();
 
 const store = configureStore();
-mockApi(store);
 
 const render = () => {
   ReactDOM.render(

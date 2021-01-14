@@ -2,7 +2,8 @@ import { reset } from 'redux-form';
 import axios from 'axios';
 import { CREATE_TACTIC, FETCH_TACTICS } from './constants';
 import tacticSchema from './schema';
-import { selectTactic, handleError } from '../../containers/App/actions';
+import teamSchema from '../teams/schema';
+import { receiveEntity, selectTactic, handleError } from '../../containers/App/actions';
 import { closeCreateTacticDialog } from '../../containers/Sidebar/actions';
 
 export const createTactic = data => dispatch =>
@@ -11,7 +12,8 @@ export const createTactic = data => dispatch =>
     payload: axios.post('/tactics', data),
     meta: { data },
   }).then(({ action }) => {
-    const id = action.payload.data.id;
+    const { id, teams } = action.payload.data;
+    dispatch(receiveEntity(teams, [teamSchema]));
     dispatch(selectTactic(id));
     dispatch(closeCreateTacticDialog());
     dispatch(reset('createTacticForm'));
@@ -25,4 +27,3 @@ export const fetchTactics = () => dispatch =>
       schema: [tacticSchema],
     },
   }).catch(error => dispatch(handleError(error)));
-

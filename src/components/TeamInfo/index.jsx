@@ -7,7 +7,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import Color from 'color';
-import tactics from './tactics.json';
+import formations from '../../lib/footballField/formations.json';
 import { getFormationText, getFormation } from '../../lib/footballField';
 import styles from './TeamInfo.scss';
 
@@ -30,12 +30,12 @@ export default class TeamInfo extends Component {
 
   handleTacticChange(event, index, value) {
     if (value === 0) return;
-    const tactic = tactics[value];
+    const formation = formations[value];
     const { team, onPlayerPositionChange } = this.props;
     const { players } = team;
     Object.keys(players).sort((a, b) => a - b).forEach((pos, i) => {
       const player = players[pos];
-      const targetPos = tactic.positions[i];
+      const targetPos = formation.positions[i];
       if (player.position !== targetPos) {
         onPlayerPositionChange({ ...player, team: { id: team.id } }, targetPos);
       }
@@ -70,8 +70,8 @@ export default class TeamInfo extends Component {
   }
 
   renderTacticList() { // eslint-disable-line class-methods-use-this
-    const formation = getFormation(this.props.team.players);
-    const formationText = getFormationText(formation);
+    const currentFormation = getFormation(this.props.team.players);
+    const formationText = getFormationText(currentFormation);
 
     return (
       <SelectField
@@ -81,10 +81,14 @@ export default class TeamInfo extends Component {
         value={0}
       >
         <MenuItem value={0} primaryText={formationText} />
-        {Object.keys(tactics).map((key) => {
-          const tactic = tactics[key];
-          if (formationText !== tactic.name) {
-            return <MenuItem key={tactic.id} value={tactic.id} primaryText={tactic.name} />;
+        {Object.keys(formations).map((key) => {
+          const formation = formations[key];
+          if (formationText !== formation.name) {
+            return (<MenuItem
+              key={formation.id}
+              value={formation.id}
+              primaryText={formation.name}
+            />);
           }
           return null;
         })}
@@ -105,6 +109,8 @@ export default class TeamInfo extends Component {
 
   render() {
     const { team } = this.props;
+    if (!team) return null;
+
     const teamGoals = Object.keys(team.players)
       .reduce((goals, key) => goals + team.players[key].goals, 0);
 
