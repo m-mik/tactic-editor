@@ -19,6 +19,7 @@ import {
   selectPlayer,
   closeEditTeamDialog,
   openEditTeamDialog,
+  updateFormation,
 } from './actions';
 import {
   tacticDetailSelector,
@@ -49,7 +50,7 @@ class TacticEditorPage extends Component {
   renderTeamInfo(team) {
     return (<TeamInfo
       onUpdate={this.props.updateTeam}
-      onPlayerPositionChange={this.props.movePlayer}
+      onFormationChange={this.props.updateFormation}
       openEditTeamDialog={this.props.openEditTeamDialog}
       team={team}
     />);
@@ -125,6 +126,7 @@ TacticEditorPage.propTypes = {
   fetchTacticIfNeeded: PropTypes.func.isRequired,
   selectPlayer: PropTypes.func.isRequired,
   movePlayer: PropTypes.func.isRequired,
+  updateFormation: PropTypes.func.isRequired,
   swapPlayers: PropTypes.func.isRequired,
   updatePlayer: PropTypes.func.isRequired,
   closeEditTeamDialog: PropTypes.func.isRequired,
@@ -166,6 +168,7 @@ const ConnectedTacticEditorPage = connect(
     updateTeam,
     openEditTeamDialog,
     closeEditTeamDialog,
+    updateFormation,
   },
 )(TacticEditorPage);
 
