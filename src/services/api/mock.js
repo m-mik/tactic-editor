@@ -30,7 +30,7 @@ const mockApi = () => {
     id: nextId('players'),
     name: 'Player',
     number: index + 1,
-    position: formations[1].positions[index],
+    position: 18,
     rating: 5,
     cards: {
       yellow: 0,
