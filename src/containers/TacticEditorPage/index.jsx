@@ -7,6 +7,7 @@ import FootballField from '../../components/FootballField';
 import TeamInfo from '../../components/TeamInfo';
 import PlayerPopover from '../../components/PlayerPopover';
 import EditTeamDialog from '../../components/EditTeamDialog';
+import LoadingIndicator from '../../components/LoadingIndicator';
 import TeamGrid from './TeamGrid';
 import { findPlayerElement } from '../../lib/footballField/index';
 import { editedTeamSelector, selectedPlayerSelector } from './selectors';
@@ -26,6 +27,7 @@ import {
   isFetchingSelector,
   hasErrorSelector,
 } from '../../entities/tacticDetails/selectors';
+import styles from './TacticEditorPage.scss';
 
 class TacticEditorPage extends Component {
   componentDidMount() {
@@ -44,10 +46,12 @@ class TacticEditorPage extends Component {
   renderErrorMessage() {
     const { hasError } = this.props;
     const message = 'Tactic does not exist';
-    return hasError && <span className="error">{message}</span>;
+    return hasError && <span className={styles.errorMessage}>{message}</span>;
   }
 
-  renderTeamInfo(team) {
+  renderTeamInfo(index) {
+    const { tactic } = this.props;
+    const team = !tactic ? TeamInfo.defaultProps.team : tactic.teams[index];
     return (<TeamInfo
       onUpdate={this.props.updateTeam}
       onFormationChange={this.props.updateFormation}
@@ -57,9 +61,12 @@ class TacticEditorPage extends Component {
   }
 
   renderFootballField() {
+    const { tactic, isFetching } = this.props;
     return (
       <FootballField>
-        {this.props.tactic.teams.map((team, index) => (
+        {isFetching && <LoadingIndicator size={200} className={styles.loadingIndicator} />}
+        {this.renderErrorMessage()}
+        {tactic && tactic.teams.map((team, index) => (
           <TeamGrid
             key={team.id}
             type={index === 0 ? 'home' : 'away'}
@@ -96,19 +103,13 @@ class TacticEditorPage extends Component {
   }
 
   render() {
-    // TODO: Add LoadingIndicator
-    const { isFetching, tactic } = this.props;
-    if (isFetching) return <div>Fetching...</div>;
-    if (!tactic) return <div>Waiting...</div>;
-
     return (
       <section>
-        {this.renderErrorMessage()}
-        <TacticEditor loading={isFetching} tactic={tactic}>
-          {this.renderTeamInfo(tactic.teams[0])}
+        <TacticEditor>
+          {this.renderTeamInfo(0)}
           {this.renderFootballField()}
           {this.renderPlayerPopover()}
-          {this.renderTeamInfo(tactic.teams[1])}
+          {this.renderTeamInfo(1)}
           {this.renderTeamDialog()}
         </TacticEditor>
       </section>
