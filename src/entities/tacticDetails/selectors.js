@@ -11,6 +11,7 @@ const getTeams = state => state.entities.teams;
 const getPlayers = state => state.entities.players;
 const getTacticDetails = state => state.entities.tacticDetails;
 const getPlayerTransitions = state => state.editor.playerTransitions;
+const getTactics = state => state.entities.tactics;
 
 const getTeamWithPlayerTrans = (denormalizedTeam, playerTransitions) => {
   const playersWithTrans = denormalizedTeam.players.map(player =>
@@ -29,8 +30,8 @@ const getTeamsWithPlayersByPos = denormalizedTeams =>
   );
 
 export const tacticDetailSelector = createSelector(
-  [getTacticDetails, getTeams, getPlayers, getSelectedTacticId, getPlayerTransitions],
-  (tacticDetails, teams, players, selectedTacticId, playerTransitions) => {
+  [getTacticDetails, getTactics, getTeams, getPlayers, getSelectedTacticId, getPlayerTransitions],
+  (tacticDetails, tactics, teams, players, selectedTacticId, playerTransitions) => {
     const entities = { tacticDetails, teams, players };
     if (!Object.keys(entities.teams.byId).length) return null;
     const denormalized = denormalize(
@@ -45,6 +46,7 @@ export const tacticDetailSelector = createSelector(
       );
       return {
         ...denormalized,
+        name: tactics.byId[selectedTacticId].name,
         teams: getTeamsWithPlayersByPos(teamsWithPlayerTrans),
       };
     }
