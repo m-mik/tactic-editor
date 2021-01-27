@@ -6,8 +6,7 @@ import DraggablePlayer from '../../DraggablePlayer/index';
 
 class PlayerTile extends Component {
   shouldComponentUpdate(nextProps) {
-    return !isEqual(this.props.player, nextProps.player)
-      || !isEqual(this.props.team.shirt, nextProps.team.shirt);
+    return !isEqual(this.props, nextProps);
   }
 
   render() {
@@ -18,6 +17,8 @@ class PlayerTile extends Component {
       onPlayerMove,
       onPlayersSwap,
       onPlayerTouchTap,
+      showNumber,
+      showRating,
     } = this.props;
 
     return (
@@ -31,6 +32,8 @@ class PlayerTile extends Component {
           onMove={onPlayerMove}
           onSwap={onPlayersSwap}
           onTouchTap={onPlayerTouchTap}
+          showRating={showRating}
+          showNumber={showNumber}
           {...player}
         />}
       </Tile>
@@ -52,6 +55,8 @@ PlayerTile.propTypes = {
     id: PropTypes.number,
     name: PropTypes.string,
   }),
+  showNumber: PropTypes.bool.isRequired,
+  showRating: PropTypes.bool.isRequired,
   onPlayerMove: PropTypes.func.isRequired,
   onPlayersSwap: PropTypes.func.isRequired,
   onPlayerTouchTap: PropTypes.func.isRequired,

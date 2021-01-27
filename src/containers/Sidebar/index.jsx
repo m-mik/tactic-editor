@@ -4,12 +4,15 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import * as tacticActions from '../../entities/tactics/actions';
+import * as tacticDetailActions from '../../entities/tacticDetails/actions';
 import * as sidebarActions from './actions';
 import * as appActions from '../App/actions';
 import { tacticsSelector } from '../../entities/tactics/selectors';
 import CreateTacticButton from '../../components/CreateTacticButton/index';
 import CreateTacticDialog from '../../components/CreateTacticDialog/index';
 import TacticList from '../../components/TacticList/index';
+import TacticSettings from '../../components/TacticSettings';
+import { tacticDetailSelector } from '../../entities/tacticDetails/selectors';
 import style from './Sidebar.scss';
 
 class Sidebar extends Component {
@@ -30,31 +33,45 @@ class Sidebar extends Component {
       closeCreateTacticDialog,
       createTactic,
       selectTactic,
+      updateTactic,
+      tactic,
     } = this.props;
 
+    const paperDepth = 3;
+
     return (
-      <Paper zDepth={2} className={style.wrapper}>
-        <CreateTacticButton onTouchTap={openCreateTacticDialog} />
-        <TacticList
-          tactics={tactics}
-          fetching={isFetchingTactics}
-          selectedTacticId={selectedTacticId}
-          onSelectTactic={(event, id) => selectTactic(id, history)}
-        />
-        <CreateTacticDialog
-          onClose={closeCreateTacticDialog}
-          onSubmit={createTactic}
-          open={isCreateTacticDialogOpen}
-          pending={isCreatingTactic}
-        />
-      </Paper>
+      <div className={style.wrapper}>
+        {tactic && <Paper zDepth={paperDepth}>
+          <TacticSettings tactic={tactic} updateTactic={updateTactic} />
+        </Paper>}
+        <Paper zDepth={paperDepth}>
+          <CreateTacticButton onTouchTap={openCreateTacticDialog} />
+          <TacticList
+            tactics={tactics}
+            fetching={isFetchingTactics}
+            selectedTacticId={selectedTacticId}
+            onSelectTactic={(event, id) => selectTactic(id, history)}
+          />
+          <CreateTacticDialog
+            onClose={closeCreateTacticDialog}
+            onSubmit={createTactic}
+            open={isCreateTacticDialogOpen}
+            pending={isCreatingTactic}
+          />
+        </Paper>
+      </div>
     );
   }
 }
 
+Sidebar.defaultProps = {
+  tactic: null,
+};
+
 Sidebar.propTypes = {
   fetchTactics: PropTypes.func.isRequired,
   createTactic: PropTypes.func.isRequired,
+  updateTactic: PropTypes.func.isRequired,
   openCreateTacticDialog: PropTypes.func.isRequired,
   closeCreateTacticDialog: PropTypes.func.isRequired,
   selectTactic: PropTypes.func.isRequired,
@@ -63,6 +80,11 @@ Sidebar.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
   })).isRequired,
+  tactic: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    teams: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }),
   isFetchingTactics: PropTypes.bool.isRequired,
   isCreatingTactic: PropTypes.bool.isRequired,
   isCreateTacticDialogOpen: PropTypes.bool.isRequired,
@@ -77,6 +99,7 @@ const mapStateToProps = (state) => {
   const { isCreateTacticDialogOpen } = sidebar;
 
   return {
+    tactic: tacticDetailSelector(state),
     tactics: tacticsSelector(state),
     isFetchingTactics: isFetching,
     isCreatingTactic: isCreating,
@@ -87,7 +110,7 @@ const mapStateToProps = (state) => {
 
 const ConnectedSidebar = connect(
   mapStateToProps,
-  { ...tacticActions, ...sidebarActions, ...appActions },
+  { ...tacticDetailActions, ...tacticActions, ...sidebarActions, ...appActions },
 )(Sidebar);
 
 export default withRouter(ConnectedSidebar);

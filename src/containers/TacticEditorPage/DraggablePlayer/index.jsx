@@ -4,7 +4,6 @@ import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
 import classNames from 'classnames/bind';
 import flow from 'lodash/flow';
-import isEqual from 'lodash/isEqual';
 import Player from '../../../components/Player';
 import ItemTypes from '../TeamGrid/ItemTypes';
 import { canDropPlayer } from '../../../lib/footballField';

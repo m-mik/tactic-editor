@@ -5,7 +5,7 @@ import styles from './Main.scss';
 
 const Main = props => (
   <div className={styles.wrapper}>
-    <Paper zDepth={1}>
+    <Paper zDepth={3}>
       {props.children}
     </Paper>
   </div>
