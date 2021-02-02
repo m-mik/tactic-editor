@@ -4,6 +4,7 @@
     "name": "Barcelona vs Real M.",
     "options": {
       "showGrid": false,
+      "showName": true,
       "showRatings": true,
       "showNumbers": true,
       "showCards": true,

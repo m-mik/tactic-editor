@@ -24,8 +24,7 @@ export default class Player extends Component {
       cards,
       assists,
       goals,
-      showNumber,
-      showRating,
+      show,
       ...rest
     } = this.props;
     const { border, backgroundColor, textColor } = team.shirt;
@@ -55,36 +54,46 @@ export default class Player extends Component {
       { ratingLow: rating >= 1 && rating <= 3 },
     );
 
-    const renderRating = () => {
-      if (showRating) {
-        return <span className={playerRatingClassName}>{rating}</span>;
-      }
-      return null;
+    const renderShirt = () =>
+      <span className={styles.shirt} style={shirtStyle}>{show.number && number}</span>;
+
+    const renderName = () => show.name && <span className={styles.name}>{name}</span>;
+
+    const renderRating = () =>
+      show.rating && <span className={playerRatingClassName}>{rating}</span>;
+
+    const renderCards = () => show.cards && (
+      <div className={styles.cards}>
+        {times(cards.yellow).map(index =>
+          <YellowCardIcon key={index} className={styles.yellowCard} />,
+            )}
+        {times(cards.red).map(index =>
+          <RedCardIcon key={index} className={styles.redCard} />,
+            )}
+      </div>
+    );
+
+    const renderStats = () => {
+      const stats = [
+        { key: 'goals', visible: show.goals, Icon: GoalIcon },
+        { key: 'assists', visible: show.assists, Icon: AssistIcon },
+      ];
+      return stats.filter(stat => stat.visible).map(stat => (
+        <div key={stat.key} className={styles[stat.key]}>
+          {times(this.props[stat.key]).map(index =>
+            <stat.Icon key={index} />,
+          )}
+        </div>
+      ));
     };
 
     return (
       <div className={wrapperClassName} {...rest}>
-        <span className={styles.shirt} style={shirtStyle}>{showNumber && number}</span>
-        <span className={styles.name}>{name}</span>
+        {renderShirt()}
+        {renderName()}
         {renderRating()}
-        <div className={styles.cards}>
-          {times(cards.yellow).map(index =>
-            <YellowCardIcon key={index} className={styles.yellowCard} />,
-          )}
-          {times(cards.red).map(index =>
-            <RedCardIcon key={index} className={styles.redCard} />,
-          )}
-        </div>
-        <div className={styles.assists}>
-          {times(assists).map(index =>
-            <AssistIcon key={index} />,
-          )}
-        </div>
-        <div className={styles.goals}>
-          {times(goals).map(index =>
-            <GoalIcon key={index} />,
-          )}
-        </div>
+        {renderCards()}
+        {renderStats()}
       </div>
     );
   }
@@ -99,8 +108,14 @@ Player.defaultProps = {
   cards: { yellow: 0, red: 0 },
   goals: 0,
   assists: 0,
-  showNumber: true,
-  showRating: true,
+  show: {
+    name: true,
+    number: true,
+    rating: false,
+    cards: false,
+    goals: false,
+    assists: false,
+  },
 };
 
 Player.propTypes = {
@@ -121,8 +136,14 @@ Player.propTypes = {
       textColor: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  showNumber: PropTypes.bool,
-  showRating: PropTypes.bool,
+  show: PropTypes.shape({
+    name: PropTypes.bool.isRequired,
+    number: PropTypes.bool.isRequired,
+    rating: PropTypes.bool.isRequired,
+    cards: PropTypes.bool.isRequired,
+    goals: PropTypes.bool.isRequired,
+    assists: PropTypes.bool.isRequired,
+  }).isRequired,
   className: PropTypes.string,
 };
 

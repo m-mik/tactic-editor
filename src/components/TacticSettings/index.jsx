@@ -3,17 +3,30 @@ import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
 import RaisedButton from 'material-ui/RaisedButton';
+import validate from '../../shared/validation/tactic';
 import styles from './TacticSettings.scss';
 
 const TacticSettings = (props) => {
   const { id, name, options } = props.tactic;
-  const { showGrid, showRatings, showNumbers } = options;
+  const {
+    showGrid,
+    showName,
+    showRatings,
+    showNumbers,
+    showCards,
+    showGoals,
+    showAssists,
+  } = options;
 
   const renderOptions = () => {
     const toggleOptions = [
         { key: 'showGrid', label: 'Grid', toggled: showGrid },
+        { key: 'showName', label: 'Name', toggled: showName },
         { key: 'showRatings', label: 'Ratings', toggled: showRatings },
         { key: 'showNumbers', label: 'Numbers', toggled: showNumbers },
+        { key: 'showCards', label: 'Cards', toggled: showCards },
+        { key: 'showGoals', label: 'Goals', toggled: showGoals },
+        { key: 'showAssists', label: 'Assists', toggled: showAssists },
     ];
     return toggleOptions.map(option =>
       <Toggle
@@ -27,8 +40,10 @@ const TacticSettings = (props) => {
   };
 
   const handleTacticNameChange = (event) => {
-    //console.log(event.target.value);
-    //props.updateTactic(id, { name: event.target.value });
+    const tacticName = event.target.value;
+    if (validate(tacticName)) {
+      props.updateTactic(id, { name: tacticName });
+    }
   };
 
   return (
@@ -50,8 +65,11 @@ TacticSettings.propTypes = {
     teams: PropTypes.arrayOf(PropTypes.object).isRequired,
     options: PropTypes.shape({
       showGrid: PropTypes.bool.isRequired,
-      showRatings: PropTypes.bool.isRequired,
       showNumbers: PropTypes.bool.isRequired,
+      showRatings: PropTypes.bool.isRequired,
+      showCards: PropTypes.bool.isRequired,
+      showGoals: PropTypes.bool.isRequired,
+      showAssists: PropTypes.bool.isRequired,
     }).isRequired,
   }).isRequired,
   updateTactic: PropTypes.func.isRequired,
