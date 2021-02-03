@@ -42,7 +42,7 @@ class Sidebar extends Component {
     return (
       <div className={style.wrapper}>
         {tactic && <Paper zDepth={paperDepth}>
-          <TacticSettings tactic={tactic} updateTactic={updateTactic} />
+          <TacticSettings tactic={tactic} onSettingChange={updateTactic} />
         </Paper>}
         <Paper zDepth={paperDepth}>
           <CreateTacticButton onTouchTap={openCreateTacticDialog} />

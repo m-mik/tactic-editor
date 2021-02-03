@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
 import RaisedButton from 'material-ui/RaisedButton';
-import validate from '../../shared/validation/tactic';
+import { isValid } from '../../shared/validation/tactic';
 import styles from './TacticSettings.scss';
 
 const TacticSettings = (props) => {
+  const { onSettingChange } = props;
   const { id, name, options } = props.tactic;
   const {
     showGrid,
@@ -33,17 +34,14 @@ const TacticSettings = (props) => {
         key={option.key}
         defaultToggled={option.toggled}
         label={option.label}
-        onToggle={() => {
-          props.updateTactic(id, { options: { [option.key]: !option.toggled } });
-        }}
+        onToggle={() => onSettingChange(id, { options: { [option.key]: !option.toggled } })}
       />);
   };
 
   const handleTacticNameChange = (event) => {
     const tacticName = event.target.value;
-    if (validate(tacticName)) {
-      props.updateTactic(id, { name: tacticName });
-    }
+    const data = { name: tacticName };
+    if (isValid(data)) onSettingChange(id, data);
   };
 
   return (
@@ -72,7 +70,7 @@ TacticSettings.propTypes = {
       showAssists: PropTypes.bool.isRequired,
     }).isRequired,
   }).isRequired,
-  updateTactic: PropTypes.func.isRequired,
+  onSettingChange: PropTypes.func.isRequired,
 };
 
 export default TacticSettings;

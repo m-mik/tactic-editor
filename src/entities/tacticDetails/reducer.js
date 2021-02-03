@@ -1,18 +1,18 @@
 import { combineReducers } from 'redux';
 import {
-  FETCH_TACTIC_PENDING,
-  FETCH_TACTIC_FULFILLED,
-  FETCH_TACTIC_REJECTED,
+  FETCH_TACTIC_DETAIL_PENDING,
+  FETCH_TACTIC_DETAIL_FULFILLED,
+  FETCH_TACTIC_DETAIL_REJECTED,
 } from './constants';
 import { CREATE_TACTIC_FULFILLED } from '../tactics/constants';
 
 const fetching = (state = [], action) => {
   switch (action.type) {
-    case FETCH_TACTIC_PENDING:
+    case FETCH_TACTIC_DETAIL_PENDING:
       return [...state, action.meta.data.id];
-    case FETCH_TACTIC_FULFILLED:
+    case FETCH_TACTIC_DETAIL_FULFILLED:
       return state.filter(id => id !== action.payload.result);
-    case FETCH_TACTIC_REJECTED:
+    case FETCH_TACTIC_DETAIL_REJECTED:
       return state.filter(id => id !== action.meta.data.id);
     default:
       return state;
@@ -23,11 +23,11 @@ const errors = (state = [], action) => {
   switch (action.type) {
     case CREATE_TACTIC_FULFILLED:
       return [];
-    case FETCH_TACTIC_PENDING:
+    case FETCH_TACTIC_DETAIL_PENDING:
       return state.filter(id => id !== action.meta.data.id);
-    case FETCH_TACTIC_FULFILLED:
+    case FETCH_TACTIC_DETAIL_FULFILLED:
       return state.filter(id => id !== action.payload.result);
-    case FETCH_TACTIC_REJECTED:
+    case FETCH_TACTIC_DETAIL_REJECTED:
       return [...state, action.meta.data.id];
     default:
       return state;

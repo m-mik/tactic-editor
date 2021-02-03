@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { FETCH_TACTIC, UPDATE_TACTIC } from './constants';
+import { FETCH_TACTIC_DETAIL, UPDATE_TACTIC_DETAIL } from './constants';
 import tacticDetailSchema from '../tacticDetails/schema';
 import { isFetchingSelector } from '../../entities/tacticDetails/selectors';
 import { handleError } from '../../containers/App/actions';
 
-const shouldFetchTactic = (state, id) => {
+const shouldFetchTacticDetail = (state, id) => {
   const { entities } = state;
   const { tacticDetails } = entities;
   const isFetching = isFetchingSelector(state);
@@ -12,9 +12,9 @@ const shouldFetchTactic = (state, id) => {
   return !tacticDetailExists && !isFetching;
 };
 
-export const fetchTactic = id => dispatch =>
+export const fetchTacticDetail = id => dispatch =>
   dispatch({
-    type: FETCH_TACTIC,
+    type: FETCH_TACTIC_DETAIL,
     payload: axios.get(`/tactics/${id}`),
     meta: {
       schema: tacticDetailSchema,
@@ -23,16 +23,16 @@ export const fetchTactic = id => dispatch =>
   }).catch(error => dispatch(handleError(error)));
 
 export const fetchTacticIfNeeded = id => (dispatch, getState) => {
-  if (shouldFetchTactic(getState(), id)) {
-    return dispatch(fetchTactic(id));
+  if (shouldFetchTacticDetail(getState(), id)) {
+    return dispatch(fetchTacticDetail(id));
   }
   return Promise.resolve();
 };
 
-export const updateTactic = (id, tacticData) => ({
-  type: UPDATE_TACTIC,
+export const updateTacticDetail = (id, tacticDetailData) => ({
+  type: UPDATE_TACTIC_DETAIL,
   payload: {
-    data: { id, ...tacticData },
+    data: { id, ...tacticDetailData },
   },
   meta: {
     schema: tacticDetailSchema,

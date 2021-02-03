@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field, propTypes } from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
-import validate from '../../../shared/validation/tactic';
+import { validate } from '../../../shared/validation/tactic';
 
 const Form = (props) => {
   const { onSubmit, pending, handleSubmit } = props;
