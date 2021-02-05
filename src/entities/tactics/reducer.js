@@ -6,6 +6,7 @@ import {
   FETCH_TACTICS_FULFILLED,
   FETCH_TACTICS_PENDING,
   FETCH_TACTICS_REJECTED,
+  DELETE_TACTIC_FULFILLED,
 } from './constants';
 
 const tactic = (state, action) => {
@@ -34,6 +35,8 @@ const items = (state = [], action) => {
       return [action.payload.data.id, ...state];
     case FETCH_TACTICS_FULFILLED:
       return [...state, ...action.payload.result];
+    case DELETE_TACTIC_FULFILLED:
+      return state.filter(id => id !== action.meta.id);
     default:
       return state;
   }

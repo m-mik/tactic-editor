@@ -8,8 +8,9 @@ import * as tacticDetailActions from '../../entities/tacticDetails/actions';
 import * as sidebarActions from './actions';
 import * as appActions from '../App/actions';
 import { tacticsSelector } from '../../entities/tactics/selectors';
-import CreateTacticButton from '../../components/CreateTacticButton/index';
-import CreateTacticDialog from '../../components/CreateTacticDialog/index';
+import CreateTacticButton from '../../components/CreateTacticButton';
+import CreateTacticDialog from '../../components/CreateTacticDialog';
+import DeleteTacticDialog from '../../components/DeleteTacticDialog';
 import TacticList from '../../components/TacticList/index';
 import TacticSettings from '../../components/TacticSettings';
 import { tacticDetailSelector } from '../../entities/tacticDetails/selectors';
@@ -26,14 +27,18 @@ class Sidebar extends Component {
     const {
       isFetchingTactics,
       isCreateTacticDialogOpen,
+      isDeleteTacticDialogOpen,
       isCreatingTactic,
       tactics,
       selectedTacticId,
       openCreateTacticDialog,
       closeCreateTacticDialog,
+      openDeleteTacticDialog,
+      closeDeleteTacticDialog,
       createTactic,
       selectTactic,
       updateTactic,
+      deleteTactic,
       tactic,
     } = this.props;
 
@@ -42,7 +47,18 @@ class Sidebar extends Component {
     return (
       <div className={style.wrapper}>
         {tactic && <Paper zDepth={paperDepth}>
-          <TacticSettings tactic={tactic} onSettingChange={updateTactic} />
+          <TacticSettings
+            tactic={tactic}
+            onDeleteTacticTouchTap={openDeleteTacticDialog}
+            onSettingChange={updateTactic}
+          />
+          <DeleteTacticDialog
+            tactic={tactic}
+            open={isDeleteTacticDialogOpen}
+            pending={false}
+            onClose={closeDeleteTacticDialog}
+            onDelete={deleteTactic}
+          />
         </Paper>}
         <Paper zDepth={paperDepth}>
           <CreateTacticButton onTouchTap={openCreateTacticDialog} />
@@ -50,11 +66,11 @@ class Sidebar extends Component {
             tactics={tactics}
             fetching={isFetchingTactics}
             selectedTacticId={selectedTacticId}
-            onSelectTactic={(event, id) => selectTactic(id, history)}
+            onSelectTactic={(event, id) => selectTactic(id)}
           />
           <CreateTacticDialog
             onClose={closeCreateTacticDialog}
-            onSubmit={createTactic}
+            onCreate={createTactic}
             open={isCreateTacticDialogOpen}
             pending={isCreatingTactic}
           />
@@ -72,8 +88,11 @@ Sidebar.propTypes = {
   fetchTactics: PropTypes.func.isRequired,
   createTactic: PropTypes.func.isRequired,
   updateTactic: PropTypes.func.isRequired,
+  deleteTactic: PropTypes.func.isRequired,
   openCreateTacticDialog: PropTypes.func.isRequired,
+  openDeleteTacticDialog: PropTypes.func.isRequired,
   closeCreateTacticDialog: PropTypes.func.isRequired,
+  closeDeleteTacticDialog: PropTypes.func.isRequired,
   selectTactic: PropTypes.func.isRequired,
   selectedTacticId: PropTypes.number.isRequired,
   tactics: PropTypes.arrayOf(PropTypes.shape({
@@ -88,6 +107,7 @@ Sidebar.propTypes = {
   isFetchingTactics: PropTypes.bool.isRequired,
   isCreatingTactic: PropTypes.bool.isRequired,
   isCreateTacticDialogOpen: PropTypes.bool.isRequired,
+  isDeleteTacticDialogOpen: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
@@ -96,7 +116,7 @@ const mapStateToProps = (state) => {
   const { tactics } = entities;
   const { isCreating, isFetching } = tactics.status;
   const { selectedTacticId } = app;
-  const { isCreateTacticDialogOpen } = sidebar;
+  const { isCreateTacticDialogOpen, isDeleteTacticDialogOpen } = sidebar;
 
   return {
     tactic: tacticDetailSelector(state),
@@ -104,6 +124,7 @@ const mapStateToProps = (state) => {
     isFetchingTactics: isFetching,
     isCreatingTactic: isCreating,
     isCreateTacticDialogOpen,
+    isDeleteTacticDialogOpen,
     selectedTacticId,
   };
 };

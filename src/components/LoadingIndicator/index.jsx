@@ -5,7 +5,7 @@ import styles from './LoadingIndicator.scss';
 
 const LoadingIndicator = props => (
   <CircularProgress {...props} />
-);
+  );
 
 LoadingIndicator.defaultProps = {
   className: styles.loadingIndicator,
