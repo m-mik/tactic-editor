@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux';
 import {
-  CREATE_TACTIC_FULFILLED,
   CREATE_TACTIC_PENDING,
+  CREATE_TACTIC_FULFILLED,
   CREATE_TACTIC_REJECTED,
-  FETCH_TACTICS_FULFILLED,
   FETCH_TACTICS_PENDING,
+  FETCH_TACTICS_FULFILLED,
   FETCH_TACTICS_REJECTED,
+  DELETE_TACTIC_PENDING,
   DELETE_TACTIC_FULFILLED,
+  DELETE_TACTIC_REJECTED,
 } from './constants';
 
 const tactic = (state, action) => {
@@ -42,7 +44,15 @@ const items = (state = [], action) => {
   }
 };
 
-const status = (state = { isFetching: false, isCreating: false, error: false }, action) => {
+const initialStatusState = {
+  isFetching: false,
+  isCreating: false,
+  isDeleting: false,
+  error: false,
+};
+
+// TODO: refactor
+const status = (state = initialStatusState, action) => {
   switch (action.type) {
     case FETCH_TACTICS_PENDING:
       return { ...state, isFetching: true };
@@ -50,11 +60,21 @@ const status = (state = { isFetching: false, isCreating: false, error: false }, 
       return { ...state, isFetching: false, error: true };
     case FETCH_TACTICS_FULFILLED:
       return { ...state, isFetching: false, error: false };
+
     case CREATE_TACTIC_PENDING:
       return { ...state, isCreating: true };
-    case CREATE_TACTIC_FULFILLED:
     case CREATE_TACTIC_REJECTED:
-      return { ...state, isCreating: false };
+      return { ...state, isCreating: false, error: true };
+    case CREATE_TACTIC_FULFILLED:
+      return { ...state, isCreating: false, error: false };
+
+    case DELETE_TACTIC_PENDING:
+      return { ...state, isDeleting: true };
+    case DELETE_TACTIC_REJECTED:
+      return { ...state, isDeleting: false, error: true };
+    case DELETE_TACTIC_FULFILLED:
+      return { ...state, isDeleting: false, error: false };
+
     default:
       return state;
   }

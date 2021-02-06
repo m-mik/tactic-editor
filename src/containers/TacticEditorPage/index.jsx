@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import isEqual from 'lodash/isEqual';
 import TacticEditor from '../../components/TacticEditor';
 import FootballField from '../../components/FootballField';
 import TeamInfo from '../../components/TeamInfo';
@@ -33,6 +34,10 @@ class TacticEditorPage extends Component {
   componentDidMount() {
     const id = +this.props.match.params.id;
     this.props.fetchTacticIfNeeded(id);
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return !isEqual(this.props, nextProps);
   }
 
   componentWillUpdate(nextProps) {
@@ -76,7 +81,6 @@ class TacticEditorPage extends Component {
             onPlayersSwap={this.props.swapPlayers}
             onPlayerSelect={this.props.selectPlayer}
             selectedPlayerId={this.props.selectedPlayerId}
-            updateTactic={this.props.updateTactic}
           />
           ))}
       </FootballField>

@@ -10,7 +10,7 @@ import styles from './TeamGrid.scss';
 
 const cx = classNames.bind(styles);
 
-class Grid extends Component {
+class TeamGrid extends Component {
   constructor() {
     super();
 
@@ -93,8 +93,9 @@ class Grid extends Component {
   }
 }
 
-Grid.propTypes = {
+TeamGrid.propTypes = {
   team: PropTypes.shape({
+    name: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
     players: PropTypes.object.isRequired,
     shirt: PropTypes.object.isRequired,
@@ -115,4 +116,4 @@ Grid.propTypes = {
   onPlayerSelect: PropTypes.func.isRequired,
 };
 
-export default withDragDropContext(Grid);
+export default withDragDropContext(TeamGrid);

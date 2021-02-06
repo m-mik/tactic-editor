@@ -4,6 +4,7 @@ import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
 import classNames from 'classnames/bind';
 import flow from 'lodash/flow';
+import isEqual from 'lodash/isEqual';
 import Player from '../../../components/Player';
 import ItemTypes from '../TeamGrid/ItemTypes';
 import { canDropPlayer } from '../../../lib/footballField';
@@ -12,6 +13,19 @@ import styles from './DraggablePlayer.scss';
 const cx = classNames.bind(styles);
 
 class DraggablePlayer extends Component {
+  shouldComponentUpdate(nextProps) {
+    return this.props.goals !== nextProps.goals
+      || this.props.assists !== nextProps.assists
+      || this.props.cards !== nextProps.cards
+      || this.props.rating !== nextProps.rating
+      || this.props.name !== nextProps.name
+      || this.props.isOver !== nextProps.isOver
+      || this.props.isDragging !== nextProps.isDragging
+      || this.props.position !== nextProps.position
+      || !isEqual(this.props.team.shirt, nextProps.team.shirt)
+      || !isEqual(this.props.transition, nextProps.transition);
+  }
+
   render() {
     const {
       connectDragSource,
@@ -58,6 +72,17 @@ DraggablePlayer.defaultProps = {
 };
 
 DraggablePlayer.propTypes = {
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  number: PropTypes.number.isRequired,
+  rating: PropTypes.number.isRequired,
+  position: PropTypes.number.isRequired,
+  cards: PropTypes.shape({
+    yellow: PropTypes.number.isRequired,
+    red: PropTypes.number.isRequired,
+  }).isRequired,
+  goals: PropTypes.number.isRequired,
+  assists: PropTypes.number.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
   isOver: PropTypes.bool.isRequired,
@@ -65,8 +90,6 @@ DraggablePlayer.propTypes = {
   onMove: PropTypes.func.isRequired,
   onSwap: PropTypes.func.isRequired,
   onTouchTap: PropTypes.func.isRequired,
-  id: PropTypes.number.isRequired,
-  position: PropTypes.number.isRequired,
   transition: PropTypes.shape({
     left: PropTypes.number,
     top: PropTypes.number,
