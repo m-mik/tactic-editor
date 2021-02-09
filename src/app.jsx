@@ -1,4 +1,5 @@
-import Perf from 'react-addons-perf';
+/* global PRODUCTION, DEVELOPMENT */
+/* eslint-disable global-require */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
@@ -8,11 +9,15 @@ import configureStore from './store/configureStore';
 import mockApi from './services/api/mock';
 import './assets/styles/base.scss';
 
-// TODO: remove for production
-window.Perf = Perf;
-
 injectTapEventPlugin();
 mockApi();
+
+if (DEVELOPMENT) {
+  const Perf = require('react-addons-perf');
+  const { whyDidYouUpdate } = require('why-did-you-update');
+  whyDidYouUpdate(React, { include: /^Sidebar/ });
+  window.Perf = Perf;
+}
 
 const store = configureStore();
 
