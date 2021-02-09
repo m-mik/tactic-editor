@@ -1,4 +1,7 @@
 import { combineReducers } from 'redux';
+import merge from 'lodash/merge';
+import get from 'lodash/get';
+
 import {
   CREATE_TACTIC_PENDING,
   CREATE_TACTIC_FULFILLED,
@@ -26,8 +29,12 @@ const byId = (state = {}, action) => {
   switch (action.type) {
     case CREATE_TACTIC_FULFILLED:
       return { ...state, ...tactic(undefined, action) };
-    default:
+    default: {
+      if (get(action, 'payload.entities.tactics')) {
+        return merge({}, state, action.payload.entities.tactics);
+      }
       return state;
+    }
   }
 };
 

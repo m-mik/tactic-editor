@@ -5,13 +5,13 @@ import { createSelector } from 'reselect';
 import tacticDetailSchema from './schema';
 
 const getSelectedTacticId = state => state.app.selectedTacticId;
-const getFetching = state => state.entities.tacticDetails.status.fetching;
-const getErrors = state => state.entities.tacticDetails.status.errors;
-const getTeams = state => state.entities.teams;
-const getPlayers = state => state.entities.players;
-const getTacticDetails = state => state.entities.tacticDetails;
+const getFetching = state => state.data.tacticDetails.status.fetching;
+const getErrors = state => state.data.tacticDetails.status.errors;
+const getTeams = state => state.data.teams;
+const getPlayers = state => state.data.players;
+const getTacticDetails = state => state.data.tacticDetails;
 const getPlayerTransitions = state => state.editor.playerTransitions;
-const getTactics = state => state.entities.tactics;
+const getTactics = state => state.data.tactics;
 
 const getTeamWithPlayerTrans = (denormalizedTeam, playerTransitions) => {
   const playersWithTrans = denormalizedTeam.players.map(player =>
@@ -32,12 +32,12 @@ const getTeamsWithPlayersByPos = denormalizedTeams =>
 export const tacticDetailSelector = createSelector(
   [getTacticDetails, getTactics, getTeams, getPlayers, getSelectedTacticId, getPlayerTransitions],
   (tacticDetails, tactics, teams, players, selectedTacticId, playerTransitions) => {
-    const entities = { tacticDetails, teams, players };
-    if (!Object.keys(entities.teams.byId).length) return null;
+    const data = { tacticDetails, teams, players };
+    if (!Object.keys(data.teams.byId).length) return null;
     const denormalized = denormalize(
       selectedTacticId,
       tacticDetailSchema,
-      { ...mapValues(entities, value => value.byId) },
+      { ...mapValues(data, value => value.byId) },
     );
 
     if (denormalized) {

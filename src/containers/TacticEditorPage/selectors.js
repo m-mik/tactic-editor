@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
 
-const getTeams = state => state.entities.teams;
+const getTeams = state => state.data.teams;
 const getEditedTeamId = state => state.editor.editedTeamId;
-const getPlayers = state => state.entities.players;
+const getPlayers = state => state.data.players;
 const getSelectedPlayerId = state => state.editor.selectedPlayerId;
 
 export const editedTeamSelector = createSelector(
