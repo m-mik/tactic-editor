@@ -1,52 +1,38 @@
 import React from 'react';
-import { List, ListItem, makeSelectable } from 'material-ui/List';
 import PropTypes from 'prop-types';
+import { List, ListItem, makeSelectable } from 'material-ui/List';
+
 import LoadingIndicator from '../LoadingIndicator';
+import CreateTacticContainer from '../../containers/CreateTacticContainer';
 
 const SelectableList = makeSelectable(List);
 
-const TacticList = (props) => {
-  const {
-    fetching,
-    selectedTacticId,
-    onSelectTactic,
-  } = props;
-
-  const renderTactics = () => props.tactics.map(tactic =>
-    <ListItem
-      key={tactic.id}
-      value={tactic.id}
-      primaryText={tactic.name}
-    />,
-  );
-
-  return (
+const TacticList = props => (
+  <div>
+    <CreateTacticContainer />
     <SelectableList
-      className="tactic-list"
-      value={selectedTacticId}
-      onChange={onSelectTactic}
+      value={props.selectedTacticId}
+      onChange={props.onSelectTactic}
     >
-      {fetching && <LoadingIndicator />}
-      {renderTactics()}
+      {props.fetching && <LoadingIndicator />}
+      {props.tactics.map(tactic =>
+        <ListItem
+          key={tactic.id}
+          value={tactic.id}
+          primaryText={tactic.name}
+        />)}
     </SelectableList>
-  );
-};
-
-TacticList.defaultProps = {
-  fetching: false,
-  tactics: [],
-  selectedTacticId: 0,
-  onSelectTactic: () => {},
-};
+  </div>
+);
 
 TacticList.propTypes = {
   tactics: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-  })),
-  fetching: PropTypes.bool,
-  selectedTacticId: PropTypes.number,
-  onSelectTactic: PropTypes.func,
+  })).isRequired,
+  fetching: PropTypes.bool.isRequired,
+  selectedTacticId: PropTypes.number.isRequired,
+  onSelectTactic: PropTypes.func.isRequired,
 };
 
 export default TacticList;
