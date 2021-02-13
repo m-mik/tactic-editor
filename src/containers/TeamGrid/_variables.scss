@@ -1,0 +1,9 @@
+$vertical-tiles-count: 6;
+$horizontal-tiles-count: 7;
+$tile-border: 1px dashed #539e58;
+$tile-width: 100% / $horizontal-tiles-count;
+$tile-height: 100% / $vertical-tiles-count;
+
+$dragged-player-opacity: 0.5;
+$drop-target-opacity: $dragged-player-opacity;
+$drop-target-border: 2px solid #ffef00;

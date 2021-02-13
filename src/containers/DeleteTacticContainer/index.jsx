@@ -2,14 +2,18 @@ import { connect } from 'react-redux';
 
 import DeleteTactic from '../../components/DeleteTactic';
 import { openDeleteTacticDialog, closeDeleteTacticDialog } from '../App/actions';
-import { tacticDetailSelector } from '../../data/tacticDetails/selectors';
+import { makeSelectTactic, selectIsDeleting } from '../../data/tactics/selectors';
+import { selectIsDeleteTacticDialogOpen } from '../App/selectors';
 import { deleteTactic } from '../../data/tactics/actions';
 
-const mapStateToProps = state => ({
-  open: state.app.isDeleteTacticDialogOpen,
-  pending: state.data.tactics.status.isDeleting,
-  tactic: tacticDetailSelector(state),
-});
+const makeMapStateToProps = () => {
+  const selectTactic = makeSelectTactic();
+  return state => ({
+    open: selectIsDeleteTacticDialogOpen(state),
+    pending: selectIsDeleting(state),
+    tactic: selectTactic(state),
+  });
+};
 
 const mapDispatchToProps = {
   onCloseDialog: closeDeleteTacticDialog,
@@ -17,4 +21,4 @@ const mapDispatchToProps = {
   onDelete: deleteTactic,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeleteTactic);
+export default connect(makeMapStateToProps, mapDispatchToProps)(DeleteTactic);

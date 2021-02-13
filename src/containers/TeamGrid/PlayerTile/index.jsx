@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import isEqual from 'lodash/isEqual';
-import Tile from '../Tile/index';
+import Tile from '../../../../components/TeamGrid/Tile/index';
 import DraggablePlayer from '../../DraggablePlayer/index';
 
+//todo: remove
 class PlayerTile extends Component {
-  shouldComponentUpdate(nextProps) {
-    return !isEqual(this.props, nextProps);
-  }
-
   render() {
     const {
       position,

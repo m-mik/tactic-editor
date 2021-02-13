@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import times from 'lodash/times';
 import isEqual from 'lodash/isEqual';
 import classNames from 'classnames/bind';
-import withDragDropContext from './withDragDropContext';
-import PlayerTile from './PlayerTile';
-import { TEAM_GRID_ID_PREFIX, TILES_COUNT } from '../../../lib/footballField';
+import withDragDropContext from '../../lib/withDragDropContext';
+import PlayerTile from './PlayerTile/index';
+import { TEAM_GRID_ID_PREFIX, TILES_COUNT } from '../../lib/footballField/index';
 import styles from './TeamGrid.scss';
 
 const cx = classNames.bind(styles);

@@ -1,7 +1,14 @@
 import { createSelector } from 'reselect';
+import { selectActiveTacticId } from '../../containers/App/selectors';
 
-const getTactics = state => state.data.tactics;
+export const selectTactics = state => state.data.tactics;
+export const selectIsFetching = state => state.data.tactics.status.isFetching;
+export const selectIsDeleting = state => state.data.tactics.status.isDeleting;
 
-export const tacticsSelector = createSelector(
-  [getTactics], tactics => tactics.items.map(id => tactics.byId[id]),
+export const selectTacticsArray = createSelector(
+  [selectTactics], tactics => tactics.items.map(id => tactics.byId[id]),
+);
+
+export const makeSelectTactic = () => createSelector(
+  [selectTactics, selectActiveTacticId], (tactics, activeTacticId) => tactics.byId[activeTacticId],
 );

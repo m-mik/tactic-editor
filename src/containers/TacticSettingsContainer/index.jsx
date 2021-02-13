@@ -1,15 +1,18 @@
 import { connect } from 'react-redux';
 
 import TacticSettings from '../../components/TacticSettings';
-import { tacticDetailSelector } from '../../data/tacticDetails/selectors';
+import { makeSelectTactic } from '../../data/tactics/selectors';
 import { updateTactic } from '../../data/tactics/actions';
 
-const mapStateToProps = state => ({
-  tactic: tacticDetailSelector(state),
-});
+const makeMapStateToProps = () => {
+  const selectTactic = makeSelectTactic();
+  return state => ({
+    tactic: selectTactic(state),
+  });
+};
 
 const mapDispatchToProps = {
   onSettingChange: updateTactic,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TacticSettings);
+export default connect(makeMapStateToProps, mapDispatchToProps)(TacticSettings);
