@@ -44,10 +44,10 @@
             "position": 1,
             "rating": 5,
             "cards": {
-              "yellow": 0,
+              "yellow": 2,
               "red": 0
             },
-            "goals": 0,
+            "goals": 5,
             "assists": 0
           },
           {

@@ -60,7 +60,7 @@ const status = (state = { fetching: [], errors: [] }, action) => {
       return {
         ...state,
         fetching: fetching(state.fetching, action),
-        errors: fetching(state.errors, action),
+        errors: errors(state.errors, action),
       };
     default:
       return state;

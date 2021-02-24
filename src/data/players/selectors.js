@@ -1,5 +1,12 @@
 import { createSelector } from 'reselect';
-import { denormalize } from 'normalizr';
+import { selectTeamPlayerItems } from '../teams/selectors';
 
-const selectPlayer = (state, props) => state.data.players.byPos[props.position];
+export const selectPlayers = state => state.data.players;
 
+export const makeSelectTeamPlayers = () =>
+  createSelector(
+    [selectTeamPlayerItems, selectPlayers],
+    (playerItems, players) => playerItems
+        .map(playerId => players.byId[playerId])
+        .reduce((result, player) => ({ ...result, [player.position]: player }), {}),
+);

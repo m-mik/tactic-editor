@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { FETCH_TACTIC_DETAIL, UPDATE_TACTIC_DETAIL } from './constants';
 import tacticDetailSchema from '../tacticDetails/schema';
-import { isFetchingSelector } from '../../data/tacticDetails/selectors';
+import { selectIsFetching } from '../../data/tacticDetails/selectors';
 import { handleError } from '../../containers/App/actions';
 
 const shouldFetchTacticDetail = (state, id) => {
   const { data } = state;
   const { tacticDetails } = data;
-  const isFetching = isFetchingSelector(state);
+  const isFetching = selectIsFetching(state);
   const tacticDetailExists = !!tacticDetails.byId[id];
   return !tacticDetailExists && !isFetching;
 };

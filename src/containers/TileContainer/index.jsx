@@ -4,10 +4,14 @@ import { connect } from 'react-redux';
 import { DropTarget } from 'react-dnd';
 import classNames from 'classnames/bind';
 
+import { makeSelectOptions } from '../../data/tacticDetails/selectors';
+import { makeSelectTeamPlayers } from '../../data/players/selectors';
+import { selectTeam } from '../../data/teams/selectors';
 import DraggablePlayer from '../../containers/DraggablePlayer';
 import ItemTypes from '../../lib/ItemTypes';
 import { canDropPlayer } from '../../lib/footballField';
-import styles from '../../components/TeamGrid';
+import { selectPlayer, movePlayer, swapPlayers } from '../TacticPage/actions';
+import styles from '../../components/TeamGrid/TeamGrid.scss';
 
 const cx = classNames.bind(styles);
 
@@ -18,9 +22,10 @@ class TileContainer extends Component {
       position,
       isOver,
       canDrop,
+      player,
+      team,
+      options,
     } = this.props;
-    
-    const { options } = this.props;
 
     const show = {
       name: options.showName,
@@ -71,27 +76,61 @@ const collect = (connect, monitor) => ({
 });
 
 TileContainer.defaultProps = {
-  className: undefined,
-  children: null,
+  player: null,
 };
 
 TileContainer.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
   position: PropTypes.number.isRequired,
-  team: PropTypes.shape({ // eslint-disable-line react/no-unused-prop-types
+  teamId: PropTypes.number.isRequired, // eslint-disable-line react/no-unused-prop-types
+  team: PropTypes.shape({
     id: PropTypes.number.isRequired,
     shirt: PropTypes.object.isRequired,
   }).isRequired,
   isOver: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,
-  children: PropTypes.node,
+  onPlayerMove: PropTypes.func.isRequired,
+  onPlayersSwap: PropTypes.func.isRequired,
+  onPlayerSelect: PropTypes.func.isRequired,
+  options: PropTypes.shape({
+    showGrid: PropTypes.bool.isRequired,
+    showName: PropTypes.bool.isRequired,
+    showNumbers: PropTypes.bool.isRequired,
+    showRatings: PropTypes.bool.isRequired,
+    showCards: PropTypes.bool.isRequired,
+    showGoals: PropTypes.bool.isRequired,
+    showAssists: PropTypes.bool.isRequired,
+  }).isRequired,
+  player: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    number: PropTypes.number.isRequired,
+    rating: PropTypes.number.isRequired,
+    position: PropTypes.number.isRequired,
+    cards: PropTypes.shape({
+      yellow: PropTypes.number.isRequired,
+      red: PropTypes.number.isRequired,
+    }),
+    goals: PropTypes.number.isRequired,
+    assists: PropTypes.number.isRequired,
+  }),
 };
 
-const mapStateToProps = (state, ownProps) => {
-
-  return {};
+const makeMapStateToProps = () => {
+  const selectOptions = makeSelectOptions();
+  const selectTeamPlayers = makeSelectTeamPlayers();
+  return (state, ownProps) => ({
+    player: selectTeamPlayers(state, ownProps)[ownProps.position],
+    team: selectTeam(state, ownProps),
+    options: selectOptions(state),
+  });
 };
+
+const mapDispatchToProps = () => ({
+  onPlayerMove: movePlayer,
+  onPlayersSwap: swapPlayers,
+  onPlayerSelect: selectPlayer,
+});
 
 const DropTargetTileContainer = DropTarget(ItemTypes.PLAYER, tileTarget, collect)(TileContainer);
 
-export default connect(mapStateToProps)(DropTargetTileContainer);
+export default connect(makeMapStateToProps, mapDispatchToProps)(DropTargetTileContainer);
