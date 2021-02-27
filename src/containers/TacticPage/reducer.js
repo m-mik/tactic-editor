@@ -8,7 +8,7 @@ import {
 } from './constants';
 
 const initialState = {
-  selectedPlayerId: 0,
+  activePlayerId: 0,
   editedTeamId: 0,
   playerTransitions: {},
 };
@@ -33,7 +33,7 @@ const editor = (state = initialState, action) => {
         playerTransitions: playerTransitions(state.playerTransitions, action),
       };
     case SELECT_PLAYER:
-      return { ...state, selectedPlayerId: action.payload };
+      return { ...state, activePlayerId: action.payload };
     case OPEN_EDIT_TEAM_DIALOG:
       return { ...state, editedTeamId: action.payload };
     case CLOSE_EDIT_TEAM_DIALOG:

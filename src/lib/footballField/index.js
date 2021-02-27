@@ -68,11 +68,9 @@ export const getCompOffset = (sourceComp, targetComp) =>
   getNodeOffset(findDOMNode(sourceComp), findDOMNode(targetComp));
 
 export const getTeamForPlayer = (denormalizedTeams, player) =>
-  denormalizedTeams.find((team) => {
-    const playerMatch = team.players[player.position];
-    if (!playerMatch) return false;
-    return playerMatch.id === player.id;
-  });
+  denormalizedTeams.find(team =>
+      team.players.some(teamPlayer => teamPlayer.id === player.id),
+  );
 
 export const findPlayerElement = (denormalizedTeams, player) => {
   const team = getTeamForPlayer(denormalizedTeams, player);
