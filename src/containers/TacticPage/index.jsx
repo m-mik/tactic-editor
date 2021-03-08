@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import TeamGridList from '../../components/TeamGridList';
+import TeamInfo from '../../components/TeamInfo';
 import PlayerPopover from '../../components/PlayerPopover';
 import { findPlayerElement } from '../../lib/footballField/index';
 import { selectEditedTeam, selectActivePlayer } from './selectors';
@@ -44,17 +45,16 @@ class TacticPage extends Component {
     return hasError && <span className={styles.errorMessage}>{message}</span>;
   }
 
-  // todo
-  // renderTeamInfo(index) {
-  //   const { tactic } = this.props;
-  //   const team = !tactic ? TeamInfo.defaultProps.team : tactic.teams[index];
-  //   return (<TeamInfo
-  //     onUpdate={this.props.updateTeam}
-  //     onFormationChange={this.props.updateFormation}
-  //     openEditTeamDialog={this.props.openEditTeamDialog}
-  //     team={team}
-  //   />);
-  // }
+  renderTeamInfo(index) {
+    const { tactic } = this.props;
+    const team = !tactic ? TeamInfo.defaultProps.team : tactic.teams[index];
+    return (<TeamInfo
+      onUpdate={this.props.updateTeam}
+      onFormationChange={this.props.updateFormation}
+      openEditTeamDialog={this.props.openEditTeamDialog}
+      team={team}
+    />);
+  }
 
   // renderFootballField() {
   //   const { tactic, isFetching } = this.props;
@@ -86,33 +86,25 @@ class TacticPage extends Component {
       />
     );
   }
-  //
-  // renderTeamDialog() {
-  //   return this.props.editedTeam && <EditTeamDialog
-  //     onClose={this.props.closeEditTeamDialog}
-  //     team={this.props.editedTeam}
-  //     onConfirm={this.props.updateTeam}
-  //   />;
-  // }
 
-// <TeamGridContainer
-// key={team.id}
-// type={index === 0 ? 'home' : 'away'}
-// teamId={team.id}
-// />
-//
+  renderTeamDialog() {
+    return this.props.editedTeam && <EditTeamDialog
+      onClose={this.props.closeEditTeamDialog}
+      team={this.props.editedTeam}
+      onConfirm={this.props.updateTeam}
+    />;
+  }
+
   render() {
     const { tacticDetail } = this.props;
 
     return (
       <section className={styles.wrapper}>
+        {this.renderTeamInfo(0)}
         {tacticDetail && <TeamGridList teamIds={tacticDetail.teams} />}
-
-        {/* {this.renderTeamInfo(0)}*/}
-        {/* {this.renderFootballField()}*/}
         {this.renderPlayerPopover()}
-        {/* {this.renderTeamInfo(1)}*/}
-        {/* {this.renderTeamDialog()}*/}
+        {this.renderTeamInfo(1)}
+        {this.renderTeamDialog()}
       </section>
     );
   }
@@ -151,6 +143,7 @@ const makeMapStateToProps = () => {
     tacticDetail: selectTacticDetail(state),
     selectedPlayer: selectActivePlayer(state),
     teams: selectDenormalizedTeams(state),
+    editedTeam: selectEditedTeam(state),
   });
 };
 //
