@@ -41,6 +41,8 @@ class TileContainer extends Component {
       options,
     } = this.props;
 
+    if (!team) return null;
+
     const show = {
       name: options.showName,
       rating: options.showRatings,
@@ -91,6 +93,7 @@ const collect = (connect, monitor) => ({
 
 TileContainer.defaultProps = {
   player: null,
+  team: null,
 };
 
 TileContainer.propTypes = {
@@ -100,7 +103,7 @@ TileContainer.propTypes = {
   team: PropTypes.shape({
     id: PropTypes.number.isRequired,
     shirt: PropTypes.object.isRequired,
-  }).isRequired,
+  }),
   isOver: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,
   onPlayerMove: PropTypes.func.isRequired,

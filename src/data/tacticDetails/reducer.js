@@ -54,6 +54,7 @@ const byId = (state = {}, action) => {
 
 const status = (state = { fetching: [], errors: [] }, action) => {
   switch (action.type) {
+    case CREATE_TACTIC_FULFILLED:
     case FETCH_TACTIC_DETAIL_PENDING:
     case FETCH_TACTIC_DETAIL_FULFILLED:
     case FETCH_TACTIC_DETAIL_REJECTED:
