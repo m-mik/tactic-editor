@@ -4,6 +4,7 @@ import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
 import classNames from 'classnames/bind';
 import flow from 'lodash/flow';
+import isEqual from 'lodash/isEqual';
 
 import Player from '../../components/Player/index';
 import ItemTypes from '../../lib/ItemTypes';
@@ -13,6 +14,10 @@ import styles from './DraggablePlayer.scss';
 const cx = classNames.bind(styles);
 
 class DraggablePlayer extends Component {
+  shouldComponentUpdate(nextProps) {
+    return this.props !== nextProps;
+  }
+
   render() {
     const {
       connectDragSource,

@@ -24,7 +24,7 @@ export default class Player extends Component {
       cards,
       assists,
       goals,
-      show,
+      options,
       ...rest
     } = this.props;
     const { border, backgroundColor, textColor } = team.shirt;
@@ -55,14 +55,14 @@ export default class Player extends Component {
     );
 
     const renderShirt = () =>
-      <span className={styles.shirt} style={shirtStyle}>{show.number && number}</span>;
+      <span className={styles.shirt} style={shirtStyle}>{options.showNumber && number}</span>;
 
-    const renderName = () => show.name && <span className={styles.name}>{name}</span>;
+    const renderName = () => options.showName && <span className={styles.name}>{name}</span>;
 
     const renderRating = () =>
-      show.rating && <span className={playerRatingClassName}>{rating}</span>;
+      options.showRating && <span className={playerRatingClassName}>{rating}</span>;
 
-    const renderCards = () => show.cards && (
+    const renderCards = () => options.showCards && (
       <div className={styles.cards}>
         {times(cards.yellow).map(index =>
           <YellowCardIcon key={index} className={styles.yellowCard} />,
@@ -75,8 +75,8 @@ export default class Player extends Component {
 
     const renderStats = () => {
       const stats = [
-        { key: 'goals', visible: show.goals, Icon: GoalIcon },
-        { key: 'assists', visible: show.assists, Icon: AssistIcon },
+        { key: 'goals', visible: options.showGoals, Icon: GoalIcon },
+        { key: 'assists', visible: options.showAssists, Icon: AssistIcon },
       ];
       return stats.filter(stat => stat.visible).map(stat => (
         <div key={stat.key} className={styles[stat.key]}>
@@ -108,17 +108,16 @@ Player.defaultProps = {
   cards: { yellow: 0, red: 0 },
   goals: 0,
   assists: 0,
-  show: {
-    name: true,
-    number: true,
-    rating: false,
-    cards: false,
-    goals: false,
-    assists: false,
+  options: {
+    showName: true,
+    showNumber: true,
+    showRating: false,
+    showCards: false,
+    showGoals: false,
+    showAssists: false,
   },
 };
 
-// todo: fix displaying
 Player.propTypes = {
   name: PropTypes.string,
   number: PropTypes.number,
@@ -137,13 +136,13 @@ Player.propTypes = {
       textColor: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  show: PropTypes.shape({
-    name: PropTypes.bool.isRequired,
-    number: PropTypes.bool.isRequired,
-    rating: PropTypes.bool.isRequired,
-    cards: PropTypes.bool.isRequired,
-    goals: PropTypes.bool.isRequired,
-    assists: PropTypes.bool.isRequired,
+  options: PropTypes.shape({
+    showName: PropTypes.bool.isRequired,
+    showNumber: PropTypes.bool.isRequired,
+    showRating: PropTypes.bool.isRequired,
+    showCards: PropTypes.bool.isRequired,
+    showGoals: PropTypes.bool.isRequired,
+    showAssists: PropTypes.bool.isRequired,
   }).isRequired,
   className: PropTypes.string,
 };

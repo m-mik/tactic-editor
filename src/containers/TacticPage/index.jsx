@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -30,7 +30,7 @@ import {
 } from './actions';
 import styles from './TacticPage.scss';
 
-class TacticPage extends Component {
+class TacticPage extends PureComponent {
   componentDidMount() {
     const id = +this.props.match.params.id;
     this.props.fetchTacticIfNeeded(id);
@@ -76,15 +76,15 @@ class TacticPage extends Component {
 
     return (
       <section className={styles.wrapper}>
-        <TeamInfoContainer teamId={teams[0]} />
+        {/*<TeamInfoContainer teamId={teams[0]} />*/}
         <FootballField>
           {tacticDetail && <TeamGridList teamIds={tacticDetail.teams} />}
           {hasError && this.renderErrorMessage()}
           {isFetching && <LoadingIndicator className={styles.loadingIndicator} />}
         </FootballField>
-        <TeamInfoContainer teamId={teams[1]} />
-        {this.renderPlayerPopover()}
-        {this.renderTeamDialog()}
+        {/*<TeamInfoContainer teamId={teams[1]} />*/}
+        {/*{this.renderPlayerPopover()}*/}
+        {/*{this.renderTeamDialog()}*/}
       </section>
     );
   }
@@ -110,7 +110,7 @@ TacticPage.propTypes = {
     options: PropTypes.object.isRequired,
     teams: PropTypes.arrayOf(PropTypes.number).isRequired,
   }),
-  denormalizedTeams: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  denormalizedTeams: PropTypes.array, // eslint-disable-line react/forbid-prop-types
   editedTeam: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   selectedPlayer: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types

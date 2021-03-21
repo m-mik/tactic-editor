@@ -12,9 +12,23 @@ export const makeSelectTacticDetail = () => createSelector(
   (tacticDetails, activeTacticId) => tacticDetails.byId[activeTacticId],
 );
 
-export const makeSelectOptions = () => createSelector(
-  [makeSelectTacticDetail()], tacticDetail => tacticDetail.options,
-);
+export const makeSelectOptions = () => {
+  const selectTacticDetail = makeSelectTacticDetail();
+  return createSelector([selectTacticDetail], tacticDetail => tacticDetail.options);
+};
+
+export const makeSelectPlayerOptions = () => {
+  const selectOptions = makeSelectOptions();
+  return createSelector([selectOptions], options => ({
+    showName: options.showName,
+    showRating: options.showRatings,
+    showNumber: options.showNumbers,
+    showCards: options.showCards,
+    showGoals: options.showGoals,
+    showAssists: options.showAssists,
+  }));
+};
+
 
 export const makeSelectFullTacticDetail = () => createSelector(
   [selectTacticDetails, selectTactics, selectActiveTacticId],
