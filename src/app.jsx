@@ -34,7 +34,7 @@ if (module.hot) {
 
 if (DEVELOPMENT) {
   const Perf = require('react-addons-perf');
-  // const { whyDidYouUpdate } = require('why-did-you-update');
-  // whyDidYouUpdate(React, { include: /^TileContainer/ });
+  //const { whyDidYouUpdate } = require('why-did-you-update');
+  //whyDidYouUpdate(React, { include: /^TileContainer/ });
   window.Perf = Perf;
 }
