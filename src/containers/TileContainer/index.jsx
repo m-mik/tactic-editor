@@ -14,7 +14,9 @@ const cx = classNames.bind(styles);
 class TileContainer extends Component {
   shouldComponentUpdate(nextProps) {
     return this.props.isOver !== nextProps.isOver
-      || !isEqual(this.props.player, nextProps.player);
+      || !isEqual(this.props.player, nextProps.player)
+      || !isEqual(this.props.playerOptions, nextProps.playerOptions)
+      || this.props.team.shirt !== nextProps.team.shirt;
   }
 
   render() {
@@ -83,6 +85,11 @@ TileContainer.propTypes = {
   position: PropTypes.number.isRequired,
   team: PropTypes.shape({ // eslint-disable-line react/no-unused-prop-types
     id: PropTypes.number.isRequired,
+    shirt: PropTypes.shape({
+      border: PropTypes.object,
+      backgroundColor: PropTypes.string,
+      textColor: PropTypes.string,
+    }),
   }),
   isOver: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,
@@ -97,13 +104,6 @@ TileContainer.propTypes = {
     }),
     goals: PropTypes.number,
     assists: PropTypes.number,
-    team: PropTypes.shape({
-      shirt: PropTypes.shape({
-        border: PropTypes.object,
-        backgroundColor: PropTypes.string,
-        textColor: PropTypes.string,
-      }),
-    }),
   }),
   playerOptions: PropTypes.shape({
     showAssists: PropTypes.bool.isRequired,

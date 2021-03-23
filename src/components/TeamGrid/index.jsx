@@ -13,14 +13,15 @@ class TeamGrid extends Component {
   constructor() {
     super();
 
-    this.handleOnPlayerTouchTap = this.handleOnPlayerTouchTap.bind(this);
+    this.handlePlayerTouchTap = this.handlePlayerTouchTap.bind(this);
   }
 
   shouldComponentUpdate(nextProps) {
-    return !isEqual(this.props.players, nextProps.players);
+    return !isEqual(this.props.players, nextProps.players)
+      || this.props.options !== nextProps.options;
   }
 
-  handleOnPlayerTouchTap(event, playerId) {
+  handlePlayerTouchTap(event, playerId) {
     event.preventDefault();
     if (this.props.activePlayerId !== playerId) {
       this.props.onPlayerSelect(playerId);
@@ -56,7 +57,7 @@ class TeamGrid extends Component {
           position={position}
           player={player}
           playerOptions={playerOptions}
-          onPlayerTouchTap={this.handleOnPlayerTouchTap}
+          onPlayerTouchTap={this.handlePlayerTouchTap}
           onPlayerMove={onPlayerMove}
           onPlayersSwap={onPlayersSwap}
         />

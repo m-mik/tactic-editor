@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import pick from 'lodash/pick';
 
 import { TEAM_GRID_ID_PREFIX, TILES_COUNT } from '../../lib/footballField';
 import withDragDropContext from '../../lib/withDragDropContext';
@@ -16,7 +17,7 @@ const makeMapStateToProps = () => {
   return (state, ownProps) => ({
     id: `${TEAM_GRID_ID_PREFIX}-${ownProps.teamId}`,
     tilesCount: TILES_COUNT,
-    options: selectOptions(state),
+    options: pick(selectOptions(state), 'showGrid'),
     players: selectTeamPlayers(state, ownProps),
     team: selectTeam(state, ownProps),
     playerOptions: selectPlayerOptions(state, ownProps),

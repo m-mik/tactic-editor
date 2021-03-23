@@ -76,15 +76,15 @@ class TacticPage extends PureComponent {
 
     return (
       <section className={styles.wrapper}>
-        {/*<TeamInfoContainer teamId={teams[0]} />*/}
+        <TeamInfoContainer teamId={teams[0]} />
         <FootballField>
           {tacticDetail && <TeamGridList teamIds={tacticDetail.teams} />}
           {hasError && this.renderErrorMessage()}
           {isFetching && <LoadingIndicator className={styles.loadingIndicator} />}
         </FootballField>
-        {/*<TeamInfoContainer teamId={teams[1]} />*/}
-        {/*{this.renderPlayerPopover()}*/}
-        {/*{this.renderTeamDialog()}*/}
+        <TeamInfoContainer teamId={teams[1]} />
+        {this.renderPlayerPopover()}
+        {this.renderTeamDialog()}
       </section>
     );
   }
