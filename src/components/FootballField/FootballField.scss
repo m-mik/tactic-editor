@@ -1,9 +1,12 @@
 @import './variables';
 
 .wrapper {
-  padding: 0 10% ($aspect-ratio * 100%) 10%;
+  //padding: 0 10% ($aspect-ratio * 100%) 10%;
+  padding: 10%;
   position: relative;
   margin: 0 auto;
+  flex: 3;
+  width: 100%;
 }
 
 .body {

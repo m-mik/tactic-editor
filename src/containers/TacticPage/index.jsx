@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import TeamGridList from '../../components/TeamGridList';
 import TeamInfoContainer from '../TeamInfoContainer';
 import PlayerPopover from '../../components/PlayerPopover';
+import BenchListContainer from '../BenchListContainer';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import FootballField from '../../components/FootballField';
 import EditTeamDialog from '../../components/EditTeamDialog';
@@ -76,15 +77,20 @@ class TacticPage extends PureComponent {
 
     return (
       <section className={styles.wrapper}>
-        <TeamInfoContainer teamId={teams[0]} />
-        <FootballField>
-          {tacticDetail && <TeamGridList teamIds={tacticDetail.teams} />}
-          {hasError && this.renderErrorMessage()}
-          {isFetching && <LoadingIndicator className={styles.loadingIndicator} />}
-        </FootballField>
-        <TeamInfoContainer teamId={teams[1]} />
-        {this.renderPlayerPopover()}
-        {this.renderTeamDialog()}
+        <div style={{ flex: 3, display: 'flex', flexDirection: 'column' }}>
+          <TeamInfoContainer teamId={teams[0]} />
+          <FootballField>
+            {tacticDetail && <TeamGridList teamIds={tacticDetail.teams} />}
+            {hasError && this.renderErrorMessage()}
+            {isFetching && <LoadingIndicator className={styles.loadingIndicator} />}
+          </FootballField>
+          <TeamInfoContainer teamId={teams[1]} />
+          {this.renderPlayerPopover()}
+          {this.renderTeamDialog()}
+        </div>
+        <div style={{ flex: 1 }}>
+          <BenchListContainer />
+        </div>
       </section>
     );
   }
