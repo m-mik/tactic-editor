@@ -10,6 +10,7 @@ import RedCardIcon from '../RedCardIcon';
 import GoalIcon from '../GoalIcon';
 import AssistIcon from '../AssistIcon';
 import styles from './PlayerPopover.scss';
+import pt from '../../propTypes';
 
 export default class PlayerPopover extends Component {
   constructor() {
@@ -52,6 +53,7 @@ export default class PlayerPopover extends Component {
 
   render() {
     const { player } = this.props;
+
     const validate = {
       goals: val => val >= 0 && val <= 5,
       assists: val => val >= 0 && val <= 5,
@@ -139,12 +141,7 @@ PlayerPopover.defaultProps = {
 };
 
 PlayerPopover.propTypes = {
-  player: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    position: PropTypes.number.isRequired,
-    number: PropTypes.number.isRequired,
-  }).isRequired,
+  player: pt.player.isRequired,
   onRequestClose: PropTypes.func.isRequired,
   onPlayerChange: PropTypes.func.isRequired,
   anchorEl: PropTypes.object, // eslint-disable-line react/forbid-prop-types

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
+import pt from '../../propTypes';
 import Form from './Form';
 import styles from './EditTeamDialog.scss';
 
@@ -57,11 +58,7 @@ const EditTeamDialog = (props) => {
 };
 
 EditTeamDialog.propTypes = {
-  team: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    shirt: PropTypes.object,
-  }).isRequired,
+  team: pt.team.isRequired,
   onClose: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
 };

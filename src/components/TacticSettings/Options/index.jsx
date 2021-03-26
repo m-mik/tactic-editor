@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Toggle from 'material-ui/Toggle';
+import pt from '../../../propTypes';
 
 const Options = (props) => {
   const { onSettingChange, tactic: { id, options }, ...rest } = props;
@@ -30,18 +31,7 @@ const Options = (props) => {
 };
 
 Options.propTypes = {
-  tactic: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    options: PropTypes.shape({
-      showGrid: PropTypes.bool.isRequired,
-      showNumbers: PropTypes.bool.isRequired,
-      showRatings: PropTypes.bool.isRequired,
-      showCards: PropTypes.bool.isRequired,
-      showGoals: PropTypes.bool.isRequired,
-      showAssists: PropTypes.bool.isRequired,
-    }),
-  }).isRequired,
+  tactic: pt.tacticWithOptions.isRequired,
   onSettingChange: PropTypes.func.isRequired,
 };
 

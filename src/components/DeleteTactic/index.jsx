@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import DeleteTacticDialog from '../DeleteTacticDialog';
 import DeleteTacticButton from '../DeleteTacticButton';
+import pt from '../../propTypes';
 
 const DeleteTactic = props => (
   <div>
@@ -23,10 +24,7 @@ DeleteTactic.propTypes = {
   onCloseDialog: PropTypes.func.isRequired,
   pending: PropTypes.bool.isRequired,
   onDelete: PropTypes.func.isRequired,
-  tactic: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-  }).isRequired,
+  tactic: pt.tactic.isRequired,
 };
 
 export default DeleteTactic;

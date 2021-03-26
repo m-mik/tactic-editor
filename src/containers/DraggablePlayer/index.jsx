@@ -5,6 +5,7 @@ import { DragSource, DropTarget } from 'react-dnd';
 import classNames from 'classnames/bind';
 import flow from 'lodash/flow';
 
+import pt from '../../propTypes';
 import Player from '../../components/Player/index';
 import ItemTypes from '../../lib/ItemTypes';
 import { canDropPlayer } from '../../lib/footballField/index';
@@ -63,17 +64,14 @@ DraggablePlayer.defaultProps = {
 };
 
 DraggablePlayer.propTypes = {
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  number: PropTypes.number.isRequired,
-  rating: PropTypes.number.isRequired,
-  position: PropTypes.number.isRequired,
-  cards: PropTypes.shape({
-    yellow: PropTypes.number.isRequired,
-    red: PropTypes.number.isRequired,
-  }).isRequired,
-  goals: PropTypes.number.isRequired,
-  assists: PropTypes.number.isRequired,
+  id: pt.playerId.isRequired,
+  name: pt.playerName.isRequired,
+  number: pt.playerNumber.isRequired,
+  rating: pt.playerRating.isRequired,
+  position: pt.playerPosition.isRequired,
+  cards: pt.playerCards.isRequired,
+  goals: pt.playerGoals.isRequired,
+  assists: pt.playerAssists.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
   isOver: PropTypes.bool.isRequired,
@@ -81,15 +79,9 @@ DraggablePlayer.propTypes = {
   onMove: PropTypes.func.isRequired,
   onSwap: PropTypes.func.isRequired,
   onTouchTap: PropTypes.func.isRequired,
-  transition: PropTypes.shape({
-    left: PropTypes.number,
-    top: PropTypes.number,
-  }),
+  transition: pt.transition,
   isDragging: PropTypes.bool.isRequired,
-  team: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    shirt: PropTypes.object.isRequired,
-  }).isRequired,
+  team: pt.team.isRequired,
 };
 
 const playerSource = {

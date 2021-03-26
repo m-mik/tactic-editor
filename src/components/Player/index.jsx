@@ -1,6 +1,5 @@
 /* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import Color from 'color';
 import times from 'lodash/times';
@@ -9,6 +8,7 @@ import RedCardIcon from '../RedCardIcon';
 import GoalIcon from '../GoalIcon';
 import AssistIcon from '../AssistIcon';
 import styles from './Player.scss';
+import pt from '../../propTypes';
 
 const cx = classNames.bind(styles);
 
@@ -100,7 +100,6 @@ export default class Player extends Component {
 }
 
 Player.defaultProps = {
-  className: '',
   name: 'Player Name',
   number: 1,
   rating: 0,
@@ -116,34 +115,19 @@ Player.defaultProps = {
     showGoals: false,
     showAssists: false,
   },
+  className: '',
 };
 
 Player.propTypes = {
-  name: PropTypes.string,
-  number: PropTypes.number,
-  rating: PropTypes.number,
-  position: PropTypes.number,
-  cards: PropTypes.shape({
-    yellow: PropTypes.number.isRequired,
-    red: PropTypes.number.isRequired,
-  }),
-  goals: PropTypes.number,
-  assists: PropTypes.number,
-  team: PropTypes.shape({
-    shirt: PropTypes.shape({
-      border: PropTypes.object.isRequired,
-      backgroundColor: PropTypes.string.isRequired,
-      textColor: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
-  options: PropTypes.shape({
-    showName: PropTypes.bool.isRequired,
-    showNumber: PropTypes.bool.isRequired,
-    showRating: PropTypes.bool.isRequired,
-    showCards: PropTypes.bool.isRequired,
-    showGoals: PropTypes.bool.isRequired,
-    showAssists: PropTypes.bool.isRequired,
-  }).isRequired,
-  className: PropTypes.string,
+  name: pt.playerName,
+  number: pt.playerNumber,
+  rating: pt.playerRating,
+  position: pt.playerPosition,
+  cards: pt.playerCards,
+  goals: pt.playerGoals,
+  assists: pt.playerAssists,
+  team: pt.team.isRequired,
+  options: pt.playerOptions.isRequired,
+  className: pt.className,
 };
 

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import DialogLoadingIndicator from '../DialogLoadingIndicator';
+import pt from '../../propTypes';
 
 const DeleteTacticDialog = (props) => {
   const { onDelete, onClose, open, pending, tactic } = props;
@@ -41,10 +42,7 @@ DeleteTacticDialog.propTypes = {
   pending: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
-  tactic: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-  }).isRequired,
+  tactic: pt.tactic.isRequired,
 };
 
 export default DeleteTacticDialog;

@@ -74,7 +74,7 @@ export const getTeamForPlayer = (denormalizedTeams, player) =>
 
 export const findPlayerElement = (denormalizedTeams, player) => {
   const team = getTeamForPlayer(denormalizedTeams, player);
-  if (!team) return null;
+  if (!team || player.position >= TILES_COUNT) return null;
   return findTeamGrid(team.id).getTileElement(player.position);
 };
 
@@ -86,7 +86,7 @@ export const canDropPlayer = (draggedPlayer, target) => {
 
 export const getFormation = players =>
   Object.keys(players).reduce((result, pos) => {
-    if (Number(pos) === 0) return result;
+    if (Number(pos) === 0 || Number(pos) >= TILES_COUNT) return result;
     const line = Math.ceil(pos / TILES_PER_LINE);
     const currentCount = result[line] || 0;
     const newLine = { [line]: currentCount + 1 };

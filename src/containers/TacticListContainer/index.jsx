@@ -7,6 +7,7 @@ import { selectTacticsArray, selectIsFetching } from '../../data/tactics/selecto
 import { selectTactic } from '../App/actions';
 import { fetchTactics } from '../../data/tactics/actions';
 import TacticList from '../../components/TacticList';
+import pt from '../../propTypes';
 
 class TacticListContainer extends PureComponent {
   componentDidMount() {
@@ -28,10 +29,7 @@ class TacticListContainer extends PureComponent {
 }
 
 TacticListContainer.propTypes = {
-  tactics: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-  })).isRequired,
+  tactics: PropTypes.arrayOf(pt.tactic).isRequired,
   selectTactic: PropTypes.func.isRequired,
   fetchTactics: PropTypes.func.isRequired,
   activeTacticId: PropTypes.number.isRequired,

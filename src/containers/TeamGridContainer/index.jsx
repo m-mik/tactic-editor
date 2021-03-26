@@ -13,7 +13,7 @@ import { movePlayer, selectPlayer, swapPlayers } from '../TacticPage/actions';
 const makeMapStateToProps = () => {
   const selectOptions = makeSelectOptions();
   const selectPlayerOptions = makeSelectPlayerOptions();
-  const selectTeamPlayers = makeSelectTeamPlayers();
+  const selectTeamPlayers = makeSelectTeamPlayers({ filter: 'field' });
   return (state, ownProps) => ({
     id: `${TEAM_GRID_ID_PREFIX}-${ownProps.teamId}`,
     tilesCount: TILES_COUNT,

@@ -7,6 +7,7 @@ import { isValid } from '../../shared/validation/tactic';
 import Options from './Options';
 import DeleteTacticContainer from '../../containers/DeleteTacticContainer';
 import styles from './TacticSettings.scss';
+import pt from '../../propTypes';
 
 class TacticSettings extends PureComponent {
   constructor() {
@@ -49,18 +50,7 @@ TacticSettings.defaultProps = {
 };
 
 TacticSettings.propTypes = {
-  tactic: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    options: PropTypes.shape({
-      showGrid: PropTypes.bool.isRequired,
-      showNumbers: PropTypes.bool.isRequired,
-      showRatings: PropTypes.bool.isRequired,
-      showCards: PropTypes.bool.isRequired,
-      showGoals: PropTypes.bool.isRequired,
-      showAssists: PropTypes.bool.isRequired,
-    }),
-  }),
+  tactic: pt.tacticWithOptions,
   onSettingChange: PropTypes.func.isRequired,
 };
 

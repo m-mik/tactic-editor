@@ -4,6 +4,7 @@ import { List, ListItem, makeSelectable } from 'material-ui/List';
 
 import LoadingIndicator from '../LoadingIndicator';
 import CreateTacticContainer from '../../containers/CreateTacticContainer';
+import pt from '../../propTypes';
 
 const SelectableList = makeSelectable(List);
 
@@ -26,10 +27,7 @@ const TacticList = props => (
 );
 
 TacticList.propTypes = {
-  tactics: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-  })).isRequired,
+  tactics: pt.tactics.isRequired,
   fetching: PropTypes.bool.isRequired,
   activeTacticId: PropTypes.number.isRequired,
   onSelectTactic: PropTypes.func.isRequired,

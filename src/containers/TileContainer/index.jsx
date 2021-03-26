@@ -4,6 +4,7 @@ import { DropTarget } from 'react-dnd';
 import classNames from 'classnames/bind';
 import isEqual from 'lodash/isEqual';
 
+import pt from '../../propTypes';
 import ItemTypes from '../../lib/ItemTypes';
 import DraggablePlayer from '../DraggablePlayer';
 import { canDropPlayer } from '../../lib/footballField';
@@ -83,36 +84,11 @@ TileContainer.propTypes = {
   onPlayersSwap: PropTypes.func.isRequired,
   onPlayerTouchTap: PropTypes.func.isRequired,
   position: PropTypes.number.isRequired,
-  team: PropTypes.shape({ // eslint-disable-line react/no-unused-prop-types
-    id: PropTypes.number.isRequired,
-    shirt: PropTypes.shape({
-      border: PropTypes.object,
-      backgroundColor: PropTypes.string,
-      textColor: PropTypes.string,
-    }),
-  }),
+  team: pt.team,
   isOver: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,
-  player: PropTypes.shape({
-    name: PropTypes.string,
-    number: PropTypes.number,
-    rating: PropTypes.number,
-    position: PropTypes.number,
-    cards: PropTypes.shape({
-      yellow: PropTypes.number,
-      red: PropTypes.number,
-    }),
-    goals: PropTypes.number,
-    assists: PropTypes.number,
-  }),
-  playerOptions: PropTypes.shape({
-    showAssists: PropTypes.bool.isRequired,
-    showCards: PropTypes.bool.isRequired,
-    showGoals: PropTypes.bool.isRequired,
-    showName: PropTypes.bool.isRequired,
-    showNumber: PropTypes.bool.isRequired,
-    showRating: PropTypes.bool.isRequired,
-  }).isRequired,
+  player: pt.player,
+  playerOptions: pt.playerOptions.isRequired,
 };
 
 export default DropTarget(ItemTypes.PLAYER, tileTarget, collect)(TileContainer);

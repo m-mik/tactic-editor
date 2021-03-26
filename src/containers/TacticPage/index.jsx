@@ -30,6 +30,7 @@ import {
   updateFormation,
 } from './actions';
 import styles from './TacticPage.scss';
+import pt from '../../propTypes';
 
 class TacticPage extends PureComponent {
   componentDidMount() {
@@ -111,11 +112,7 @@ TacticPage.propTypes = {
   updateTeam: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
-  tacticDetail: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    options: PropTypes.object.isRequired,
-    teams: PropTypes.arrayOf(PropTypes.number).isRequired,
-  }),
+  tacticDetail: pt.tacticDetail,
   denormalizedTeams: PropTypes.array, // eslint-disable-line react/forbid-prop-types
   editedTeam: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   selectedPlayer: PropTypes.object, // eslint-disable-line react/forbid-prop-types

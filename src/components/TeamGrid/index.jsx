@@ -4,14 +4,15 @@ import times from 'lodash/times';
 import classNames from 'classnames/bind';
 import isEqual from 'lodash/isEqual';
 
+import pt from '../../propTypes';
 import TileContainer from '../../containers/TileContainer';
 import styles from './TeamGrid.scss';
 
 const cx = classNames.bind(styles);
 
 class TeamGrid extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.handlePlayerTouchTap = this.handlePlayerTouchTap.bind(this);
   }
@@ -85,21 +86,8 @@ TeamGrid.propTypes = {
   }).isRequired,
   activePlayerId: PropTypes.number.isRequired,
   players: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  team: PropTypes.shape({
-    shirt: PropTypes.shape({
-      border: PropTypes.object.isRequired,
-      backgroundColor: PropTypes.string.isRequired,
-      textColor: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
-  playerOptions: PropTypes.shape({
-    showAssists: PropTypes.bool.isRequired,
-    showCards: PropTypes.bool.isRequired,
-    showGoals: PropTypes.bool.isRequired,
-    showName: PropTypes.bool.isRequired,
-    showNumber: PropTypes.bool.isRequired,
-    showRating: PropTypes.bool.isRequired,
-  }).isRequired,
+  team: pt.team.isRequired,
+  playerOptions: pt.playerOptions.isRequired,
   onPlayerMove: PropTypes.func.isRequired,
   onPlayersSwap: PropTypes.func.isRequired,
   onPlayerSelect: PropTypes.func.isRequired,

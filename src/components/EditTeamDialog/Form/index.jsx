@@ -8,6 +8,7 @@ import MenuItem from 'material-ui/MenuItem';
 import RadioButton from 'material-ui/RadioButton';
 import throttle from 'lodash/throttle';
 
+import pt from '../../../propTypes';
 import FootballField from '../../FootballField';
 import Player from '../../Player';
 import styles from './Form.scss';
@@ -145,16 +146,7 @@ const validate = (values) => {
 
 Form.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  team: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    shirt: PropTypes.shape({
-      border: PropTypes.shape({
-        color: PropTypes.string,
-        style: PropTypes.string,
-      }),
-    }),
-  }).isRequired,
+  team: pt.team.isRequired,
   ...propTypes,
 };
 
