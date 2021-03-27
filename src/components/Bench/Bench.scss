@@ -1,5 +1,22 @@
 .bench {
-  background: yellow;
   border: 1px solid black;
   height: 50%;
 }
+
+.list {
+  background: #c7c1c1;
+}
+
+.listItem {
+  display: flex;
+  border: 1px solid black;
+  align-items: center;
+}
+
+.player {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  user-select: none;
+}
+

@@ -327,8 +327,8 @@
           },
           {
             "id": 23,
-            "name": "sub 1",
-            "number": 7,
+            "name": "John Smith",
+            "number": 77,
             "position": 36,
             "rating": 5,
             "cards": {
@@ -337,6 +337,19 @@
             },
             "goals": 0,
             "assists": 0
+          },
+          {
+            "id": 24,
+            "name": "Adam Nowak",
+            "number": 27,
+            "position": 37,
+            "rating": 5,
+            "cards": {
+              "yellow": 2,
+              "red": 1
+            },
+            "goals": 2,
+            "assists": 2
           }
         ]
       }

@@ -9,6 +9,7 @@ import GoalIcon from '../GoalIcon';
 import AssistIcon from '../AssistIcon';
 import styles from './Player.scss';
 import pt from '../../propTypes';
+import { TILES_COUNT } from '../../lib/footballField';
 
 const cx = classNames.bind(styles);
 
@@ -27,8 +28,9 @@ export default class Player extends Component {
       options,
       ...rest
     } = this.props;
+
     const { border, backgroundColor, textColor } = team.shirt;
-    const isGoalkeeper = position === 0;
+    const isGoalkeeper = position === 0 || position === TILES_COUNT;
     const gkBackgroundColor = Color(backgroundColor).mix(Color('green'), 0.5).rotate(180);
     const playerBg = isGoalkeeper ? gkBackgroundColor : backgroundColor;
 

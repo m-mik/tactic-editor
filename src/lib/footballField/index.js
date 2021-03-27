@@ -59,6 +59,13 @@ export const findTeamGrid = (teamId) => {
   };
 };
 
+export const getBenchPosition = playerPos => (playerPos - TILES_COUNT) + 1;
+
+export const findBenchPlayerEl = (teamId, playerPos) => {
+  const benchPos = getBenchPosition(playerPos);
+  return document.querySelector(`#team-${teamId}-bench [data-bench-pos="${benchPos}"]`);
+};
+
 export const getNodeOffset = (sourceNode, targetNode) => ({
   left: targetNode.offsetLeft - sourceNode.offsetLeft,
   top: targetNode.offsetTop - sourceNode.offsetTop,
@@ -72,10 +79,15 @@ export const getTeamForPlayer = (denormalizedTeams, player) =>
       team.players.some(teamPlayer => teamPlayer.id === player.id),
   );
 
+export const isBenchPlayer = player => player.position >= TILES_COUNT;
+export const isFieldPlayer = player => !isBenchPlayer(player);
+
 export const findPlayerElement = (denormalizedTeams, player) => {
   const team = getTeamForPlayer(denormalizedTeams, player);
-  if (!team || player.position >= TILES_COUNT) return null;
-  return findTeamGrid(team.id).getTileElement(player.position);
+  if (!team) return null;
+  return isBenchPlayer(player) ?
+    findBenchPlayerEl(team.id, player.position) :
+    findTeamGrid(team.id).getTileElement(player.position);
 };
 
 export const canDropPlayer = (draggedPlayer, target) => {

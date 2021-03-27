@@ -72,6 +72,7 @@ const propTypes = {
   }),
   className: PropTypes.string,
   player: PropTypes.shape(player),
+  players: PropTypes.arrayOf(PropTypes.shape(player)),
   tactic: PropTypes.shape(tactic),
   tacticDetail: PropTypes.shape({
     id: PropTypes.number,
