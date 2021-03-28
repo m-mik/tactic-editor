@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import times from 'lodash/times';
 import classNames from 'classnames/bind';
-import isEqual from 'lodash/isEqual';
 
 import pt from '../../propTypes';
 import TileContainer from '../../containers/TileContainer';
@@ -10,72 +9,53 @@ import styles from './TeamGrid.scss';
 
 const cx = classNames.bind(styles);
 
-class TeamGrid extends Component {
-  constructor(props) {
-    super(props);
+const TeamGrid = (props) => {
+  const {
+    id,
+    options,
+    type,
+    tilesCount,
+    players,
+    team,
+    playerOptions,
+    onPlayerMove,
+    onPlayersSwap,
+    onPlayerSelect,
+  } = props;
 
-    this.handlePlayerTouchTap = this.handlePlayerTouchTap.bind(this);
-  }
+  const wrapperStyle = cx({
+    wrapper: true,
+    grid: options.showGrid,
+  });
 
-  shouldComponentUpdate(nextProps) {
-    return !isEqual(this.props.players, nextProps.players)
-      || this.props.options !== nextProps.options;
-  }
+  const tiles = times(tilesCount).map((index) => {
+    const position = type === 'home' ? index : (tilesCount - index - 1);
+    const player = players[position];
 
-  handlePlayerTouchTap(event, playerId) {
-    event.preventDefault();
-    if (this.props.activePlayerId !== playerId) {
-      this.props.onPlayerSelect(playerId);
-    }
-  }
-
-  render() {
-    const {
-      id,
-      options,
-      type,
-      tilesCount,
-      players,
-      team,
-      playerOptions,
-      onPlayerMove,
-      onPlayersSwap,
-    } = this.props;
-
-    const wrapperStyle = cx({
-      wrapper: true,
-      grid: options.showGrid,
-    });
-
-    const tiles = times(tilesCount).map((index) => {
-      const position = type === 'home' ? index : (tilesCount - index - 1);
-      const player = players[position];
-
-      return (
-        <TileContainer
-          key={position}
-          team={team}
-          position={position}
-          player={player}
-          playerOptions={playerOptions}
-          onPlayerTouchTap={this.handlePlayerTouchTap}
-          onPlayerMove={onPlayerMove}
-          onPlayersSwap={onPlayersSwap}
-        />
-      );
-    });
     return (
-      <div
-        id={id}
-        className={wrapperStyle}
-        data-grid-type={type}
-        onContextMenu={event => event.preventDefault()}
-      >
-        {tiles}
-      </div>
+      <TileContainer
+        key={position}
+        team={team}
+        position={position}
+        player={player}
+        playerOptions={playerOptions}
+        onPlayerTouchTap={() => onPlayerSelect(player.id)}
+        onPlayerMove={onPlayerMove}
+        onPlayersSwap={onPlayersSwap}
+      />
     );
-  }
-}
+  });
+  return (
+    <div
+      id={id}
+      className={wrapperStyle}
+      data-grid-type={type}
+      onContextMenu={event => event.preventDefault()}
+    >
+      {tiles}
+    </div>
+  );
+};
 
 TeamGrid.propTypes = {
   tilesCount: PropTypes.number.isRequired,
@@ -84,8 +64,7 @@ TeamGrid.propTypes = {
   options: PropTypes.shape({
     showGrid: PropTypes.bool.isRequired,
   }).isRequired,
-  activePlayerId: PropTypes.number.isRequired,
-  players: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  players: pt.playersByPos.isRequired,
   team: pt.team.isRequired,
   playerOptions: pt.playerOptions.isRequired,
   onPlayerMove: PropTypes.func.isRequired,

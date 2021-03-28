@@ -6,7 +6,6 @@ import withDragDropContext from '../../lib/withDragDropContext';
 import { makeSelectOptions, makeSelectPlayerOptions } from '../../data/tacticDetails/selectors';
 import { selectTeam } from '../../data/teams/selectors';
 import { makeSelectTeamPlayers } from '../../data/players/selectors';
-import { selectActivePlayerId } from '../TacticPage/selectors';
 import TeamGrid from '../../components/TeamGrid';
 import { movePlayer, selectPlayer, swapPlayers } from '../TacticPage/actions';
 
@@ -21,7 +20,6 @@ const makeMapStateToProps = () => {
     players: selectTeamPlayers(state, ownProps),
     team: selectTeam(state, ownProps),
     playerOptions: selectPlayerOptions(state, ownProps),
-    activePlayerId: selectActivePlayerId(state),
   });
 };
 

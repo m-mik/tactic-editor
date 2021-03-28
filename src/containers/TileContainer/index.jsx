@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 import classNames from 'classnames/bind';
-import isEqual from 'lodash/isEqual';
 
 import pt from '../../propTypes';
 import ItemTypes from '../../lib/ItemTypes';
@@ -13,13 +12,6 @@ import styles from '../../components/TeamGrid/TeamGrid.scss';
 const cx = classNames.bind(styles);
 
 class TileContainer extends Component {
-  shouldComponentUpdate(nextProps) {
-    return this.props.isOver !== nextProps.isOver
-      || !isEqual(this.props.player, nextProps.player)
-      || !isEqual(this.props.playerOptions, nextProps.playerOptions)
-      || this.props.team.shirt !== nextProps.team.shirt;
-  }
-
   render() {
     const {
       connectDropTarget,
@@ -32,6 +24,7 @@ class TileContainer extends Component {
       onPlayerTouchTap,
       player,
       team,
+      ...rest
     } = this.props;
 
     const tileClass = cx(
@@ -40,7 +33,7 @@ class TileContainer extends Component {
     );
 
     return connectDropTarget(
-      <div className={tileClass || undefined}>
+      <div className={tileClass || undefined} {...rest}>
         {player && <DraggablePlayer
           team={team}
           onMove={onPlayerMove}

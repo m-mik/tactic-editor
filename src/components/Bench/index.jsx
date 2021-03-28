@@ -3,53 +3,47 @@ import PropTypes from 'prop-types';
 
 import styles from './Bench.scss';
 import pt from '../../propTypes';
-import Player from '../Player';
 import { getBenchPosition } from '../../lib/footballField';
+import TileContainer from '../../containers/TileContainer';
 
 const Bench = (props) => {
-  const { players, team, playerOptions, activePlayerId, onPlayerSelect } = props;
+  const { players, team, teamInfo, playerOptions, onPlayerSelect } = props;
   if (!team) return '';
-
-  const { textColor, backgroundColor, border } = team.shirt;
-  const { style: borderStyle, color: borderColor } = border;
-
-  const handlePlayerTouchTap = (event, playerId) => {
-    event.preventDefault();
-    if (activePlayerId !== playerId) {
-      onPlayerSelect(playerId);
-    }
-  };
 
   const renderPlayerList = () => (
     <ul className={styles.list}>
-      {players.map(({ id, position, ...rest }) => <li className={styles.listItem} key={id}>
-        <Player
-          className={styles.player} options={playerOptions} team={{
-            shirt: {
-              border: { style: borderStyle, color: borderColor },
-              textColor,
-              backgroundColor,
-            },
-          }}
-          onTouchTap={event => handlePlayerTouchTap(event, id)}
-          data-bench-pos={getBenchPosition(position)}
-          {...rest}
-        />
-      </li>)}
+      {Object.keys(players).map((playerPos) => {
+        const player = players[playerPos];
+        return (<li className={styles.listItem} key={playerPos}>
+          <TileContainer
+            style={{ width: '100%', height: '100%' }}
+            data-bench-pos={getBenchPosition(player.position)}
+            key={playerPos}
+            team={team}
+            position={+playerPos}
+            player={player}
+            playerOptions={playerOptions}
+            onPlayerTouchTap={() => onPlayerSelect(player.id)}
+            onPlayerMove={() => console.log('player move')}
+            onPlayersSwap={() => console.log('player swap')}
+          />
+        </li>);
+      })}
     </ul>
   );
 
   return (
     <div className={styles.bench} id={`team-${team.id}-bench`}>
+      <span className={styles.teamName}>{teamInfo.name}</span>
       {renderPlayerList()}
     </div>
   );
 };
 
 Bench.propTypes = {
-  activePlayerId: pt.playerId.isRequired,
-  players: pt.players.isRequired,
-  team: pt.teamInfo.isRequired,
+  players: pt.playersByPos.isRequired,
+  team: pt.team.isRequired,
+  teamInfo: pt.teamInfo.isRequired,
   playerOptions: pt.playerOptions.isRequired,
   onPlayerSelect: PropTypes.func.isRequired,
 };
