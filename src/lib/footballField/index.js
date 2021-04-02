@@ -79,8 +79,10 @@ export const getTeamForPlayer = (denormalizedTeams, player) =>
       team.players.some(teamPlayer => teamPlayer.id === player.id),
   );
 
-export const isBenchPlayer = player => player.position >= TILES_COUNT;
-export const isFieldPlayer = player => !isBenchPlayer(player);
+export const isOnField = position => position >= 0 && position < TILES_COUNT;
+export const isOnBench = position => !isOnField(position);
+export const isBenchPlayer = player => isOnBench(player.position);
+export const isFieldPlayer = player => isOnField(player.position);
 
 export const findPlayerElement = (denormalizedTeams, player) => {
   const team = getTeamForPlayer(denormalizedTeams, player);
@@ -91,9 +93,13 @@ export const findPlayerElement = (denormalizedTeams, player) => {
 };
 
 export const canDropPlayer = (draggedPlayer, target) => {
-  const sameTeam = draggedPlayer.team.id === target.team.id;
-  const isNewPosition = draggedPlayer.position !== target.position;
-  return sameTeam && isNewPosition;
+  const isGoalkeeperOnField = isFieldPlayer(draggedPlayer) && draggedPlayer.position === 0;
+  const isTargetEmptyTileOnField = isOnField(target.position) && 'player' in target;
+  const isTargetNewPosition = draggedPlayer.position !== target.position;
+  const isInSameTeam = draggedPlayer.team.id === target.team.id;
+  if (isGoalkeeperOnField && isTargetEmptyTileOnField) return false;
+  if (isBenchPlayer(draggedPlayer) && isTargetEmptyTileOnField) return false;
+  return isInSameTeam && isTargetNewPosition;
 };
 
 export const getFormation = players =>

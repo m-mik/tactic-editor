@@ -7,7 +7,9 @@ import { getBenchPosition } from '../../lib/footballField';
 import TileContainer from '../../containers/TileContainer';
 
 const Bench = (props) => {
-  const { players, team, teamInfo, playerOptions, onPlayerSelect } = props;
+  const {
+    players, team, teamInfo, playerOptions, onPlayerSelect, onPlayerMove, onPlayersSwap,
+  } = props;
   if (!team) return '';
 
   const renderPlayerList = () => (
@@ -16,7 +18,7 @@ const Bench = (props) => {
         const player = players[playerPos];
         return (<li className={styles.listItem} key={playerPos}>
           <TileContainer
-            style={{ width: '100%', height: '100%' }}
+            style={{width: '100%', height: '100%'}}
             data-bench-pos={getBenchPosition(player.position)}
             key={playerPos}
             team={team}
@@ -24,8 +26,8 @@ const Bench = (props) => {
             player={player}
             playerOptions={playerOptions}
             onPlayerTouchTap={() => onPlayerSelect(player.id)}
-            onPlayerMove={() => console.log('player move')}
-            onPlayersSwap={() => console.log('player swap')}
+            onPlayerMove={onPlayerMove}
+            onPlayersSwap={onPlayersSwap}
           />
         </li>);
       })}
@@ -46,6 +48,8 @@ Bench.propTypes = {
   teamInfo: pt.teamInfo.isRequired,
   playerOptions: pt.playerOptions.isRequired,
   onPlayerSelect: PropTypes.func.isRequired,
+  onPlayerMove: PropTypes.func.isRequired,
+  onPlayersSwap: PropTypes.func.isRequired,
 };
 
 export default Bench;

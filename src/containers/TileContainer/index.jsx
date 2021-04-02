@@ -50,9 +50,7 @@ class TileContainer extends Component {
 const tileTarget = {
   canDrop(props, monitor) {
     const player = monitor.getItem();
-    const isGoalkeeper = player.position === 0;
-    const hasPlayer = props.children;
-    return !isGoalkeeper && !hasPlayer && canDropPlayer(player, props);
+    return canDropPlayer(player, props);
   },
 
   drop(props, monitor, component) {
