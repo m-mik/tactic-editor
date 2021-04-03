@@ -18,7 +18,7 @@ const Bench = (props) => {
         const player = players[playerPos];
         return (<li className={styles.listItem} key={playerPos}>
           <TileContainer
-            style={{width: '100%', height: '100%'}}
+            style={{ width: '100%', height: '100%' }}
             data-bench-pos={getBenchPosition(player.position)}
             key={playerPos}
             team={team}
@@ -35,7 +35,11 @@ const Bench = (props) => {
   );
 
   return (
-    <div className={styles.bench} id={`team-${team.id}-bench`}>
+    <div
+      className={styles.bench}
+      id={`team-${team.id}-bench`}
+      onContextMenu={event => event.preventDefault()}
+    >
       <span className={styles.teamName}>{teamInfo.name}</span>
       {renderPlayerList()}
     </div>

@@ -1,4 +1,4 @@
-import { findTeamGrid } from '../../lib/footballField';
+import { findTileOffset } from '../../lib/footballField';
 import { updatePlayer, updatePlayers } from '../../data/players/actions';
 import {
   ADD_PLAYER_TRANSITIONS,
@@ -22,8 +22,7 @@ export const removePlayerTransitions = data => ({
 });
 
 export const movePlayer = (player, newPosition) => (dispatch) => {
-  const offset = findTeamGrid(player.team.id)
-    .findTileOffset({ from: player.position, to: newPosition });
+  const offset = findTileOffset({ from: player.position, to: newPosition }, player.team.id);
   dispatch(addPlayerTransitions({ [player.id]: offset }));
   dispatch(updatePlayer(player.id, { position: newPosition }));
   setTimeout(() => dispatch(removePlayerTransitions([player.id])), 0);
@@ -32,8 +31,7 @@ export const movePlayer = (player, newPosition) => (dispatch) => {
 export const movePlayers = data => (dispatch) => {
   const playerTransData = data.reduce((result, item) => {
     const { player, targetPos } = item;
-    const offset = findTeamGrid(player.team.id)
-      .findTileOffset({ from: player.position, to: targetPos });
+    const offset = findTileOffset({ from: player.position, to: targetPos }, player.team.id);
     return { ...result, [player.id]: offset };
   }, {});
   dispatch(addPlayerTransitions(playerTransData));
