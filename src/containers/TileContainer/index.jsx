@@ -33,7 +33,7 @@ class TileContainer extends Component {
     );
 
     return connectDropTarget(
-      <div className={tileClass || undefined} {...rest}>
+      <div className={tileClass} {...rest}>
         {player && <DraggablePlayer
           team={team}
           onMove={onPlayerMove}

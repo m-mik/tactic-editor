@@ -16,20 +16,21 @@ const Bench = (props) => {
     <ul className={styles.list}>
       {Object.keys(players).map((playerPos) => {
         const player = players[playerPos];
-        return (<li className={styles.listItem} key={playerPos}>
-          <TileContainer
-            style={{ width: '100%', height: '100%' }}
-            data-bench-pos={getBenchPosition(player.position)}
-            key={playerPos}
-            team={team}
-            position={+playerPos}
-            player={player}
-            playerOptions={playerOptions}
-            onPlayerTouchTap={() => onPlayerSelect(player.id)}
-            onPlayerMove={onPlayerMove}
-            onPlayersSwap={onPlayersSwap}
-          />
-        </li>);
+        return (
+          <li className={styles.listItem} key={playerPos}>
+            <TileContainer
+              style={{ width: '100%', height: '100%' }}
+              data-bench-pos={getBenchPosition(player.position)}
+              key={playerPos}
+              team={team}
+              position={+playerPos}
+              player={player}
+              playerOptions={playerOptions}
+              onPlayerTouchTap={() => onPlayerSelect(player.id)}
+              onPlayerMove={onPlayerMove}
+              onPlayersSwap={onPlayersSwap}
+            />
+          </li>);
       })}
     </ul>
   );

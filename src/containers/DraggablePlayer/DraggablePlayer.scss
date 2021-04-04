@@ -1,7 +1,7 @@
 @import '../../components/TeamGrid/variables';
 
 .wrapper {
-  transition: transform 1s ease;
+  transition: transform 0.5s;
   z-index: 4;
   cursor: grab;
 };
@@ -11,6 +11,7 @@
 }
 
 .dropTarget {
-  composes: dropTarget from '../../components/TeamGrid/TeamGrid.scss';
+  border: $drop-target-border;
+  opacity: $drop-target-opacity;
   padding: 10%;
 }
