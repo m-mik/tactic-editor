@@ -5,10 +5,12 @@ import {
   SELECT_PLAYER,
   OPEN_EDIT_TEAM_DIALOG,
   CLOSE_EDIT_TEAM_DIALOG,
+  SET_PLAYERS_TO_REPLACE,
 } from './constants';
 
 const initialState = {
   activePlayerId: 0,
+  playersToReplace: null,
   editedTeamId: 0,
   playerTransitions: {},
 };
@@ -34,6 +36,8 @@ const editor = (state = initialState, action) => {
       };
     case SELECT_PLAYER:
       return { ...state, activePlayerId: action.payload };
+    case SET_PLAYERS_TO_REPLACE:
+      return { ...state, playersToReplace: action.payload };
     case OPEN_EDIT_TEAM_DIALOG:
       return { ...state, editedTeamId: action.payload };
     case CLOSE_EDIT_TEAM_DIALOG:

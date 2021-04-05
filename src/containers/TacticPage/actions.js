@@ -4,6 +4,7 @@ import {
   ADD_PLAYER_TRANSITIONS,
   REMOVE_PLAYER_TRANSITIONS,
   SELECT_PLAYER,
+  SET_PLAYERS_TO_REPLACE,
   OPEN_EDIT_TEAM_DIALOG,
   CLOSE_EDIT_TEAM_DIALOG,
 } from './constants';
@@ -40,11 +41,17 @@ export const movePlayers = data => (dispatch) => {
   setTimeout(() => dispatch(removePlayerTransitions(Object.keys(playerTransData))), 0);
 };
 
+export const setPlayersToReplace = players => ({
+  type: SET_PLAYERS_TO_REPLACE,
+  payload: players,
+});
+
 export const swapPlayers = (p1, p2) => (dispatch) => {
   dispatch(movePlayers([
     { player: p1, targetPos: p2.position },
     { player: p2, targetPos: p1.position },
   ]));
+  dispatch(setPlayersToReplace(null));
 };
 
 export const selectPlayer = id => ({
@@ -65,5 +72,6 @@ export const updateFormation = (team, formation) => (dispatch) => {
       });
     }
   });
+
   dispatch(movePlayers(playerData));
 };

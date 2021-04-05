@@ -11,7 +11,7 @@ import LoadingIndicator from '../../components/LoadingIndicator';
 import FootballField from '../../components/FootballField';
 import EditTeamDialog from '../../components/EditTeamDialog';
 import { findPlayerElement } from '../../lib/footballField/index';
-import { selectEditedTeam, selectActivePlayer } from './selectors';
+import { selectActivePlayer, selectEditedTeam, selectPlayersToReplace } from './selectors';
 import {
   makeSelectTacticDetail,
   selectHasError,
@@ -22,15 +22,17 @@ import { fetchTacticIfNeeded } from '../../data/tacticDetails/actions';
 import { updatePlayer } from '../../data/players/actions';
 import { updateTeam } from '../../data/teams/actions';
 import {
-  movePlayer,
-  swapPlayers,
-  selectPlayer,
   closeEditTeamDialog,
+  movePlayer,
   openEditTeamDialog,
+  selectPlayer,
+  setPlayersToReplace,
+  swapPlayers,
   updateFormation,
 } from './actions';
 import styles from './TacticPage.scss';
 import pt from '../../propTypes';
+import ReplacePlayerPopover from '../../components/ReplacePlayerPopover';
 
 class TacticPage extends PureComponent {
   componentDidMount() {
@@ -56,6 +58,25 @@ class TacticPage extends PureComponent {
         onPlayerChange={this.props.updatePlayer}
         anchorEl={anchorEl}
         onRequestClose={() => this.props.selectPlayer(0)}
+      />
+    );
+  }
+
+  renderReplacePlayerPopover() {
+    const { playersToReplace, denormalizedTeams } = this.props;
+    if (!playersToReplace) return [];
+
+    const anchorEl = playersToReplace
+      ? findPlayerElement(denormalizedTeams, playersToReplace.p2)
+      : null;
+
+    return (
+      <ReplacePlayerPopover
+        anchorEl={anchorEl}
+        onRequestClose={() => this.props.setPlayersToReplace(null)}
+        players={playersToReplace}
+        onPlayerSubstitute={() => console.log('substitute player')}
+        onPlayerSwap={this.props.swapPlayers}
       />
     );
   }
@@ -87,6 +108,7 @@ class TacticPage extends PureComponent {
           </FootballField>
           <TeamInfoContainer teamId={teams[1]} />
           {this.renderPlayerPopover()}
+          {this.renderReplacePlayerPopover()}
           {this.renderTeamDialog()}
         </div>
         <div style={{ flex: 1 }}>
@@ -100,6 +122,7 @@ class TacticPage extends PureComponent {
 TacticPage.defaultProps = {
   tacticDetail: null,
   selectedPlayer: null,
+  playersToReplace: null,
   editedTeam: null,
   denormalizedTeams: null,
 };
@@ -107,15 +130,18 @@ TacticPage.defaultProps = {
 TacticPage.propTypes = {
   fetchTacticIfNeeded: PropTypes.func.isRequired,
   selectPlayer: PropTypes.func.isRequired,
+  setPlayersToReplace: PropTypes.func.isRequired,
   updatePlayer: PropTypes.func.isRequired,
+  swapPlayers: PropTypes.func.isRequired,
   closeEditTeamDialog: PropTypes.func.isRequired,
   updateTeam: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
   tacticDetail: pt.tacticDetail,
   denormalizedTeams: PropTypes.array, // eslint-disable-line react/forbid-prop-types
-  editedTeam: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  selectedPlayer: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  editedTeam: pt.team,
+  selectedPlayer: pt.player,
+  playersToReplace: pt.playersToReplace,
   match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
@@ -124,6 +150,7 @@ const makeMapStateToProps = () => {
   return state => ({
     tacticDetail: selectTacticDetail(state),
     selectedPlayer: selectActivePlayer(state),
+    playersToReplace: selectPlayersToReplace(state),
     editedTeam: selectEditedTeam(state),
     hasError: selectHasError(state),
     isFetching: selectIsFetching(state),
@@ -136,6 +163,7 @@ const ConnectedTacticPage = connect(
     fetchTacticIfNeeded,
     movePlayer,
     swapPlayers,
+    setPlayersToReplace,
     selectPlayer,
     updatePlayer,
     updateTeam,

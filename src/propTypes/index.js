@@ -87,6 +87,10 @@ const propTypes = {
   }),
   tacticOptions: PropTypes.shape(tacticOptions),
   tactics: PropTypes.arrayOf(PropTypes.shape(tactic)),
+  playersToReplace: PropTypes.shape({
+    p1: PropTypes.shape(player),
+    p2: PropTypes.shape(player),
+  }),
 };
 
 export default propTypes;

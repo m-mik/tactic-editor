@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Popover from 'material-ui/Popover';
 import TextField from 'material-ui/TextField';
 import set from 'lodash/set';
+
 import AddButton from '../AddButton';
 import RemoveButton from '../RemoveButton';
 import YellowCardIcon from '../YellowCardIcon';

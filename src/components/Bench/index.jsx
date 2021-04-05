@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import styles from './Bench.scss';
 import pt from '../../propTypes';
@@ -7,14 +6,12 @@ import { getBenchPosition } from '../../lib/footballField';
 import TileContainer from '../../containers/TileContainer';
 
 const Bench = (props) => {
-  const {
-    players, team, teamInfo, playerOptions, onPlayerSelect, onPlayerMove, onPlayersSwap,
-  } = props;
+  const { players, team, teamInfo } = props;
   if (!team) return '';
 
   const renderPlayerList = () => (
     <ul className={styles.list}>
-      {Object.keys(players).map((playerPos) => {
+      {Object.keys(players).map((playerPos, index) => {
         const player = players[playerPos];
         return (
           <li className={styles.listItem} key={playerPos}>
@@ -23,12 +20,8 @@ const Bench = (props) => {
               data-bench-pos={getBenchPosition(player.position)}
               key={playerPos}
               team={team}
-              position={+playerPos}
+              position={index}
               player={player}
-              playerOptions={playerOptions}
-              onPlayerTouchTap={() => onPlayerSelect(player.id)}
-              onPlayerMove={onPlayerMove}
-              onPlayersSwap={onPlayersSwap}
             />
           </li>);
       })}
@@ -51,10 +44,6 @@ Bench.propTypes = {
   players: pt.playersByPos.isRequired,
   team: pt.team.isRequired,
   teamInfo: pt.teamInfo.isRequired,
-  playerOptions: pt.playerOptions.isRequired,
-  onPlayerSelect: PropTypes.func.isRequired,
-  onPlayerMove: PropTypes.func.isRequired,
-  onPlayersSwap: PropTypes.func.isRequired,
 };
 
 export default Bench;

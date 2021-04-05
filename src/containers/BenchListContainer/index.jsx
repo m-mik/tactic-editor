@@ -27,9 +27,7 @@ const makeMapStateToProps = () => {
   });
 };
 
-const mapDispatchToProps = {
-
-};
+const mapDispatchToProps = {};
 
 BenchListContainer.defaultProps = {
   tacticDetail: null,

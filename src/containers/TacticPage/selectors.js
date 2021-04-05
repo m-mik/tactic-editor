@@ -6,6 +6,7 @@ import { selectPlayers } from '../../data/players/selectors';
 export const selectEditedTeamId = state => state.editor.editedTeamId;
 
 export const selectActivePlayerId = state => state.editor.activePlayerId;
+export const selectPlayersToReplace = state => state.editor.playersToReplace;
 
 export const selectEditedTeam = createSelector(
   [selectTeams, selectEditedTeamId], (teams, editedTeamId) => teams.byId[editedTeamId],

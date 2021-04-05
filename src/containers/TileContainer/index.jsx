@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
+import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
 
 import pt from '../../propTypes';
@@ -8,6 +9,14 @@ import ItemTypes from '../../lib/ItemTypes';
 import DraggablePlayer from '../DraggablePlayer';
 import { canDropPlayer } from '../../lib/footballField';
 import styles from '../../components/TeamGrid/TeamGrid.scss';
+import {
+  movePlayer,
+  selectPlayer,
+  setPlayersToReplace,
+  swapPlayers,
+} from '../TacticPage/actions';
+import withDragDropContext from '../../lib/withDragDropContext';
+import { makeSelectPlayerOptions } from '../../data/tacticDetails/selectors';
 
 const cx = classNames.bind(styles);
 
@@ -20,8 +29,9 @@ class TileContainer extends Component {
       canDrop,
       playerOptions,
       onPlayerMove,
-      onPlayersSwap,
-      onPlayerTouchTap,
+      onPlayerSwap,
+      onPlayerSelect,
+      onDropOverPlayer,
       player,
       team,
       ...rest
@@ -37,8 +47,11 @@ class TileContainer extends Component {
         {player && <DraggablePlayer
           team={team}
           onMove={onPlayerMove}
-          onSwap={onPlayersSwap}
-          onTouchTap={onPlayerTouchTap}
+          onSwap={onPlayerSwap}
+          onDropOver={(sourceProps, targetProps) => onDropOverPlayer(
+            { p1: sourceProps, p2: targetProps },
+          )}
+          onTouchTap={() => onPlayerSelect(player.id)}
           options={playerOptions}
           {...player}
         />}
@@ -58,6 +71,7 @@ const tileTarget = {
   },
 };
 
+// eslint-disable-next-line no-shadow
 const collect = (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
   isOver: monitor.isOver({ shallow: true }),
@@ -71,15 +85,33 @@ TileContainer.defaultProps = {
 
 TileContainer.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
-  onPlayerMove: PropTypes.func.isRequired,
-  onPlayersSwap: PropTypes.func.isRequired,
-  onPlayerTouchTap: PropTypes.func.isRequired,
   position: PropTypes.number.isRequired,
   team: pt.team,
   isOver: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,
   player: pt.player,
   playerOptions: pt.playerOptions.isRequired,
+  onPlayerMove: PropTypes.func.isRequired,
+  onPlayerSwap: PropTypes.func.isRequired,
+  onPlayerSelect: PropTypes.func.isRequired,
+  onDropOverPlayer: PropTypes.func.isRequired,
 };
 
-export default DropTarget(ItemTypes.PLAYER, tileTarget, collect)(TileContainer);
+const makeMapStateToProps = () => {
+  const selectPlayerOptions = makeSelectPlayerOptions();
+  return (state, ownProps) => ({
+    playerOptions: selectPlayerOptions(state, ownProps),
+  });
+};
+
+const mapDispatchToProps = {
+  onPlayerMove: movePlayer,
+  onPlayerSwap: swapPlayers,
+  onPlayerSelect: selectPlayer,
+  onDropOverPlayer: setPlayersToReplace,
+};
+
+const ConnectedTileContainer = connect(makeMapStateToProps, mapDispatchToProps)(TileContainer);
+const DragDropConnectedTileContainer = withDragDropContext(ConnectedTileContainer);
+
+export default DropTarget(ItemTypes.PLAYER, tileTarget, collect)(DragDropConnectedTileContainer);

@@ -8,7 +8,7 @@ import flow from 'lodash/flow';
 import pt from '../../propTypes';
 import Player from '../../components/Player/index';
 import ItemTypes from '../../lib/ItemTypes';
-import { canDropPlayer } from '../../lib/footballField/index';
+import { canDropPlayer, isOnBench, isOnField } from '../../lib/footballField/index';
 import styles from './DraggablePlayer.scss';
 
 const cx = classNames.bind(styles);
@@ -24,6 +24,7 @@ class DraggablePlayer extends Component {
       connectDropTarget,
       onMove,
       onSwap,
+      onDropOver,
       onTouchTap,
       isOver,
       canDrop,
@@ -78,6 +79,7 @@ DraggablePlayer.propTypes = {
   canDrop: PropTypes.bool.isRequired,
   onMove: PropTypes.func.isRequired,
   onSwap: PropTypes.func.isRequired,
+  onDropOver: PropTypes.func.isRequired,
   onTouchTap: PropTypes.func.isRequired,
   transition: pt.transition,
   isDragging: PropTypes.bool.isRequired,
@@ -89,6 +91,7 @@ const playerSource = {
     return props;
   },
 
+  // eslint-disable-next-line no-unused-vars
   endDrag(props, monitor, component) {
     const dropResult = monitor.getDropResult();
     if (!dropResult) return;
@@ -96,10 +99,15 @@ const playerSource = {
     const targetComp = dropResult.component;
     const targetPos = targetComp.props.position;
 
-    if (targetComp.currentType === 'player') {
-      targetComp.props.onSwap(props, targetComp.props);
-    } else {
+    const isPlayerLeavingField = (isOnBench(props.position) && isOnField(targetPos))
+      || (isOnBench(targetPos) && isOnField(props.position));
+
+    if (targetComp.currentType !== 'player') {
       props.onMove(props, targetPos);
+    } else if (isPlayerLeavingField) {
+      props.onDropOver(props, targetComp.props);
+    } else {
+      targetComp.props.onSwap(props, targetComp.props);
     }
   },
 };

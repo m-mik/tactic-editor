@@ -17,10 +17,6 @@ const TeamGrid = (props) => {
     tilesCount,
     players,
     team,
-    playerOptions,
-    onPlayerMove,
-    onPlayersSwap,
-    onPlayerSelect,
   } = props;
 
   const wrapperStyle = cx({
@@ -38,10 +34,6 @@ const TeamGrid = (props) => {
         team={team}
         position={position}
         player={player}
-        playerOptions={playerOptions}
-        onPlayerTouchTap={() => onPlayerSelect(player.id)}
-        onPlayerMove={onPlayerMove}
-        onPlayersSwap={onPlayersSwap}
       />
     );
   });
@@ -66,10 +58,6 @@ TeamGrid.propTypes = {
   }).isRequired,
   players: pt.playersByPos.isRequired,
   team: pt.team.isRequired,
-  playerOptions: pt.playerOptions.isRequired,
-  onPlayerMove: PropTypes.func.isRequired,
-  onPlayersSwap: PropTypes.func.isRequired,
-  onPlayerSelect: PropTypes.func.isRequired,
 };
 
 export default TeamGrid;
