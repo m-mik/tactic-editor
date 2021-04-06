@@ -75,7 +75,7 @@ export default class PlayerPopover extends Component {
         anchorOrigin={{ horizontal: 'middle', vertical: 'bottom' }}
         targetOrigin={{ horizontal: 'middle', vertical: 'top' }}
         onRequestClose={this.props.onRequestClose}
-        useLayerForClickAway={false}
+        useLayerForClickAway
       >
         <ul className={styles.list}>
           <li>

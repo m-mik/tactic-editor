@@ -19,7 +19,7 @@ export default function ReplacePlayerPopover(props) {
       anchorOrigin={{ horizontal: 'middle', vertical: 'bottom' }}
       targetOrigin={{ horizontal: 'middle', vertical: 'top' }}
       onRequestClose={props.onRequestClose}
-      useLayerForClickAway={false}
+      useLayerForClickAway
       {...rest}
     >
       <Paper>

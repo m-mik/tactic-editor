@@ -14,21 +14,12 @@ import {
   DELETE_TACTIC_REJECTED,
 } from './constants';
 
-const tactic = (state, action) => {
+const byId = (state = {}, action) => {
   switch (action.type) {
     case CREATE_TACTIC_FULFILLED: {
       const id = action.payload.data.id;
-      return { [id]: { id, ...action.meta.data, ...state } };
+      return { ...state, [id]: { id, ...action.meta.data } };
     }
-    default:
-      return state;
-  }
-};
-
-const byId = (state = {}, action) => {
-  switch (action.type) {
-    case CREATE_TACTIC_FULFILLED:
-      return { ...state, ...tactic(undefined, action) };
     default: {
       if (get(action, 'payload.entities.tactics')) {
         return merge({}, state, action.payload.entities.tactics);

@@ -168,7 +168,7 @@
             "assists": 2
           }
         ],
-        "substitutions": {}
+        "substitutions": []
       },
       {
         "id": 2,
@@ -351,9 +351,14 @@
             "goals": 2,
             "assists": 2
           }
-        ]
+        ],
+        "substitutions": [{
+          "id": 1,
+          "playerOnId": 37,
+          "playerOffId": 21,
+          "minute": 72
+        }]
       }
-    ],
-    "substitutions": {}
+    ]
   }
 ]
