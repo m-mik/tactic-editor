@@ -53,6 +53,7 @@ class TileContainer extends Component {
           )}
           onTouchTap={() => onPlayerSelect(player.id)}
           options={playerOptions}
+          playerId={player.id}
           {...player}
         />}
       </div>,

@@ -354,8 +354,7 @@
         ],
         "substitutions": [{
           "id": 1,
-          "playerOnId": 37,
-          "playerOffId": 21,
+          "players": [23, 21],
           "minute": 72
         }]
       }

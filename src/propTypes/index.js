@@ -6,6 +6,7 @@ const tactic = {
 };
 
 const player = {
+  playerId: PropTypes.number,
   name: PropTypes.string,
   number: PropTypes.number,
   rating: PropTypes.number,
@@ -16,6 +17,12 @@ const player = {
   }),
   goals: PropTypes.number,
   assists: PropTypes.number,
+};
+
+const substitution = {
+  id: PropTypes.number,
+  players: PropTypes.arrayOf(player.playerId),
+  minute: PropTypes.number,
 };
 
 const team = {
@@ -30,6 +37,7 @@ const team = {
     backgroundColor: PropTypes.string.isRequired,
     textColor: PropTypes.string.isRequired,
   }),
+  substitutions: PropTypes.arrayOf(PropTypes.shape(substitution)),
 };
 
 const tacticOptions = {

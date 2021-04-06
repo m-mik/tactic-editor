@@ -2,7 +2,7 @@
   "id": 0,
   "name": "Team",
   "players": {},
-  "substitutions": {},
+  "substitutions": [],
   "shirt": {
     "border": {
       "color": "#5b5b5b",

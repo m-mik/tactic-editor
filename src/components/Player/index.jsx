@@ -3,19 +3,23 @@ import React, { Component } from 'react';
 import classNames from 'classnames/bind';
 import Color from 'color';
 import times from 'lodash/times';
+
 import YellowCardIcon from '../YellowCardIcon';
 import RedCardIcon from '../RedCardIcon';
 import GoalIcon from '../GoalIcon';
 import AssistIcon from '../AssistIcon';
+import SubstitutionOnIcon from '../SubstitutionOnIcon';
+import SubstitutionOffIcon from '../SubstitutionOffIcon';
 import styles from './Player.scss';
 import pt from '../../propTypes';
-import { TILES_COUNT } from '../../lib/footballField';
+import { isOnBench, isOnField, TILES_COUNT } from '../../lib/footballField';
 
 const cx = classNames.bind(styles);
 
 export default class Player extends Component {
   render() {
     const {
+      playerId,
       name,
       position,
       number,
@@ -33,6 +37,9 @@ export default class Player extends Component {
     const isGoalkeeper = position === 0 || position === TILES_COUNT;
     const gkBackgroundColor = Color(backgroundColor).mix(Color('green'), 0.5).rotate(180);
     const playerBg = isGoalkeeper ? gkBackgroundColor : backgroundColor;
+    const { substitutions } = team;
+    const subPlayerIds = substitutions.reduce((set, sub) =>
+      new Set([...set, ...sub.players]), new Set());
 
     const shirtStyle = {
       background: playerBg,
@@ -75,6 +82,18 @@ export default class Player extends Component {
       </div>
     );
 
+    const renderSubstitution = () => {
+      const existsInSubs = subPlayerIds.has(playerId);
+      const on = existsInSubs && isOnBench(position);
+      const off = existsInSubs && isOnField(position);
+      return (
+        <span className={styles.substitution}>
+          {on && <SubstitutionOnIcon />}
+          {off && <SubstitutionOffIcon />}
+        </span>
+      );
+    };
+
     const renderStats = () => {
       const stats = [
         { key: 'goals', visible: options.showGoals, Icon: GoalIcon },
@@ -95,13 +114,14 @@ export default class Player extends Component {
         {renderName()}
         {renderRating()}
         {renderCards()}
+        {renderSubstitution()}
         {renderStats()}
       </div>
     );
   }
 }
-
 Player.defaultProps = {
+  playerId: 0,
   name: 'Player Name',
   number: 1,
   rating: 0,
@@ -121,6 +141,7 @@ Player.defaultProps = {
 };
 
 Player.propTypes = {
+  playerId: pt.playerId,
   name: pt.playerName,
   number: pt.playerNumber,
   rating: pt.playerRating,
@@ -132,4 +153,3 @@ Player.propTypes = {
   options: pt.playerOptions.isRequired,
   className: pt.className,
 };
-
