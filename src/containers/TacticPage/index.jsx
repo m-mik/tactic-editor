@@ -20,7 +20,7 @@ import {
 import { selectDenormalizedTeams } from '../../data/teams/selectors';
 import { fetchTacticIfNeeded } from '../../data/tacticDetails/actions';
 import { updatePlayer } from '../../data/players/actions';
-import { updateTeam } from '../../data/teams/actions';
+import { addSubstitution, removeSubstitution, updateTeam } from '../../data/teams/actions';
 import {
   closeEditTeamDialog,
   movePlayer,
@@ -75,7 +75,7 @@ class TacticPage extends PureComponent {
         anchorEl={anchorEl}
         onRequestClose={() => this.props.setPlayersToReplace(null)}
         players={playersToReplace}
-        onPlayerSubstitute={() => console.log('substitute player')}
+        onPlayerSubstitute={this.props.addSubstitution}
         onPlayerSwap={this.props.swapPlayers}
       />
     );
@@ -133,6 +133,8 @@ TacticPage.propTypes = {
   setPlayersToReplace: PropTypes.func.isRequired,
   updatePlayer: PropTypes.func.isRequired,
   swapPlayers: PropTypes.func.isRequired,
+  addSubstitution: PropTypes.func.isRequired,
+  removeSubstitution: PropTypes.func.isRequired,
   closeEditTeamDialog: PropTypes.func.isRequired,
   updateTeam: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
@@ -163,6 +165,8 @@ const ConnectedTacticPage = connect(
     fetchTacticIfNeeded,
     movePlayer,
     swapPlayers,
+    addSubstitution,
+    removeSubstitution,
     setPlayersToReplace,
     selectPlayer,
     updatePlayer,

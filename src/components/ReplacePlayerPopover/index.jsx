@@ -1,41 +1,103 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Popover from 'material-ui/Popover';
-import SwapVerticalCircle from 'material-ui/svg-icons/action/swap-vertical-circle';
-import SwapHoriz from 'material-ui/svg-icons/action/swap-horiz';
-import { Menu, MenuItem, Paper } from 'material-ui';
+import SwapVerticalCircleIcon from 'material-ui/svg-icons/action/swap-vertical-circle';
+import ScheduleIcon from 'material-ui/svg-icons/action/schedule';
+import SwapHorizIcon from 'material-ui/svg-icons/action/swap-horiz';
+import AddIcon from 'material-ui/svg-icons/content/add';
+import { Menu, MenuItem, RaisedButton, TextField } from 'material-ui';
 
 import styles from './ReplacePlayerPopover.scss';
 import pt from '../../propTypes';
 
-export default function ReplacePlayerPopover(props) {
-  const { players, onPlayerSubstitute, onPlayerSwap, ...rest } = props;
-  const { p1, p2 } = players;
+export default class ReplacePlayerPopover extends React.Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <Popover
-      className={styles.wrapper}
-      open={!!players}
-      anchorOrigin={{ horizontal: 'middle', vertical: 'bottom' }}
-      targetOrigin={{ horizontal: 'middle', vertical: 'top' }}
-      onRequestClose={props.onRequestClose}
-      useLayerForClickAway
-      {...rest}
-    >
-      <Paper>
-        <Menu>
-          <MenuItem
-            primaryText="Substitute player" leftIcon={<SwapVerticalCircle />}
-            onTouchTap={() => onPlayerSubstitute(p1, p2)}
+    this.state = {
+      showSubstitutionMinute: false,
+      substitutionMinute: 60,
+    };
+
+    this.handleSubstitutionMinuteChange = this.handleSubstitutionMinuteChange.bind(this);
+  }
+
+  handleSubstitutionMinuteChange(event, value) {
+    const minute = Number(value);
+    if (value < 1 || value > 120) return;
+    this.setState({ substitutionMinute: minute });
+  }
+
+  renderMenu() {
+    const { players, onPlayerSwap } = this.props;
+    const { p1, p2 } = players;
+    return (
+      <Menu>
+        <MenuItem
+          primaryText="Substitute player" leftIcon={<SwapVerticalCircleIcon />}
+          onTouchTap={() => this.setState({ showSubstitutionMinute: true })}
+        />
+        <MenuItem
+          primaryText="Swap positions" leftIcon={<SwapHorizIcon />}
+          onTouchTap={() => onPlayerSwap(p1, p2)}
+        />
+      </Menu>
+    );
+  }
+
+  renderSubstitutionMinute() {
+    const { p1, p2 } = this.props.players;
+    return (
+      <div className={styles.substitutionWrapper}>
+        <div className={styles.substitutionMinute}>
+          <ScheduleIcon />&nbsp;&nbsp;
+          <span className={styles.substitutionMinuteText}>Substitution minute</span>
+        </div>
+        <div>
+          <TextField
+            className={styles.substitutionMinuteField}
+            id="substitution-minute-field"
+            value={this.state.substitutionMinute}
+            type="number"
+            onChange={this.handleSubstitutionMinuteChange}
+            min={1}
+            max={120}
+            autoFocus
           />
-          <MenuItem
-            primaryText="Swap positions" leftIcon={<SwapHoriz />}
-            onTouchTap={() => onPlayerSwap(p1, p2)}
+        </div>
+        <div>
+          <RaisedButton
+            label="Add"
+            icon={<AddIcon />}
+            primary
+            onTouchTap={() => this.props.onPlayerSubstitute(p1.team.id, {
+              players: [p1.id, p2.id],
+              minute: this.state.substitutionMinute,
+            })}
           />
-        </Menu>
-      </Paper>
-    </Popover>
-  );
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    const { players, onPlayerSubstitute, onPlayerSwap, ...rest } = this.props;
+    const { showSubstitutionMinute } = this.state;
+
+    return (
+      <Popover
+        open={!!players}
+        anchorOrigin={{ horizontal: 'middle', vertical: 'bottom' }}
+        targetOrigin={{ horizontal: 'middle', vertical: 'top' }}
+        onRequestClose={this.props.onRequestClose}
+        useLayerForClickAway
+        className={styles.wrapper}
+        {...rest}
+      >
+        {showSubstitutionMinute ? this.renderSubstitutionMinute() : this.renderMenu()}
+      </Popover>
+    );
+  }
 }
 
 ReplacePlayerPopover.defaultProps = {

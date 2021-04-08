@@ -1,2 +1,27 @@
 .wrapper {
+  width: 224px !important;
+}
+
+.substitutionWrapper {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.substitutionMinute {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.substitutionMinuteField {
+  width: 50px !important;
+  margin-right: 20px;
+}
+
+.substitutionMinuteText {
+  color: rgba(0, 0, 0, 0.87);
+  font-weight: 400;
 }

@@ -1,5 +1,6 @@
 import { ADD_SUBSTITUTION, REMOVE_SUBSTITUTION, UPDATE_TEAM } from './constants';
 import teamSchema from './schema';
+import { setPlayersToReplace } from '../../containers/TacticPage/actions';
 
 export const updateTeam = (id, teamData) => ({
   type: UPDATE_TEAM,
@@ -12,10 +13,13 @@ export const updateTeam = (id, teamData) => ({
   },
 });
 
-export const addSubstitution = (teamId, substitutionData) => ({
-  type: ADD_SUBSTITUTION,
-  payload: { teamId, substitutionData },
-});
+export const addSubstitution = (teamId, substitutionData) => (dispatch) => {
+  dispatch(setPlayersToReplace(null));
+  dispatch({
+    type: ADD_SUBSTITUTION,
+    payload: { teamId, substitutionData },
+  });
+};
 
 export const removeSubstitution = (teamId, substitutionId) => ({
   type: REMOVE_SUBSTITUTION,

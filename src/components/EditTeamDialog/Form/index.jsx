@@ -60,6 +60,7 @@ class Form extends Component {
         <FootballField>
           {textColor && <Player
             className={styles.player} team={{
+              substitutions: [],
               shirt: {
                 border: { style: borderStyle, color: borderColor },
                 textColor,
