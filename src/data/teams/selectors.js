@@ -24,3 +24,10 @@ export const selectDenormalizedTeams = createSelector(
     );
   },
 );
+
+export const selectDenormalizedSubstitutions = createSelector(
+  [selectTeam, selectPlayers],
+  (team, players) => team.substitutions.map(sub => ({
+    ...sub, players: sub.players.map(playerId => players.byId[playerId]),
+  })),
+);

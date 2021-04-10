@@ -66,3 +66,7 @@
 .ball {
   height: 52%;
 }
+
+.button[disabled] {
+  visibility: hidden;
+}

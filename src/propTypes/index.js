@@ -20,7 +20,7 @@ const player = {
 };
 
 const substitution = {
-  id: PropTypes.number,
+  id: PropTypes.string,
   players: PropTypes.arrayOf(player.playerId),
   minute: PropTypes.number,
 };
@@ -99,6 +99,11 @@ const propTypes = {
     p1: PropTypes.shape(player),
     p2: PropTypes.shape(player),
   }),
+  denormalizedSubstitutions: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    minute: PropTypes.number,
+    players: PropTypes.arrayOf(PropTypes.shape(player)),
+  })),
 };
 
 export default propTypes;

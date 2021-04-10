@@ -36,6 +36,7 @@ export default class PlayerPopover extends Component {
     return (
     [
       <RemoveButton
+        className={styles.button}
         key={`remove.${path}`}
         tooltip={`Remove ${label}`}
         disabled={!validate(val - 1)}
@@ -43,6 +44,7 @@ export default class PlayerPopover extends Component {
           this.handleChange(path, val - 1, validate)}
       />,
       <AddButton
+        className={styles.button}
         key={`add.${path}`}
         tooltip={`Add ${label}`}
         disabled={!validate(val + 1)}

@@ -1,21 +1,47 @@
-.bench {
-  border: 1px solid black;
+.wrapper {
   height: 50%;
+  margin: 0 0 10px 10px;
+  padding: 10px;
 }
 
-.list {
-  background: #c7c1c1;
+.playerList {
   display: flex;
   flex-direction: column;
-}
+  list-style-type: none;
 
-.listItem {
-  border: 1px solid black;
-  width: 100px;
-  height: 100px;
+  .item {
+    width: 100px;
+    height: 100px;
+  }
 }
 
 .teamName {
   font-size: 1.2rem;
-  padding: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.substitutionList {
+  list-style-type: none;
+
+  & > li {
+    margin-bottom: 10px;
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .minute {
+    font-weight: 600;
+    width: 30px;
+  }
+
+  .players {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 150px;
+  }
 }

@@ -96,7 +96,6 @@ class TacticPage extends PureComponent {
   render() {
     const { tacticDetail, hasError, isFetching } = this.props;
     const teams = (tacticDetail && tacticDetail.teams) || [];
-
     return (
       <section className={styles.wrapper}>
         <div style={{ flex: 3, display: 'flex', flexDirection: 'column' }}>
@@ -134,7 +133,6 @@ TacticPage.propTypes = {
   updatePlayer: PropTypes.func.isRequired,
   swapPlayers: PropTypes.func.isRequired,
   addSubstitution: PropTypes.func.isRequired,
-  removeSubstitution: PropTypes.func.isRequired,
   closeEditTeamDialog: PropTypes.func.isRequired,
   updateTeam: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,

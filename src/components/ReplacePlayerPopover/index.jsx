@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { nanoid } from 'nanoid';
 import Popover from 'material-ui/Popover';
 import SwapVerticalCircleIcon from 'material-ui/svg-icons/action/swap-vertical-circle';
 import ScheduleIcon from 'material-ui/svg-icons/action/schedule';
 import SwapHorizIcon from 'material-ui/svg-icons/action/swap-horiz';
 import AddIcon from 'material-ui/svg-icons/content/add';
-import { Menu, MenuItem, RaisedButton, TextField } from 'material-ui';
 
+import { Menu, MenuItem, RaisedButton, TextField } from 'material-ui';
 import styles from './ReplacePlayerPopover.scss';
 import pt from '../../propTypes';
 
@@ -47,6 +48,7 @@ export default class ReplacePlayerPopover extends React.Component {
 
   renderSubstitutionMinute() {
     const { p1, p2 } = this.props.players;
+
     return (
       <div className={styles.substitutionWrapper}>
         <div className={styles.substitutionMinute}>
@@ -71,6 +73,7 @@ export default class ReplacePlayerPopover extends React.Component {
             icon={<AddIcon />}
             primary
             onTouchTap={() => this.props.onPlayerSubstitute(p1.team.id, {
+              id: nanoid(),
               players: [p1.id, p2.id],
               minute: this.state.substitutionMinute,
             })}

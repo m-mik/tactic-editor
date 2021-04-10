@@ -327,7 +327,7 @@
           },
           {
             "id": 23,
-            "name": "John Smith",
+            "name": "J. Smith",
             "number": 77,
             "position": 36,
             "rating": 5,
@@ -340,7 +340,7 @@
           },
           {
             "id": 24,
-            "name": "Adam Nowak",
+            "name": "A. Nowak",
             "number": 27,
             "position": 37,
             "rating": 5,
@@ -353,7 +353,7 @@
           }
         ],
         "substitutions": [{
-          "id": 1,
+          "id": "Y1StGXR8_Z5jdHi6B-myD",
           "players": [23, 21],
           "minute": 72
         }]
