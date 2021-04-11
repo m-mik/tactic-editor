@@ -44,12 +44,20 @@ export function getTeamGridTileElemForPos(teamGridEl, position) {
   return tileEl;
 }
 
-export function getTileCoordsForPos(position, teamid) {
+export function getTileCoordsForPos(position, teamId) {
   const element = isOnField(position) ?
-    getTeamGridTileElemForPos(findTeamGridElem(teamid), position) :
-    findBenchPlayerElem(teamid, position);
-
+    getTeamGridTileElemForPos(findTeamGridElem(teamId), position) :
+    findBenchPlayerElem(teamId, position);
+  const errorMsg = `Tile for position=${position}, teamId=${teamId} could not be found`;
+  if (!element) throw new Error(errorMsg);
   return element.getBoundingClientRect();
+}
+
+export function getNodeOffset(sourceNode, targetNode) {
+  return {
+    left: targetNode.offsetLeft - sourceNode.offsetLeft,
+    top: targetNode.offsetTop - sourceNode.offsetTop,
+  };
 }
 
 export function findTileOffsets(tilePositions, teamId) {
@@ -68,16 +76,13 @@ export function findTileOffsets(tilePositions, teamId) {
   }, {});
 }
 
-export function getNodeOffset(sourceNode, targetNode) {
-  return {
-    left: targetNode.offsetLeft - sourceNode.offsetLeft,
-    top: targetNode.offsetTop - sourceNode.offsetTop,
-  };
-}
-
 export function findTileOffset(tilePosition, teamId) {
-  const offsets = findTileOffsets([tilePosition], teamId);
-  return offsets[tilePosition.from][tilePosition.to];
+  try {
+    const offsets = findTileOffsets([tilePosition], teamId);
+    return offsets[tilePosition.from][tilePosition.to];
+  } catch (e) {
+    return null;
+  }
 }
 
 export function getCompOffset(sourceComp, targetComp) {

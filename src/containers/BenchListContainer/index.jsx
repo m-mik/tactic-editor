@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
+
 import styles from './BenchListContainer.scss';
 import BenchContainer from '../BenchContainer';
 import { makeSelectTacticDetail } from '../../data/tacticDetails/selectors';

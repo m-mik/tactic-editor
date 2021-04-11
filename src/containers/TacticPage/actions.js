@@ -2,11 +2,11 @@ import { findTileOffset } from '../../lib/footballField';
 import { updatePlayer, updatePlayers } from '../../data/players/actions';
 import {
   ADD_PLAYER_TRANSITIONS,
+  CLOSE_EDIT_TEAM_DIALOG,
+  OPEN_EDIT_TEAM_DIALOG,
   REMOVE_PLAYER_TRANSITIONS,
   SELECT_PLAYER,
   SET_PLAYERS_TO_REPLACE,
-  OPEN_EDIT_TEAM_DIALOG,
-  CLOSE_EDIT_TEAM_DIALOG,
 } from './constants';
 
 export const openEditTeamDialog = teamId => ({ type: OPEN_EDIT_TEAM_DIALOG, payload: teamId });
@@ -30,11 +30,12 @@ export const movePlayer = (player, newPosition) => (dispatch) => {
 };
 
 export const movePlayers = data => (dispatch) => {
-  const playerTransData = data.reduce((result, item) => {
-    const { player, targetPos } = item;
-    const offset = findTileOffset({ from: player.position, to: targetPos }, player.team.id);
-    return { ...result, [player.id]: offset };
-  }, {});
+  const playerTransData = data
+    .reduce((result, item) => {
+      const { player, targetPos } = item;
+      const offset = findTileOffset({ from: player.position, to: targetPos }, player.team.id);
+      return offset ? { ...result, [player.id]: offset } : result;
+    }, {});
   dispatch(addPlayerTransitions(playerTransData));
   const playerPosData = data.map(item => ({ id: item.player.id, position: item.targetPos }));
   dispatch(updatePlayers(playerPosData));
@@ -64,7 +65,10 @@ export const updateFormation = (team, formation) => (dispatch) => {
   const playerData = [];
   Object.keys(players).sort((a, b) => a - b).forEach((pos, i) => {
     const player = players[pos];
-    const targetPos = formation.positions[i];
+    let targetPos = formation.positions[i];
+    if (typeof targetPos === 'undefined') {
+      targetPos = -1;
+    }
     if (player.position !== targetPos) {
       playerData.push({
         player: { ...player, team: { id: team.id } },
@@ -72,6 +76,5 @@ export const updateFormation = (team, formation) => (dispatch) => {
       });
     }
   });
-
   dispatch(movePlayers(playerData));
 };

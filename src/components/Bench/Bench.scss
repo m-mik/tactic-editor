@@ -4,44 +4,58 @@
   padding: 10px;
 }
 
-.playerList {
-  display: flex;
-  flex-direction: column;
-  list-style-type: none;
-
-  .item {
-    width: 100px;
-    height: 100px;
-  }
-}
-
 .teamName {
   font-size: 1.2rem;
   padding-bottom: 10px;
   text-align: center;
 }
 
-.substitutionList {
-  list-style-type: none;
-
-  & > li {
-    margin-bottom: 10px;
-  }
-
-  .item {
+.players {
+  .list {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+    flex-wrap: wrap;
+    list-style-type: none;
 
-  .minute {
-    font-weight: 600;
-    width: 30px;
-  }
+    .item {
+      width: 100px;
+      height: 100px;
+    }
 
-  .players {
-    display: flex;
-    flex-direction: column;
-    flex-basis: 150px;
+    .addPlayer {
+      padding: 20px 0 0 30px;
+    }
+  }
+}
+
+.substitutions {
+  .list {
+    list-style-type: none;
+    margin-top: 10px;
+
+    & > li {
+      margin-bottom: 10px;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .minute {
+      font-weight: 600;
+      width: 30px;
+    }
+
+    .players {
+      display: flex;
+      flex-direction: column;
+      flex-basis: 150px;
+    }
+
+    .players > span {
+      display: flex;
+      align-items: center;
+    }
   }
 }

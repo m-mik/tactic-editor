@@ -350,6 +350,19 @@
             },
             "goals": 2,
             "assists": 2
+          },
+          {
+            "id": 25,
+            "name": "Player Name",
+            "number": 28,
+            "position": -1,
+            "rating": 5,
+            "cards": {
+              "yellow": 0,
+              "red": 0
+            },
+            "goals": 0,
+            "assists": 0
           }
         ],
         "substitutions": [{

@@ -35,6 +35,10 @@ import pt from '../../propTypes';
 import ReplacePlayerPopover from '../../components/ReplacePlayerPopover';
 
 class TacticPage extends PureComponent {
+  static renderErrorMessage() {
+    return <span className={styles.errorMessage}>Tactic does not exist</span>;
+  }
+
   componentDidMount() {
     const id = +this.props.match.params.id;
     this.props.fetchTacticIfNeeded(id);
@@ -89,12 +93,8 @@ class TacticPage extends PureComponent {
     />;
   }
 
-  renderErrorMessage() {
-    return <span className={styles.errorMessage}>Tactic does not exist</span>;
-  }
-
   render() {
-    const { tacticDetail, hasError, isFetching } = this.props;
+    const { denormalizedTeams, tacticDetail, hasError, isFetching } = this.props;
     const teams = (tacticDetail && tacticDetail.teams) || [];
     return (
       <section className={styles.wrapper}>
@@ -102,7 +102,7 @@ class TacticPage extends PureComponent {
           <TeamInfoContainer teamId={teams[0]} />
           <FootballField>
             {tacticDetail && <TeamGridList teamIds={tacticDetail.teams} />}
-            {hasError && this.renderErrorMessage()}
+            {hasError && TacticPage.renderErrorMessage()}
             {isFetching && <LoadingIndicator className={styles.loadingIndicator} />}
           </FootballField>
           <TeamInfoContainer teamId={teams[1]} />
@@ -111,7 +111,7 @@ class TacticPage extends PureComponent {
           {this.renderTeamDialog()}
         </div>
         <div style={{ flex: 1 }}>
-          <BenchListContainer />
+          {denormalizedTeams.length && <BenchListContainer />}
         </div>
       </section>
     );

@@ -49,6 +49,10 @@ const TeamGrid = (props) => {
   );
 };
 
+TeamGrid.defaultProps = {
+  team: undefined,
+};
+
 TeamGrid.propTypes = {
   tilesCount: PropTypes.number.isRequired,
   id: PropTypes.string.isRequired,
@@ -57,7 +61,7 @@ TeamGrid.propTypes = {
     showGrid: PropTypes.bool.isRequired,
   }).isRequired,
   players: pt.playersByPos.isRequired,
-  team: pt.team.isRequired,
+  team: pt.team,
 };
 
 export default TeamGrid;

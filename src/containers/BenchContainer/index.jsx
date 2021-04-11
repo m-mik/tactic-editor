@@ -4,7 +4,7 @@ import Bench from '../../components/Bench';
 import withDragDropContext from '../../lib/withDragDropContext';
 import { makeSelectTeamPlayers } from '../../data/players/selectors';
 import { selectDenormalizedSubstitutions, selectTeam } from '../../data/teams/selectors';
-import { removeSubstitution } from '../../data/teams/actions';
+import { addBenchPlayer, removeSubstitution } from '../../data/teams/actions';
 
 const makeMapStateToProps = () => {
   const selectTeamBenchPlayers = makeSelectTeamPlayers({ filter: 'bench' });
@@ -18,6 +18,7 @@ const makeMapStateToProps = () => {
 
 const mapDispatchToProps = {
   onSubstitutionRemove: removeSubstitution,
+  onBenchPlayerAdd: addBenchPlayer,
 };
 
 const ConnectedBench = connect(makeMapStateToProps, mapDispatchToProps)(Bench);

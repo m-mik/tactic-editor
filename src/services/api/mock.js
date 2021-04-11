@@ -40,14 +40,14 @@ const mockApi = () => {
   });
 
   const generateTeam = () => ({
-    ...defaultTeam, id: nextId('teams'), players: times(11, generatePlayer),
+    ...defaultTeam, id: nextId('teams'), players: times(22, generatePlayer),
   });
 
   mock.onGet('/tactics').reply(200, tactics.map(tactic => omit(tactic, ['teams', 'options'])));
 
   mock.onGet(/\/tactics\/\d+/).reply((config) => {
     const id = +config.url.split('/').pop();
-    const tactic = tactics.filter(t => t.id === id).shift();
+    const tactic = tactics.find(t => t.id === id);
     if (!tactic) {
       return [404, []];
     }
