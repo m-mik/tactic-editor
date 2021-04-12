@@ -14,14 +14,23 @@ import styles from './PlayerPopover.scss';
 import pt from '../../propTypes';
 
 export default class PlayerPopover extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleKeyDown);
   }
 
   shouldComponentUpdate(nextProps) {
     return this.props.player !== nextProps.player;
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleKeyDown);
   }
 
   handleChange(path, newVal, test) {
@@ -29,6 +38,12 @@ export default class PlayerPopover extends Component {
     if (!test || test(newVal)) {
       const result = set({}, path, newVal);
       onPlayerChange(player.id, result);
+    }
+  }
+
+  handleKeyDown(e) {
+    if (e.key === 'Enter' || e.key === 'Escape') {
+      this.props.onRequestClose();
     }
   }
 
@@ -128,8 +143,7 @@ export default class PlayerPopover extends Component {
               floatingLabelFixed
               name="name"
               value={player.name}
-              onChange={e =>
-                this.handleChange('name', e.target.value, validate.name)}
+              onChange={e => this.handleChange('name', e.target.value, validate.name)}
               autoFocus
             />
           </li>

@@ -20,7 +20,22 @@ export default class ReplacePlayerPopover extends React.Component {
       substitutionMinute: 60,
     };
 
+    this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleSubstitutionMinuteChange = this.handleSubstitutionMinuteChange.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  handleKeyDown(e) {
+    if (e.key === 'Enter' || e.key === 'Escape') {
+      this.props.onRequestClose();
+    }
   }
 
   handleSubstitutionMinuteChange(event, value) {
