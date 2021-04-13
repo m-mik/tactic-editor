@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Popover from 'material-ui/Popover';
 import TextField from 'material-ui/TextField';
 import set from 'lodash/set';
+import debounce from 'lodash/debounce';
 
 import AddButton from '../AddButton';
 import RemoveButton from '../RemoveButton';
@@ -19,14 +20,18 @@ export default class PlayerPopover extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.debouncedOnPlayerChange = debounce(props.onPlayerChange.bind(this), 100);
+
+    const { name, number, rating, goals, assists, cards } = props.player;
+    this.state = { name, number, rating, goals, assists, cards };
   }
 
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
   }
 
-  shouldComponentUpdate(nextProps) {
-    return this.props.player !== nextProps.player;
+  shouldComponentUpdate(nextProps, nextState) {
+    return (this.props.player !== nextProps.player) || (this.state !== nextState);
   }
 
   componentWillUnmount() {
@@ -34,10 +39,11 @@ export default class PlayerPopover extends Component {
   }
 
   handleChange(path, newVal, test) {
-    const { player, onPlayerChange } = this.props;
+    const { player } = this.props;
     if (!test || test(newVal)) {
-      const result = set({}, path, newVal);
-      onPlayerChange(player.id, result);
+      const result = set(this.state, path, newVal);
+      this.setState(prevState => ({ ...prevState, ...result }));
+      this.debouncedOnPlayerChange(player.id, result);
     }
   }
 
@@ -70,7 +76,7 @@ export default class PlayerPopover extends Component {
   }
 
   render() {
-    const { player } = this.props;
+    const { name, number, rating, goals, assists, cards } = this.state;
 
     const validate = {
       goals: val => val >= 0 && val <= 5,
@@ -97,20 +103,20 @@ export default class PlayerPopover extends Component {
         <ul className={styles.list}>
           <li>
             <YellowCardIcon className={styles.card} />
-            {this.renderButtons('cards.yellow', player.cards.yellow, 'Yellow Card',
+            {this.renderButtons('cards.yellow', cards.yellow, 'Yellow Card',
               validate.cards.yellow)}
           </li>
           <li>
             <GoalIcon className={styles.ball} />
-            {this.renderButtons('goals', player.goals, 'Goal', validate.goals)}
+            {this.renderButtons('goals', goals, 'Goal', validate.goals)}
           </li>
           <li>
             <RedCardIcon className={styles.card} />
-            {this.renderButtons('cards.red', player.cards.red, 'Red Card', validate.cards.red)}
+            {this.renderButtons('cards.red', cards.red, 'Red Card', validate.cards.red)}
           </li>
           <li>
             <AssistIcon className={styles.ball} />
-            {this.renderButtons('assists', player.assists, 'Assist', validate.assists)}
+            {this.renderButtons('assists', assists, 'Assist', validate.assists)}
           </li>
           <li className={styles.fullWidth}>
             <TextField
@@ -119,7 +125,7 @@ export default class PlayerPopover extends Component {
               floatingLabelFixed
               name="number"
               type="number"
-              value={player.number <= 0 ? '' : player.number}
+              value={number <= 0 ? '' : number}
               onChange={e =>
                 this.handleChange('number', +e.target.value, validate.number)}
               min={1}
@@ -131,7 +137,7 @@ export default class PlayerPopover extends Component {
               floatingLabelFixed
               name="rating"
               type="number"
-              value={player.rating <= 0 ? '' : player.rating}
+              value={rating <= 0 ? '' : rating}
               onChange={e =>
                 this.handleChange('rating', +e.target.value, validate.rating)}
               min={1}
@@ -142,7 +148,7 @@ export default class PlayerPopover extends Component {
               floatingLabelText="Name"
               floatingLabelFixed
               name="name"
-              value={player.name}
+              value={name}
               onChange={e => this.handleChange('name', e.target.value, validate.name)}
               autoFocus
             />
