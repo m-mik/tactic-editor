@@ -1,6 +1,5 @@
 .wrapper {
-  max-width: 300px;
-  height: 210px;
+  max-width: 350px;
   padding: 10px;
   text-align: center;
   background: #000 !important;
@@ -15,11 +14,11 @@
 .textField {
   margin: 0 5px;
 
-  & > input {
+  > input {
     color: #fff !important;
   }
 
-  & > label {
+  > label {
     color: #42b5d0 !important;
   }
 }
@@ -28,6 +27,7 @@
   composes: textField;
   width: 15% !important;
 }
+
 .ratingField {
   composes: textField;
   width: 15% !important;
@@ -40,16 +40,9 @@
 }
 
 .list {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-
   > li {
-    width: 140px;
-  }
-
-  > li:last-of-type {
-    border: none;
+    display: inline-block;
+    width: 90px;
   }
 
   .fullWidth {
@@ -69,4 +62,48 @@
 
 .button[disabled] {
   visibility: hidden;
+}
+
+.goals {
+  color: #fff;
+
+  > .list {
+    list-style-type: none;
+    width: 100%;
+    margin: 10px;
+
+    > li {
+      width: 100%;
+      text-align: left;
+      display: flex;
+      align-items: center;
+
+      > div {
+        padding: 5px;
+      }
+    }
+  }
+}
+
+.minute {
+  width: 50px !important;
+  margin-right: 10px;
+
+  input {
+    color: #fff !important;
+  }
+}
+
+.smallIcon {
+  font-size: 0.8rem !important;
+  margin-right: 20px;
+}
+
+.players {
+  .select {
+    width: 120px !important;
+  }
+
+  display: flex;
+  align-items: center;
 }

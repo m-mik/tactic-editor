@@ -2,14 +2,14 @@ import { combineReducers } from 'redux';
 import merge from 'lodash/merge';
 import get from 'lodash/get';
 
-import { ADD_SUBSTITUTION, REMOVE_SUBSTITUTION } from './constants';
+import { ADD_TEAM_STAT, REMOVE_TEAM_STAT } from './constants';
 
-const substitution = (state, action) => {
+const stat = (state, action) => {
   switch (action.type) {
-    case ADD_SUBSTITUTION:
-      return [...state, action.payload.substitutionData];
-    case REMOVE_SUBSTITUTION:
-      return state.filter(sub => sub.id !== action.payload.substitutionId);
+    case ADD_TEAM_STAT:
+      return [...state, action.payload.statData];
+    case REMOVE_TEAM_STAT:
+      return state.filter(s => s.id !== action.payload.statId);
     default:
       return state;
   }
@@ -17,13 +17,11 @@ const substitution = (state, action) => {
 
 const team = (state, action) => {
   switch (action.type) {
-    case ADD_SUBSTITUTION:
-    case REMOVE_SUBSTITUTION:
+    case ADD_TEAM_STAT:
+    case REMOVE_TEAM_STAT:
+      const { statName, teamId } = action.payload;
       return {
-        [action.payload.teamId]: {
-          ...state,
-          substitutions: substitution(state.substitutions, action),
-        },
+        [teamId]: { ...state, [statName]: stat(state[statName], action) },
       };
     default:
       return state;
@@ -32,8 +30,8 @@ const team = (state, action) => {
 
 const byId = (state = {}, action) => {
   switch (action.type) {
-    case ADD_SUBSTITUTION:
-    case REMOVE_SUBSTITUTION:
+    case ADD_TEAM_STAT:
+    case REMOVE_TEAM_STAT:
       return { ...state, ...team(state[action.payload.teamId], action) };
     default: {
       if (get(action, 'payload.entities.teams')) {

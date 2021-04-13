@@ -1,6 +1,6 @@
 import React from 'react';
-import ArrowDownward from 'material-ui/svg-icons/navigation/arrow-downward';
+import ArrowDownwardIcon from 'material-ui/svg-icons/navigation/arrow-downward';
 
 export default () => (
-  <ArrowDownward style={{ color: 'red' }} />
+  <ArrowDownwardIcon style={{ color: 'red' }} />
 );

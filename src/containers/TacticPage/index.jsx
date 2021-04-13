@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 
 import TeamGridList from '../../components/TeamGridList';
 import TeamInfoContainer from '../TeamInfoContainer';
-import PlayerPopover from '../../components/PlayerPopover';
+import PlayerPopoverContainer from '../PlayerPopoverContainer';
 import BenchListContainer from '../BenchListContainer';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import FootballField from '../../components/FootballField';
 import EditTeamDialog from '../../components/EditTeamDialog';
-import { findPlayerElement } from '../../lib/footballField/index';
+import { findPlayerElement, getTeamForPlayer } from '../../lib/footballField/index';
 import { selectActivePlayer, selectEditedTeam, selectPlayersToReplace } from './selectors';
 import {
   makeSelectTacticDetail,
@@ -20,7 +20,13 @@ import {
 import { selectDenormalizedTeams } from '../../data/teams/selectors';
 import { fetchTacticIfNeeded } from '../../data/tacticDetails/actions';
 import { updatePlayer } from '../../data/players/actions';
-import { addSubstitution, removeSubstitution, updateTeam } from '../../data/teams/actions';
+import {
+  addSubstitution,
+  addTeamStat,
+  removeSubstitution,
+  removeTeamStat,
+  updateTeam,
+} from '../../data/teams/actions';
 import {
   closeEditTeamDialog,
   movePlayer,
@@ -54,12 +60,14 @@ class TacticPage extends PureComponent {
 
   renderPlayerPopover() {
     const { selectedPlayer, denormalizedTeams } = this.props;
-    const anchorEl = selectedPlayer ? findPlayerElement(denormalizedTeams, selectedPlayer) : null;
+    if (!selectedPlayer) return null;
+    const anchorEl = findPlayerElement(denormalizedTeams, selectedPlayer);
+    const team = getTeamForPlayer(denormalizedTeams, selectedPlayer);
 
     return (
-      selectedPlayer && <PlayerPopover
+      <PlayerPopoverContainer
         player={selectedPlayer}
-        onPlayerChange={this.props.updatePlayer}
+        team={team}
         anchorEl={anchorEl}
         onRequestClose={() => this.props.selectPlayer(0)}
       />
@@ -135,6 +143,8 @@ TacticPage.propTypes = {
   addSubstitution: PropTypes.func.isRequired,
   closeEditTeamDialog: PropTypes.func.isRequired,
   updateTeam: PropTypes.func.isRequired,
+  addTeamStat: PropTypes.func.isRequired,
+  removeTeamStat: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
   tacticDetail: pt.tacticDetail,
@@ -169,6 +179,8 @@ const ConnectedTacticPage = connect(
     selectPlayer,
     updatePlayer,
     updateTeam,
+    addTeamStat,
+    removeTeamStat,
     openEditTeamDialog,
     closeEditTeamDialog,
     updateFormation,

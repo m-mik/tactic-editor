@@ -5,7 +5,7 @@ export const TILES_COUNT = 36;
 export const TILES_PER_LINE = (TILES_COUNT - 1) / 5;
 
 export const isOnField = position => position >= 0 && position < TILES_COUNT;
-export const isOnBench = position => !isOnField(position);
+export const isOnBench = position => position >= TILES_COUNT;
 export const isBenchPlayer = player => isOnBench(player.position);
 export const isFieldPlayer = player => isOnField(player.position);
 

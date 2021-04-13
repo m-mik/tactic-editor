@@ -31,12 +31,6 @@ const mockApi = () => {
     number: index + 1,
     position: 18,
     rating: 5,
-    cards: {
-      yellow: 0,
-      red: 0,
-    },
-    goals: 0,
-    assists: 0,
   });
 
   const generateTeam = () => ({

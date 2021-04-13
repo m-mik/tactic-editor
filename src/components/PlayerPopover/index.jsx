@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Popover from 'material-ui/Popover';
 import TextField from 'material-ui/TextField';
+import { MenuItem, SelectField } from 'material-ui';
 import set from 'lodash/set';
 import debounce from 'lodash/debounce';
 
 import AddButton from '../AddButton';
-import RemoveButton from '../RemoveButton';
 import YellowCardIcon from '../YellowCardIcon';
 import RedCardIcon from '../RedCardIcon';
 import GoalIcon from '../GoalIcon';
-import AssistIcon from '../AssistIcon';
 import styles from './PlayerPopover.scss';
 import pt from '../../propTypes';
 
@@ -20,10 +19,11 @@ export default class PlayerPopover extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleTeamStatAdd = this.handleTeamStatAdd.bind(this);
     this.debouncedOnPlayerChange = debounce(props.onPlayerChange.bind(this), 100);
 
-    const { name, number, rating, goals, assists, cards } = props.player;
-    this.state = { name, number, rating, goals, assists, cards };
+    const { name, number, rating } = props.player;
+    this.state = { name, number, rating };
   }
 
   componentDidMount() {
@@ -53,30 +53,95 @@ export default class PlayerPopover extends Component {
     }
   }
 
-  renderButtons(path, val, label, validate) {
+ /* handlePlayerStatsChange(event) {
+    const { team } = this.props;
+    // const result = set({}, path, newVal);
+    console.log('handle');
+    this.props.onPlayerStatChange(team.id, {
+      goals: [...team.goals, { wtf: 3 }],
+    });
+    // event.target.value;
+
+    // onPlayerStatsChange
+  }*/
+
+  handleTeamStatAdd() {
+
+  }
+
+  renderGoals() {
+    const { team, player } = this.props;
+
     return (
-    [
-      <RemoveButton
-        className={styles.button}
-        key={`remove.${path}`}
-        tooltip={`Remove ${label}`}
-        disabled={!validate(val - 1)}
-        onTouchTap={() =>
-          this.handleChange(path, val - 1, validate)}
-      />,
+      <div className={styles.goals}>
+        <ul className={styles.list}>
+          {team.goals.filter(goal => goal.playerId === player.id)
+          .map(goal =>
+            <li key={goal.id}>
+              <div>
+                <GoalIcon className={styles.smallIcon} />
+              </div>
+              <div>
+                <TextField
+                  className={styles.minute}
+                  id="minute-field"
+                  value={goal.minute}
+                  type="number"
+                  hintText="minute"
+                  onChange={this.handlePlayerStatsChange}
+                  min={1}
+                  max={120}
+                  autoFocus
+                />
+              min.
+              </div>
+              <div className={styles.players}>({this.renderPlayersMenu()})</div>
+            </li>)
+        }
+        </ul>
+      </div>
+    );
+  }
+
+  renderPlayersMenu() {
+    const { player, team } = this.props;
+    const { players } = team;
+    const teamPlayers = players.filter(p => (p.id !== player.id) && (p.position > -1));
+
+    return (
+      <SelectField
+        className={styles.select}
+        hintText="Assisted by"
+        value={null}
+        multiLine={false}
+        hintStyle={{ color: 'white', paddingLeft: 10 }}
+        menuStyle={{ width: 130 }}
+        maxHeight={300}
+        onChange={this.handlePlayerStatsChange}
+      >
+        <MenuItem value={null} primaryText="-" />
+        {teamPlayers.map(({ id, name }) => <MenuItem key={id} value={id} primaryText={name} />)}
+      </SelectField>
+    );
+  }
+
+  renderButtons(path, val, label, validate) {
+    return [
       <AddButton
         className={styles.button}
         key={`add.${path}`}
         tooltip={`Add ${label}`}
         disabled={!validate(val + 1)}
         onTouchTap={() =>
-          this.handleChange(path, val + 1, validate)}
+          this.handleTeamStatAdd(path, val + 1, validate)}
       />,
-    ]);
+    ];
   }
 
   render() {
-    const { name, number, rating, goals, assists, cards } = this.state;
+    const { name, number, rating } = this.state;
+    const { team, player, playerStats } = this.props;
+    const { goals, yellowCards, redCards } = playerStats;
 
     const validate = {
       goals: val => val >= 0 && val <= 5,
@@ -100,23 +165,20 @@ export default class PlayerPopover extends Component {
         onRequestClose={this.props.onRequestClose}
         useLayerForClickAway
       >
+        {this.renderGoals()}
         <ul className={styles.list}>
-          <li>
-            <YellowCardIcon className={styles.card} />
-            {this.renderButtons('cards.yellow', cards.yellow, 'Yellow Card',
-              validate.cards.yellow)}
-          </li>
           <li>
             <GoalIcon className={styles.ball} />
             {this.renderButtons('goals', goals, 'Goal', validate.goals)}
           </li>
           <li>
-            <RedCardIcon className={styles.card} />
-            {this.renderButtons('cards.red', cards.red, 'Red Card', validate.cards.red)}
+            <YellowCardIcon className={styles.card} />
+            {this.renderButtons('cards.yellow', yellowCards, 'Yellow Card',
+              validate.cards.yellow)}
           </li>
           <li>
-            <AssistIcon className={styles.ball} />
-            {this.renderButtons('assists', assists, 'Assist', validate.assists)}
+            <RedCardIcon className={styles.card} />
+            {this.renderButtons('cards.red', redCards, 'Red Card', validate.cards.red)}
           </li>
           <li className={styles.fullWidth}>
             <TextField
@@ -165,7 +227,12 @@ PlayerPopover.defaultProps = {
 
 PlayerPopover.propTypes = {
   player: pt.player.isRequired,
+  team: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  playerStats: pt.playerStats.isRequired,
   onRequestClose: PropTypes.func.isRequired,
   onPlayerChange: PropTypes.func.isRequired,
+  onTeamStatAdd: PropTypes.func.isRequired,
+  onTeamStatRemove: PropTypes.func.isRequired,
+  onTeamStatChange: PropTypes.func.isRequired,
   anchorEl: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };

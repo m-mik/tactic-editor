@@ -108,8 +108,7 @@ export default class TeamInfo extends Component {
 
   renderGoals() {
     const { team } = this.props;
-    const teamGoals = Object.keys(team.players)
-      .reduce((goals, key) => goals + team.players[key].goals, 0);
+    const teamGoals = team.goals.reduce((acc, goal) => goal.ownGoal ? acc : acc + 1, 0);
     return <span className={styles.goals}>{teamGoals}</span>;
   }
 

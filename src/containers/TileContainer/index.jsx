@@ -17,6 +17,7 @@ import {
 } from '../TacticPage/actions';
 import withDragDropContext from '../../lib/withDragDropContext';
 import { makeSelectPlayerOptions } from '../../data/tacticDetails/selectors';
+import { makeSelectPlayerStats } from '../../data/players/selectors';
 
 const cx = classNames.bind(styles);
 
@@ -32,6 +33,7 @@ class TileContainer extends Component {
       onPlayerSwap,
       onPlayerSelect,
       onDropOverPlayer,
+      playerStats,
       player,
       team,
       ...rest
@@ -54,6 +56,7 @@ class TileContainer extends Component {
           onTouchTap={() => onPlayerSelect(player.id)}
           options={playerOptions}
           playerId={player.id}
+          playerStats={playerStats}
           {...player}
         />}
       </div>,
@@ -91,6 +94,7 @@ TileContainer.propTypes = {
   isOver: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,
   player: pt.player,
+  playerStats: pt.playerStats.isRequired,
   playerOptions: pt.playerOptions.isRequired,
   onPlayerMove: PropTypes.func.isRequired,
   onPlayerSwap: PropTypes.func.isRequired,
@@ -100,8 +104,10 @@ TileContainer.propTypes = {
 
 const makeMapStateToProps = () => {
   const selectPlayerOptions = makeSelectPlayerOptions();
+  const selectPlayerStats = makeSelectPlayerStats();
   return (state, ownProps) => ({
     playerOptions: selectPlayerOptions(state, ownProps),
+    playerStats: selectPlayerStats(state, ownProps),
   });
 };
 

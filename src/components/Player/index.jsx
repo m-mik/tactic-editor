@@ -26,13 +26,12 @@ export default class Player extends Component {
       team,
       className,
       rating,
-      cards,
-      assists,
-      goals,
       options,
+      playerStats,
       ...rest
     } = this.props;
 
+    const { yellowCards, redCards } = playerStats;
     const { border, backgroundColor, textColor } = team.shirt;
     const isGoalkeeper = position === 0 || position === TILES_COUNT;
     const gkBackgroundColor = Color(backgroundColor).mix(Color('green'), 0.5).rotate(180);
@@ -73,10 +72,10 @@ export default class Player extends Component {
 
     const renderCards = () => options.showCards && (
       <div className={styles.cards}>
-        {times(cards.yellow).map(index =>
+        {times(yellowCards).map(index =>
           <YellowCardIcon key={index} className={styles.yellowCard} />,
             )}
-        {times(cards.red).map(index =>
+        {times(redCards).map(index =>
           <RedCardIcon key={index} className={styles.redCard} />,
             )}
       </div>
@@ -101,7 +100,7 @@ export default class Player extends Component {
       ];
       return stats.filter(stat => stat.visible).map(stat => (
         <div key={stat.key} className={styles[stat.key]}>
-          {times(this.props[stat.key]).map(index =>
+          {times(this.props.playerStats[stat.key]).map(index =>
             <stat.Icon key={index} />,
           )}
         </div>
@@ -126,9 +125,12 @@ Player.defaultProps = {
   number: 1,
   rating: 0,
   position: -1,
-  cards: { yellow: 0, red: 0 },
-  goals: 0,
-  assists: 0,
+  playerStats: {
+    yellowCards: 0,
+    redCards: 0,
+    goals: 0,
+    assists: 0,
+  },
   options: {
     showName: true,
     showNumber: true,
@@ -142,13 +144,11 @@ Player.defaultProps = {
 
 Player.propTypes = {
   playerId: pt.playerId,
+  playerStats: pt.playerStats,
   name: pt.playerName,
   number: pt.playerNumber,
   rating: pt.playerRating,
   position: pt.playerPosition,
-  cards: pt.playerCards,
-  goals: pt.playerGoals,
-  assists: pt.playerAssists,
   team: pt.team.isRequired,
   options: pt.playerOptions.isRequired,
   className: pt.className,

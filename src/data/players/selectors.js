@@ -1,9 +1,10 @@
 import { createSelector } from 'reselect';
 
-import { selectTeamPlayerItems } from '../teams/selectors';
-import { TILES_COUNT } from '../../lib/footballField';
+import { selectTeamFromProps, selectTeamPlayerItems } from '../teams/selectors';
+import { isBenchPlayer, isFieldPlayer } from '../../lib/footballField';
 
 export const selectPlayers = state => state.data.players;
+export const selectPlayerFromProps = (_, props) => props.player;
 
 export const selectPlayerTransitions = state => state.editor.playerTransitions;
 
@@ -12,8 +13,8 @@ export const makeSelectTeamPlayers = ({ filter = '', convertToObject = true }) =
     [selectTeamPlayerItems, selectPlayers, selectPlayerTransitions],
     (playerItems, players, transitions) => {
       const filterTypes = {
-        bench: player => player.position >= TILES_COUNT,
-        field: player => player.position < TILES_COUNT,
+        bench: isBenchPlayer,
+        field: isFieldPlayer,
       };
 
       const predicate = filterTypes[filter];
@@ -31,3 +32,14 @@ export const makeSelectTeamPlayers = ({ filter = '', convertToObject = true }) =
       }), {});
     },
   );
+
+export const makeSelectPlayerStats = () =>
+  createSelector([selectTeamFromProps, selectPlayerFromProps], (team, player) => {
+    if (!team || !player) return {};
+    return ({
+      goals: team.goals.filter(goal => !goal.ownGoal && (goal.playerId === player.id)).length,
+      assists: team.goals.filter(goal => !goal.ownGoal && (goal.assistedBy === player.id)).length,
+      yellowCards: team.yellowCards.filter(yc => yc.playerId === player.id).length,
+      redCards: team.redCards.filter(rc => rc.playerId === player.id).length,
+    });
+  });

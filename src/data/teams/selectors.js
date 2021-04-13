@@ -7,6 +7,7 @@ import teamSchema from './schema';
 const selectPlayers = state => state.data.players;
 export const selectTeams = state => state.data.teams;
 export const selectTeam = (state, props) => state.data.teams.byId[props.teamId];
+export const selectTeamFromProps = (_, props) => props.team;
 
 export const selectTeamPlayerItems = (state, props) => {
   const team = selectTeam(state, props);

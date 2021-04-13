@@ -1,4 +1,10 @@
-import { ADD_SUBSTITUTION, REMOVE_SUBSTITUTION, UPDATE_TEAM } from './constants';
+import {
+  ADD_SUBSTITUTION,
+  ADD_TEAM_STAT,
+  REMOVE_SUBSTITUTION,
+  REMOVE_TEAM_STAT,
+  UPDATE_TEAM,
+} from './constants';
 import teamSchema from './schema';
 import { setPlayersToReplace } from '../../containers/TacticPage/actions';
 import { updatePlayer } from '../players/actions';
@@ -15,18 +21,24 @@ export const updateTeam = (id, teamData) => ({
   },
 });
 
+export const addTeamStat = ({ teamId, statName, statData }) => ({
+  type: ADD_TEAM_STAT,
+  payload: { teamId, statData, statName },
+});
+
+export const removeTeamStat = ({ teamId, statName, statId }) => ({
+  type: REMOVE_TEAM_STAT,
+  payload: { teamId, statName, statId },
+});
+
 export const addSubstitution = (teamId, substitutionData) => (dispatch) => {
   dispatch(setPlayersToReplace(null));
-  dispatch({
-    type: ADD_SUBSTITUTION,
-    payload: { teamId, substitutionData },
-  });
+  dispatch(addTeamStat({ teamId, statName: 'substitutions', statData: substitutionData }));
 };
 
-export const removeSubstitution = (teamId, substitutionId) => ({
-  type: REMOVE_SUBSTITUTION,
-  payload: { teamId, substitutionId },
-});
+export const removeSubstitution = (teamId, statId) => (dispatch) => {
+  dispatch(removeTeamStat({ teamId, statName: 'substitutions', statId }));
+};
 
 export const addBenchPlayer = teamId => (dispatch, getState) => {
   const { players, teams } = getState().data;

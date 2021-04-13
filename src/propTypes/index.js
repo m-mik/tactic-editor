@@ -25,6 +25,12 @@ const substitution = {
   minute: PropTypes.number,
 };
 
+const card = {
+  id: PropTypes.string,
+  minute: PropTypes.number,
+  playerId: player.playerId,
+};
+
 const team = {
   id: PropTypes.number,
   name: PropTypes.string,
@@ -37,6 +43,14 @@ const team = {
     backgroundColor: PropTypes.string.isRequired,
     textColor: PropTypes.string.isRequired,
   }),
+  goals: PropTypes.arrayOf(PropTypes.shape({
+    playerId: player.playerId,
+    minute: PropTypes.number,
+    assistedBy: player.playerId,
+    ownGoal: PropTypes.bool,
+  })),
+  yellowCards: PropTypes.arrayOf(PropTypes.shape(card)),
+  redCards: PropTypes.arrayOf(PropTypes.shape(card)),
   substitutions: PropTypes.arrayOf(PropTypes.shape(substitution)),
 };
 
@@ -104,6 +118,11 @@ const propTypes = {
     minute: PropTypes.number,
     players: PropTypes.arrayOf(PropTypes.shape(player)),
   })),
+  playerStats: PropTypes.shape({
+    goals: PropTypes.number,
+    assists: PropTypes.number,
+    cards: PropTypes.number,
+  }),
 };
 
 export default propTypes;

@@ -2,6 +2,9 @@
   "id": 0,
   "name": "Team",
   "players": {},
+  "goals": [],
+  "yellowCards": [],
+  "redCards": [],
   "substitutions": [],
   "shirt": {
     "border": {
