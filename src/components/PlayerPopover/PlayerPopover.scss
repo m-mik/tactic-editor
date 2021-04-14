@@ -1,7 +1,7 @@
 .wrapper {
   max-width: 400px;
   max-height: 500px !important;
-  padding: 10px;
+  padding: 15px;
   text-align: center;
   background: #000 !important;
   opacity: 0.8 !important;
@@ -48,7 +48,7 @@
 .list {
   > li {
     display: inline-block;
-    width: 90px;
+    width: 80px;
   }
 
   .fullWidth {
@@ -76,7 +76,6 @@
   > .list {
     list-style-type: none;
     width: 100%;
-    margin: 10px;
 
     > li {
       width: 100%;

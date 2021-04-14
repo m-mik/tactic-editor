@@ -54,6 +54,7 @@ export default class Player extends Component {
     const wrapperClassName = cx(
       { wrapper: true },
       { [className]: !!className },
+      { slideUp: isOnBench(position) },
     );
 
     const playerRatingClassName = cx(

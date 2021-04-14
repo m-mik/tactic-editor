@@ -154,7 +154,7 @@ export default class PlayerPopover extends Component {
       <div className={styles.stats}>
         <ul className={styles.list}>
           {data.map(stat => (
-            <li key={stat.id}>
+            <li className="fadeIn" key={stat.id}>
               <div className={styles.icon}>
                 {PlayerPopover.renderIcon(statName, stat)}
               </div>
@@ -215,7 +215,6 @@ export default class PlayerPopover extends Component {
     );
   }
 
-
   render() {
     const { name, number, rating } = this.state;
     const { playerStats, player, team } = this.props;
@@ -229,6 +228,7 @@ export default class PlayerPopover extends Component {
         anchorOrigin={{ horizontal: 'middle', vertical: 'bottom' }}
         targetOrigin={{ horizontal: 'middle', vertical: 'top' }}
         onRequestClose={this.props.onRequestClose}
+        canAutoPosition
         useLayerForClickAway
       >
         {this.renderStats('yellowCards')}
