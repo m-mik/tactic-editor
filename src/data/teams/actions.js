@@ -6,7 +6,7 @@ import {
 import teamSchema from './schema';
 import { selectPlayer, setPlayersToReplace } from '../../containers/TacticPage/actions';
 import { updatePlayer } from '../players/actions';
-import { findFirstAvailableBenchPos, isOnBench, TILES_COUNT } from '../../lib/footballField';
+import { findFirstAvailableBenchPos, isOnBench } from '../../lib/footballField';
 
 export const updateTeam = (id, teamData) => ({
   type: UPDATE_TEAM,
@@ -39,8 +39,8 @@ export const addSubstitution = (teamId, substitutionData) => (dispatch) => {
   dispatch(addTeamStat({ teamId, statName: 'substitutions', statData: substitutionData }));
 };
 
-export const removeSubstitution = (teamId, statId) => (dispatch) => {
-  dispatch(removeTeamStat({ teamId, statName: 'substitutions', statId }));
+export const removeSubstitution = (teamId, subId) => (dispatch) => {
+  dispatch(removeTeamStat({ teamId, statName: 'substitutions', statId: subId }));
 };
 
 export const addBenchPlayer = teamId => (dispatch, getState) => {
@@ -55,7 +55,16 @@ export const addBenchPlayer = teamId => (dispatch, getState) => {
   dispatch(updatePlayer(playerToUpdate.id, { position }));
 };
 
-export const removeBenchPlayer = playerId => (dispatch) => {
+export const removeBenchPlayer = (playerId, teamId) => (dispatch, getState) => {
+  const { teams } = getState().data;
+  const team = teams.byId[teamId];
   dispatch(selectPlayer(0));
+  ['goals', 'redCards', 'yellowCards'].forEach((statName) => {
+    team[statName]
+      .filter(stat => stat.playerId === playerId)
+      .forEach(stat => dispatch(removeTeamStat({ teamId, statName, statId: stat.id })));
+  });
+  team.substitutions.filter(sub => sub.players.includes(playerId))
+    .forEach(sub => dispatch(removeSubstitution(teamId, sub.id)));
   dispatch(updatePlayer(playerId, { position: -1 }));
 };

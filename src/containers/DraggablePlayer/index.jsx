@@ -53,7 +53,7 @@ class DraggablePlayer extends Component {
           transform: `translate(${left}px, ${top}px)`,
           transition: cssTransition,
         }}
-        onTouchTap={event => onTouchTap(event, playerId)}
+        onClick={event => onTouchTap(event, playerId)}
         playerId={playerId}
         {...rest}
       />
@@ -78,7 +78,7 @@ DraggablePlayer.propTypes = {
   onMove: PropTypes.func.isRequired,
   onSwap: PropTypes.func.isRequired,
   onDropOver: PropTypes.func.isRequired,
-  onTouchTap: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
   transition: pt.transition,
   isDragging: PropTypes.bool.isRequired,
   team: pt.team.isRequired,

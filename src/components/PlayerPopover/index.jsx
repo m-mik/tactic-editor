@@ -218,7 +218,7 @@ export default class PlayerPopover extends Component {
 
   render() {
     const { name, number, rating } = this.state;
-    const { playerStats, player } = this.props;
+    const { playerStats, player, team } = this.props;
     const { goals, yellowCards, redCards } = playerStats;
 
     return (
@@ -287,7 +287,7 @@ export default class PlayerPopover extends Component {
           <li className={styles.removePlayer}>
             {isBenchPlayer(player) &&
             <CircleRemoveButton
-              onTouchTap={() => this.props.onBenchPlayerRemove(this.props.player.id)}
+              onTouchTap={() => this.props.onBenchPlayerRemove(player.id, team.id)}
             />}
           </li>
         </ul>

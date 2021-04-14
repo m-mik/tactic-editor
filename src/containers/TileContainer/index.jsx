@@ -53,7 +53,7 @@ class TileContainer extends Component {
           onDropOver={(sourceProps, targetProps) => onDropOverPlayer(
             { p1: sourceProps, p2: targetProps },
           )}
-          onTouchTap={() => onPlayerSelect(player.id)}
+          onClick={() => onPlayerSelect(player.id)}
           options={playerOptions}
           playerId={player.id}
           playerStats={playerStats}
