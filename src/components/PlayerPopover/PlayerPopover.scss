@@ -1,5 +1,6 @@
 .wrapper {
-  max-width: 350px;
+  max-width: 400px;
+  max-height: 500px !important;
   padding: 10px;
   text-align: center;
   background: #000 !important;
@@ -7,7 +8,7 @@
 
   > div {
     height: 100% !important;
-    overflow: hidden;
+    overflow: hidden !important;
   }
 }
 
@@ -39,6 +40,11 @@
   margin-left: 5%;
 }
 
+.removePlayer {
+  width: 100% !important;
+  text-align: right !important;
+}
+
 .list {
   > li {
     display: inline-block;
@@ -64,7 +70,7 @@
   visibility: hidden;
 }
 
-.goals {
+.stats {
   color: #fff;
 
   > .list {
@@ -81,11 +87,27 @@
       > div {
         padding: 5px;
       }
+
+      .icon {
+        width: 10%;
+      }
+
+      .minute {
+        width: 30%;
+      }
+
+      .players {
+        width: 40%;
+      }
+
+      .button {
+        width: 20%;
+      }
     }
   }
 }
 
-.minute {
+.minuteField {
   width: 50px !important;
   margin-right: 10px;
 
@@ -94,9 +116,16 @@
   }
 }
 
-.smallIcon {
+.smallBall {
   font-size: 0.8rem !important;
   margin-right: 20px;
+}
+
+.smallCard {
+  display: inline-block;
+  margin-right: 20px;
+  height: 16px;
+  width: 10px;
 }
 
 .players {

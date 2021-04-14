@@ -224,6 +224,12 @@
           "minute": 24,
           "assistedBy": 20,
           "ownGoal": false
+        }, {
+          "id": "fhStGXR8_Z5jdHi653myD",
+          "playerId": 22,
+          "minute": 13,
+          "assistedBy": 0,
+          "ownGoal": true
         }],
         "yellowCards": [{
           "id": "gd31Stt48_Z5jdHi6B-myD",

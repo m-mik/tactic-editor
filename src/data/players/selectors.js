@@ -37,8 +37,9 @@ export const makeSelectPlayerStats = () =>
   createSelector([selectTeamFromProps, selectPlayerFromProps], (team, player) => {
     if (!team || !player) return {};
     return ({
-      goals: team.goals.filter(goal => !goal.ownGoal && (goal.playerId === player.id)).length,
-      assists: team.goals.filter(goal => !goal.ownGoal && (goal.assistedBy === player.id)).length,
+      goals: team.goals.filter(g => !g.ownGoal && (g.playerId === player.id)).length,
+      ownGoals: team.goals.filter(g => g.ownGoal && (g.playerId === player.id)).length,
+      assists: team.goals.filter(g => !g.ownGoal && (g.assistedBy === player.id)).length,
       yellowCards: team.yellowCards.filter(yc => yc.playerId === player.id).length,
       redCards: team.redCards.filter(rc => rc.playerId === player.id).length,
     });

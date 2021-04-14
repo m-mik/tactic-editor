@@ -13,6 +13,7 @@ import SubstitutionOffIcon from '../SubstitutionOffIcon';
 import styles from './Player.scss';
 import pt from '../../propTypes';
 import { isOnBench, isOnField, TILES_COUNT } from '../../lib/footballField';
+import OwnGoalIcon from '../OwnGoalIcon';
 
 const cx = classNames.bind(styles);
 
@@ -96,6 +97,7 @@ export default class Player extends Component {
     const renderStats = () => {
       const stats = [
         { key: 'goals', visible: options.showGoals, Icon: GoalIcon },
+        { key: 'ownGoals', visible: options.showGoals, Icon: OwnGoalIcon },
         { key: 'assists', visible: options.showAssists, Icon: AssistIcon },
       ];
       return stats.filter(stat => stat.visible).map(stat => (

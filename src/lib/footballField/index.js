@@ -126,3 +126,13 @@ export function getFormation(players) {
 export function getFormationText(formation) {
   return Object.keys(formation).map(key => formation[key]).join('-');
 }
+
+export const findFirstAvailableBenchPos = (positions) => {
+  const sortedPos = positions.sort((pos1, pos2) => pos1 - pos2);
+  for (let i = 0; i < sortedPos.length; i += 1) {
+    const pos = sortedPos[i];
+    const expectedPos = TILES_COUNT + i;
+    if (expectedPos - pos !== 0) return expectedPos;
+  }
+  return TILES_COUNT + positions.length;
+};

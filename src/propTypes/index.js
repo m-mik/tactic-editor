@@ -120,6 +120,7 @@ const propTypes = {
   })),
   playerStats: PropTypes.shape({
     goals: PropTypes.number,
+    ownGoals: PropTypes.number,
     assists: PropTypes.number,
     cards: PropTypes.number,
   }),

@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 
 import PlayerPopover from '../../components/PlayerPopover';
 import { updatePlayer } from '../../data/players/actions';
-import { addTeamStat, removeTeamStat, updateTeam } from '../../data/teams/actions';
+import {
+  addTeamStat,
+  removeBenchPlayer,
+  removeTeamStat,
+  updateTeamStat,
+} from '../../data/teams/actions';
 import { makeSelectPlayerStats } from '../../data/players/selectors';
 
 const makeMapStateToProps = () => {
@@ -14,8 +19,9 @@ const makeMapStateToProps = () => {
 };
 
 const mapDispatchToProps = {
+  onBenchPlayerRemove: removeBenchPlayer,
   onPlayerChange: updatePlayer,
-  onTeamStatChange: updateTeam,
+  onTeamStatChange: updateTeamStat,
   onTeamStatAdd: addTeamStat,
   onTeamStatRemove: removeTeamStat,
 };

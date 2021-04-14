@@ -5,21 +5,75 @@ import TextField from 'material-ui/TextField';
 import { MenuItem, SelectField } from 'material-ui';
 import set from 'lodash/set';
 import debounce from 'lodash/debounce';
+// eslint-disable-next-line import/extensions
+import { nanoid } from 'nanoid';
 
+import CircleRemoveButton from '../CircleRemoveButton';
 import AddButton from '../AddButton';
 import YellowCardIcon from '../YellowCardIcon';
 import RedCardIcon from '../RedCardIcon';
 import GoalIcon from '../GoalIcon';
 import styles from './PlayerPopover.scss';
 import pt from '../../propTypes';
+import OwnGoalIcon from '../OwnGoalIcon';
+import RemoveButton from '../RemoveButton';
+import { isBenchPlayer } from '../../lib/footballField';
 
 export default class PlayerPopover extends Component {
+  static isValid(statName, value) {
+    const validationData = {
+      minute: val => val >= 1 && val <= 120,
+      goals: val => val >= 0 && val <= 5,
+      assists: val => val >= 0 && val <= 5,
+      yellowCards: val => val >= 0 && val <= 2,
+      redCards: val => val >= 0 && val <= 1,
+      number: val => val >= 0 && val <= 99,
+      rating: val => val >= 1 && val <= 10,
+      name: val => val.length >= 0 && val.length <= 15,
+    };
+    const test = validationData[statName];
+    return !test || test(value);
+  }
+
+  static renderIcon(statName, stat) {
+    const icons = {
+      yellowCards: <YellowCardIcon className={styles.smallCard} />,
+      redCards: <RedCardIcon className={styles.smallCard} />,
+      goals: stat.ownGoal
+        ? <OwnGoalIcon className={styles.smallBall} />
+        : <GoalIcon className={styles.smallBall} />,
+    };
+    return icons[statName];
+  }
+
+  static renderAddButton(statName, value, tooltip, addFn) {
+    return (
+      <AddButton
+        className={styles.button}
+        tooltip={tooltip}
+        disabled={!PlayerPopover.isValid(statName, value + 1)}
+        onTouchTap={() => PlayerPopover.validate(statName, value + 1, addFn)}
+      />
+    );
+  }
+
+  static validate(statName, value, callback) {
+    if (PlayerPopover.isValid(statName, value)) callback();
+  }
+
   constructor(props) {
     super(props);
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handlePlayerChange = this.handlePlayerChange.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleTeamStatAdd = this.handleTeamStatAdd.bind(this);
+    this.handleTeamStatRemove = this.handleTeamStatRemove.bind(this);
+    this.handleTeamStatChange = this.handleTeamStatChange.bind(this);
+    this.handleOwnGoalAdd = this.handleGoalAdd.bind(this, true);
+    this.handleGoalAdd = this.handleGoalAdd.bind(this, false);
+    this.handleCardAdd = this.handleCardAdd.bind(this);
+    this.handleYellowCardAdd = this.handleCardAdd.bind(this, 'yellowCards');
+    this.handleRedCardAdd = this.handleCardAdd.bind(this, 'redCards');
     this.debouncedOnPlayerChange = debounce(props.onPlayerChange.bind(this), 100);
 
     const { name, number, rating } = props.player;
@@ -31,20 +85,57 @@ export default class PlayerPopover extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (this.props.player !== nextProps.player) || (this.state !== nextState);
+    return (this.props !== nextProps) || (this.state !== nextState);
   }
 
   componentWillUnmount() {
     window.removeEventListener('keydown', this.handleKeyDown);
   }
 
-  handleChange(path, newVal, test) {
+
+  handlePlayerChange(statName, value) {
     const { player } = this.props;
-    if (!test || test(newVal)) {
-      const result = set(this.state, path, newVal);
+    if (PlayerPopover.isValid(statName, value)) {
+      const result = set(this.state, statName, value);
       this.setState(prevState => ({ ...prevState, ...result }));
       this.debouncedOnPlayerChange(player.id, result);
     }
+  }
+
+  handleTeamStatAdd(statName, statData) {
+    this.props.onTeamStatAdd({ teamId: this.props.team.id, statName, ...statData });
+  }
+
+  handleTeamStatRemove(statName, statId) {
+    this.props.onTeamStatRemove({ teamId: this.props.team.id, statName, statId });
+  }
+
+  handleTeamStatChange(statName, statId, statData) {
+    this.props.onTeamStatChange({ teamId: this.props.team.id, statName, statId, statData });
+  }
+
+  handleGoalAdd(ownGoal) {
+    this.handleTeamStatAdd('goals', {
+      statName: 'goals',
+      statData: {
+        id: nanoid(),
+        playerId: this.props.player.id,
+        minute: 1,
+        assistedBy: 0,
+        ownGoal,
+      },
+    });
+  }
+
+  handleCardAdd(statName) {
+    this.handleTeamStatAdd(statName, {
+      statName,
+      statData: {
+        id: nanoid(),
+        playerId: this.props.player.id,
+        minute: 1,
+      },
+    });
   }
 
   handleKeyDown(e) {
@@ -53,57 +144,51 @@ export default class PlayerPopover extends Component {
     }
   }
 
- /* handlePlayerStatsChange(event) {
-    const { team } = this.props;
-    // const result = set({}, path, newVal);
-    console.log('handle');
-    this.props.onPlayerStatChange(team.id, {
-      goals: [...team.goals, { wtf: 3 }],
-    });
-    // event.target.value;
+  renderStats(statName) {
+    const selectedPlayerStats = s => s.playerId === this.props.player.id;
+    const data = this.props.team[statName].filter(selectedPlayerStats);
 
-    // onPlayerStatsChange
-  }*/
-
-  handleTeamStatAdd() {
-
-  }
-
-  renderGoals() {
-    const { team, player } = this.props;
+    if (statName === 'goals') data.sort((g1, g2) => g1.ownGoal - g2.ownGoal);
 
     return (
-      <div className={styles.goals}>
+      <div className={styles.stats}>
         <ul className={styles.list}>
-          {team.goals.filter(goal => goal.playerId === player.id)
-          .map(goal =>
-            <li key={goal.id}>
-              <div>
-                <GoalIcon className={styles.smallIcon} />
+          {data.map(stat => (
+            <li key={stat.id}>
+              <div className={styles.icon}>
+                {PlayerPopover.renderIcon(statName, stat)}
               </div>
-              <div>
+              <div className={styles.minute}>
                 <TextField
-                  className={styles.minute}
+                  className={styles.minuteField}
                   id="minute-field"
-                  value={goal.minute}
+                  value={stat.minute}
                   type="number"
                   hintText="minute"
-                  onChange={this.handlePlayerStatsChange}
+                  onChange={(e, val) => PlayerPopover.validate('minute', +val, this.handleTeamStatChange.bind(this, statName, stat.id, {
+                    minute: +val,
+                  }))}
                   min={1}
                   max={120}
                   autoFocus
                 />
-              min.
+                min.
               </div>
-              <div className={styles.players}>({this.renderPlayersMenu()})</div>
-            </li>)
+              <div className={styles.players}>
+                {statName === 'goals' && !stat.ownGoal && this.renderPlayersMenu(stat)}
+              </div>
+              <div className={styles.button}>
+                <RemoveButton onTouchTap={() => this.handleTeamStatRemove(statName, stat.id)} />
+              </div>
+            </li>))
         }
         </ul>
       </div>
     );
   }
 
-  renderPlayersMenu() {
+  renderPlayersMenu(goal) {
+    const { id: goalId, assistedBy } = goal;
     const { player, team } = this.props;
     const { players } = team;
     const teamPlayers = players.filter(p => (p.id !== player.id) && (p.position > -1));
@@ -112,48 +197,29 @@ export default class PlayerPopover extends Component {
       <SelectField
         className={styles.select}
         hintText="Assisted by"
-        value={null}
-        multiLine={false}
-        hintStyle={{ color: 'white', paddingLeft: 10 }}
+        value={assistedBy === 0 ? null : assistedBy}
+        hintStyle={{ color: '#fff', paddingLeft: 10 }}
+        labelStyle={{ color: '#fff' }}
         menuStyle={{ width: 130 }}
         maxHeight={300}
-        onChange={this.handlePlayerStatsChange}
+        onChange={(event, index, value) => PlayerPopover.validate(
+          'name',
+          event.target.textContent,
+          this.handleTeamStatChange.bind(this, 'goals', goalId, {
+            assistedBy: +value,
+          }))}
       >
-        <MenuItem value={null} primaryText="-" />
+        <MenuItem value={null} primaryText="" />
         {teamPlayers.map(({ id, name }) => <MenuItem key={id} value={id} primaryText={name} />)}
       </SelectField>
     );
   }
 
-  renderButtons(path, val, label, validate) {
-    return [
-      <AddButton
-        className={styles.button}
-        key={`add.${path}`}
-        tooltip={`Add ${label}`}
-        disabled={!validate(val + 1)}
-        onTouchTap={() =>
-          this.handleTeamStatAdd(path, val + 1, validate)}
-      />,
-    ];
-  }
 
   render() {
     const { name, number, rating } = this.state;
-    const { team, player, playerStats } = this.props;
+    const { playerStats, player } = this.props;
     const { goals, yellowCards, redCards } = playerStats;
-
-    const validate = {
-      goals: val => val >= 0 && val <= 5,
-      assists: val => val >= 0 && val <= 5,
-      cards: {
-        yellow: val => val >= 0 && val <= 2,
-        red: val => val >= 0 && val <= 1,
-      },
-      number: val => val >= 0 && val <= 99,
-      rating: val => val >= 1 && val <= 10,
-      name: val => val.length >= 0 && val.length <= 15,
-    };
 
     return (
       <Popover
@@ -165,20 +231,25 @@ export default class PlayerPopover extends Component {
         onRequestClose={this.props.onRequestClose}
         useLayerForClickAway
       >
-        {this.renderGoals()}
+        {this.renderStats('yellowCards')}
+        {this.renderStats('redCards')}
+        {this.renderStats('goals')}
         <ul className={styles.list}>
           <li>
             <GoalIcon className={styles.ball} />
-            {this.renderButtons('goals', goals, 'Goal', validate.goals)}
+            {PlayerPopover.renderAddButton('goals', goals, 'Add Goal', this.handleGoalAdd)}
+          </li>
+          <li>
+            <OwnGoalIcon className={styles.ball} />
+            {PlayerPopover.renderAddButton('goals', goals, 'Add Own Goal', this.handleOwnGoalAdd)}
           </li>
           <li>
             <YellowCardIcon className={styles.card} />
-            {this.renderButtons('cards.yellow', yellowCards, 'Yellow Card',
-              validate.cards.yellow)}
+            {PlayerPopover.renderAddButton('yellowCards', yellowCards, 'Add Yellow Card', this.handleYellowCardAdd)}
           </li>
           <li>
             <RedCardIcon className={styles.card} />
-            {this.renderButtons('cards.red', redCards, 'Red Card', validate.cards.red)}
+            {PlayerPopover.renderAddButton('redCards', redCards, 'Add Red Card', this.handleRedCardAdd)}
           </li>
           <li className={styles.fullWidth}>
             <TextField
@@ -188,8 +259,7 @@ export default class PlayerPopover extends Component {
               name="number"
               type="number"
               value={number <= 0 ? '' : number}
-              onChange={e =>
-                this.handleChange('number', +e.target.value, validate.number)}
+              onChange={e => this.handlePlayerChange('number', +e.target.value)}
               min={1}
               max={99}
             />
@@ -200,8 +270,7 @@ export default class PlayerPopover extends Component {
               name="rating"
               type="number"
               value={rating <= 0 ? '' : rating}
-              onChange={e =>
-                this.handleChange('rating', +e.target.value, validate.rating)}
+              onChange={e => this.handlePlayerChange('rating', +e.target.value)}
               min={1}
               max={10}
             />
@@ -211,9 +280,15 @@ export default class PlayerPopover extends Component {
               floatingLabelFixed
               name="name"
               value={name}
-              onChange={e => this.handleChange('name', e.target.value, validate.name)}
+              onChange={e => this.handlePlayerChange('name', e.target.value)}
               autoFocus
             />
+          </li>
+          <li className={styles.removePlayer}>
+            {isBenchPlayer(player) &&
+            <CircleRemoveButton
+              onTouchTap={() => this.props.onBenchPlayerRemove(this.props.player.id)}
+            />}
           </li>
         </ul>
       </Popover>
@@ -231,6 +306,7 @@ PlayerPopover.propTypes = {
   playerStats: pt.playerStats.isRequired,
   onRequestClose: PropTypes.func.isRequired,
   onPlayerChange: PropTypes.func.isRequired,
+  onBenchPlayerRemove: PropTypes.func.isRequired,
   onTeamStatAdd: PropTypes.func.isRequired,
   onTeamStatRemove: PropTypes.func.isRequired,
   onTeamStatChange: PropTypes.func.isRequired,
