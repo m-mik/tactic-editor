@@ -10,21 +10,19 @@ import BenchListContainer from '../BenchListContainer';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import FootballField from '../../components/FootballField';
 import EditTeamDialog from '../../components/EditTeamDialog';
-import { findPlayerElement, getTeamForPlayer } from '../../lib/footballField/index';
+import { findPlayerElement, getTeamForPlayer, matchScore } from '../../lib/footballField/index';
 import { selectActivePlayer, selectEditedTeam, selectPlayersToReplace } from './selectors';
 import {
-  makeSelectTacticDetail,
+  makeSelectTacticDetailTeams,
   selectHasError,
   selectIsFetching,
 } from '../../data/tacticDetails/selectors';
 import { selectDenormalizedTeams } from '../../data/teams/selectors';
 import { fetchTacticIfNeeded } from '../../data/tacticDetails/actions';
-import { updatePlayer } from '../../data/players/actions';
+
 import {
   addSubstitution,
-  addTeamStat,
   removeSubstitution,
-  removeTeamStat,
   updateTeam,
 } from '../../data/teams/actions';
 import {
@@ -102,24 +100,26 @@ class TacticPage extends PureComponent {
   }
 
   render() {
-    const { denormalizedTeams, tacticDetail, hasError, isFetching } = this.props;
-    const teams = (tacticDetail && tacticDetail.teams) || [];
+    const { teams, hasError, isFetching } = this.props;
+    const teamIds = teams.map(team => team.id);
+    const goals = matchScore(...teams);
+
     return (
       <section className={styles.wrapper}>
         <div style={{ flex: 3, display: 'flex', flexDirection: 'column' }}>
-          <TeamInfoContainer teamId={teams[0]} />
+          <TeamInfoContainer teamId={teamIds[0]} score={goals[0]} />
           <FootballField>
-            {tacticDetail && <TeamGridList teamIds={tacticDetail.teams} />}
+            {teams.length && <TeamGridList teamIds={teamIds} />}
             {hasError && TacticPage.renderErrorMessage()}
             {isFetching && <LoadingIndicator className={styles.loadingIndicator} />}
           </FootballField>
-          <TeamInfoContainer teamId={teams[1]} />
+          <TeamInfoContainer teamId={teamIds[1]} score={goals[1]} />
           {this.renderPlayerPopover()}
           {this.renderReplacePlayerPopover()}
           {this.renderTeamDialog()}
         </div>
         <div style={{ flex: 1 }}>
-          {denormalizedTeams.length && <BenchListContainer />}
+          {teams.length && <BenchListContainer />}
         </div>
       </section>
     );
@@ -138,17 +138,14 @@ TacticPage.propTypes = {
   fetchTacticIfNeeded: PropTypes.func.isRequired,
   selectPlayer: PropTypes.func.isRequired,
   setPlayersToReplace: PropTypes.func.isRequired,
-  updatePlayer: PropTypes.func.isRequired,
   swapPlayers: PropTypes.func.isRequired,
   addSubstitution: PropTypes.func.isRequired,
   closeEditTeamDialog: PropTypes.func.isRequired,
   updateTeam: PropTypes.func.isRequired,
-  addTeamStat: PropTypes.func.isRequired,
-  removeTeamStat: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
-  tacticDetail: pt.tacticDetail,
   denormalizedTeams: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  teams: pt.teams.isRequired,
   editedTeam: pt.team,
   selectedPlayer: pt.player,
   playersToReplace: pt.playersToReplace,
@@ -156,15 +153,15 @@ TacticPage.propTypes = {
 };
 
 const makeMapStateToProps = () => {
-  const selectTacticDetail = makeSelectTacticDetail();
-  return state => ({
-    tacticDetail: selectTacticDetail(state),
+  const selectTacticDetailTeams = makeSelectTacticDetailTeams();
+  return (state, ownProps) => ({
     selectedPlayer: selectActivePlayer(state),
     playersToReplace: selectPlayersToReplace(state),
     editedTeam: selectEditedTeam(state),
     hasError: selectHasError(state),
     isFetching: selectIsFetching(state),
     denormalizedTeams: selectDenormalizedTeams(state),
+    teams: selectTacticDetailTeams(state, ownProps),
   });
 };
 
@@ -177,10 +174,7 @@ const ConnectedTacticPage = connect(
     removeSubstitution,
     setPlayersToReplace,
     selectPlayer,
-    updatePlayer,
     updateTeam,
-    addTeamStat,
-    removeTeamStat,
     openEditTeamDialog,
     closeEditTeamDialog,
     updateFormation,

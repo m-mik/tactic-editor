@@ -118,6 +118,7 @@ const propTypes = {
     minute: PropTypes.number,
     players: PropTypes.arrayOf(PropTypes.shape(player)),
   })),
+  teams: PropTypes.arrayOf(PropTypes.shape(team)),
   playerStats: PropTypes.shape({
     goals: PropTypes.number,
     ownGoals: PropTypes.number,

@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 
 import { selectActiveTacticId } from '../../containers/App/selectors';
 import { selectTactics } from '../tactics/selectors';
+import { selectTeams } from '../teams/selectors';
 
 const selectTacticDetails = state => state.data.tacticDetails;
 const selectFetchingItems = state => state.data.tacticDetails.status.fetching;
@@ -10,6 +11,14 @@ const selectErrorItems = state => state.data.tacticDetails.status.errors;
 export const makeSelectTacticDetail = () => createSelector(
   [selectTacticDetails, selectActiveTacticId],
   (tacticDetails, activeTacticId) => tacticDetails.byId[activeTacticId],
+);
+
+export const makeSelectTacticDetailTeams = () => createSelector(
+  [makeSelectTacticDetail(), selectTeams],
+  (tacticDetail, teams) => {
+    const teamIds = (tacticDetail && tacticDetail.teams) || [];
+    return teamIds.map(teamId => teams.byId[teamId]);
+  },
 );
 
 export const makeSelectOptions = () => {

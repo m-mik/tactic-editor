@@ -127,7 +127,7 @@ export function getFormationText(formation) {
   return Object.keys(formation).map(key => formation[key]).join('-');
 }
 
-export const findFirstAvailableBenchPos = (positions) => {
+export function findFirstAvailableBenchPos(positions) {
   const sortedPos = positions.sort((pos1, pos2) => pos1 - pos2);
   for (let i = 0; i < sortedPos.length; i += 1) {
     const pos = sortedPos[i];
@@ -135,4 +135,14 @@ export const findFirstAvailableBenchPos = (positions) => {
     if (expectedPos - pos !== 0) return expectedPos;
   }
   return TILES_COUNT + positions.length;
-};
+}
+
+export function matchScore(team1, team2) {
+  if (!team1 || !team2) return [0, 0];
+  const [t1, t2] = [team1, team2]
+    .map(team => ({
+      goals: team.goals.filter(goal => !goal.ownGoal).length,
+      ownGoals: team.goals.filter(goal => goal.ownGoal).length,
+    }));
+  return [t1.goals + t2.ownGoals, t2.goals + t1.ownGoals];
+}

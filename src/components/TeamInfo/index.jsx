@@ -15,8 +15,8 @@ import defaultTeam from '../../lib/footballField/defaultTeam.json';
 import styles from './TeamInfo.scss';
 
 export default class TeamInfo extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = { isEditing: false };
     this.handleNameChange = this.handleNameChange.bind(this);
@@ -97,19 +97,14 @@ export default class TeamInfo extends Component {
   renderIcons() {
     if (!this.props.team.id) return null;
     return (
-      <IconButton
-        className={styles.colors}
-        onTouchTap={() => this.props.onEditTeamTouchTap(this.props.team.id)}
-      >
+      <IconButton onTouchTap={() => this.props.onEditTeamTouchTap(this.props.team.id)}>
         <EditIcon color={white} />
       </IconButton>
     );
   }
 
   renderGoals() {
-    const { team } = this.props;
-    const teamGoals = team.goals.reduce((acc, goal) => goal.ownGoal ? acc : acc + 1, 0);
-    return <span className={styles.goals}>{teamGoals}</span>;
+    return <span className={styles.goals}>{this.props.score}</span>;
   }
 
   render() {
@@ -138,6 +133,7 @@ TeamInfo.defaultProps = {
 
 TeamInfo.propTypes = {
   team: pt.teamInfo,
+  score: PropTypes.number.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onEditTeamTouchTap: PropTypes.func.isRequired,
   onFormationChange: PropTypes.func.isRequired,
