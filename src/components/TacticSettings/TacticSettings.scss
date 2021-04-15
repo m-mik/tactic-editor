@@ -5,9 +5,18 @@
 }
 
 .options {
-  width: 50%;
+  display: flex;
+  flex-wrap: wrap;
 
   > div {
-    padding-bottom: 10px !important;
+    padding: 8px !important;
+    width: 50% !important;
+  }
+}
+
+.buttons {
+  display: flex;
+  > div {
+    padding: 10px;
   }
 }

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import get from 'lodash/get';
 
 import TeamGridList from '../../components/TeamGridList';
 import TeamInfoContainer from '../TeamInfoContainer';
@@ -13,6 +14,7 @@ import EditTeamDialog from '../../components/EditTeamDialog';
 import { findPlayerElement, getTeamForPlayer, matchScore } from '../../lib/footballField/index';
 import { selectActivePlayer, selectEditedTeam, selectPlayersToReplace } from './selectors';
 import {
+  makeSelectTacticDetail,
   makeSelectTacticDetailTeams,
   selectHasError,
   selectIsFetching,
@@ -20,11 +22,7 @@ import {
 import { selectDenormalizedTeams } from '../../data/teams/selectors';
 import { fetchTacticIfNeeded } from '../../data/tacticDetails/actions';
 
-import {
-  addSubstitution,
-  removeSubstitution,
-  updateTeam,
-} from '../../data/teams/actions';
+import { addSubstitution, removeSubstitution, updateTeam } from '../../data/teams/actions';
 import {
   closeEditTeamDialog,
   movePlayer,
@@ -100,20 +98,22 @@ class TacticPage extends PureComponent {
   }
 
   render() {
-    const { teams, hasError, isFetching } = this.props;
-    const teamIds = teams.map(team => team.id);
+    const { teams, hasError, isFetching, tacticDetail } = this.props;
+
+    const teamIds = get(tacticDetail, 'teams') || [];
+    const showGoals = get(tacticDetail, 'options.showGoals');
     const goals = matchScore(...teams);
 
     return (
       <section className={styles.wrapper}>
         <div style={{ flex: 3, display: 'flex', flexDirection: 'column' }}>
-          <TeamInfoContainer teamId={teamIds[0]} score={goals[0]} />
+          <TeamInfoContainer teamId={teamIds[0]} goals={goals[0]} showGoals={showGoals} />
           <FootballField>
             {teams.length && <TeamGridList teamIds={teamIds} />}
             {hasError && TacticPage.renderErrorMessage()}
             {isFetching && <LoadingIndicator className={styles.loadingIndicator} />}
           </FootballField>
-          <TeamInfoContainer teamId={teamIds[1]} score={goals[1]} />
+          <TeamInfoContainer teamId={teamIds[1]} goals={goals[1]} showGoals={showGoals} />
           {this.renderPlayerPopover()}
           {this.renderReplacePlayerPopover()}
           {this.renderTeamDialog()}
@@ -146,6 +146,7 @@ TacticPage.propTypes = {
   hasError: PropTypes.bool.isRequired,
   denormalizedTeams: PropTypes.array, // eslint-disable-line react/forbid-prop-types
   teams: pt.teams.isRequired,
+  tacticDetail: pt.tacticDetail,
   editedTeam: pt.team,
   selectedPlayer: pt.player,
   playersToReplace: pt.playersToReplace,
@@ -154,6 +155,7 @@ TacticPage.propTypes = {
 
 const makeMapStateToProps = () => {
   const selectTacticDetailTeams = makeSelectTacticDetailTeams();
+  const selectTacticDetail = makeSelectTacticDetail();
   return (state, ownProps) => ({
     selectedPlayer: selectActivePlayer(state),
     playersToReplace: selectPlayersToReplace(state),
@@ -162,6 +164,7 @@ const makeMapStateToProps = () => {
     isFetching: selectIsFetching(state),
     denormalizedTeams: selectDenormalizedTeams(state),
     teams: selectTacticDetailTeams(state, ownProps),
+    tacticDetail: selectTacticDetail(state, ownProps),
   });
 };
 

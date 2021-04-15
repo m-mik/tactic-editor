@@ -104,11 +104,11 @@ export default class TeamInfo extends Component {
   }
 
   renderGoals() {
-    return <span className={styles.goals}>{this.props.score}</span>;
+    return <span className={styles.goals}>{this.props.goals}</span>;
   }
 
   render() {
-    const { team } = this.props;
+    const { team, showGoals } = this.props;
     if (!team) return null;
 
     const color = Color(team.shirt.backgroundColor);
@@ -117,7 +117,7 @@ export default class TeamInfo extends Component {
     return (
       <div className={styles.wrapper} style={{ background }}>
         <form className={styles.form} onSubmit={this.disableEditing}>
-          {this.renderGoals()}
+          {showGoals && this.renderGoals()}
           {this.renderTeamName()}
           {this.renderIcons()}
           {this.renderTacticList()}
@@ -129,11 +129,13 @@ export default class TeamInfo extends Component {
 
 TeamInfo.defaultProps = {
   team: defaultTeam,
+  showGoals: true,
 };
 
 TeamInfo.propTypes = {
   team: pt.teamInfo,
-  score: PropTypes.number.isRequired,
+  showGoals: PropTypes.bool.isRequired,
+  goals: PropTypes.number.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onEditTeamTouchTap: PropTypes.func.isRequired,
   onFormationChange: PropTypes.func.isRequired,

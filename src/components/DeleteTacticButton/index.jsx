@@ -5,7 +5,7 @@ import DeleteIcon from 'material-ui/svg-icons/av/remove-from-queue';
 
 const DeleteTacticButton = ({ onTouchTap }) => (
   <RaisedButton
-    label="Delete Tactic"
+    label="Delete"
     secondary
     icon={<DeleteIcon />}
     onTouchTap={onTouchTap}

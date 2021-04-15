@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import SaveIcon from 'material-ui/svg-icons/content/save';
 
 import { isValid } from '../../shared/validation/tactic';
 import Options from './Options';
@@ -10,8 +11,8 @@ import styles from './TacticSettings.scss';
 import pt from '../../propTypes';
 
 class TacticSettings extends PureComponent {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.handleTacticNameChange = this.handleTacticNameChange.bind(this);
   }
@@ -38,8 +39,14 @@ class TacticSettings extends PureComponent {
           tactic={tactic}
           onSettingChange={onSettingChange}
         />
-        <RaisedButton label="Save" primary />
-        <DeleteTacticContainer />
+        <div className={styles.buttons}>
+          <div>
+            <RaisedButton label="Save" primary icon={<SaveIcon />} />
+          </div>
+          <div>
+            <DeleteTacticContainer />
+          </div>
+        </div>
       </div>
     );
   }
