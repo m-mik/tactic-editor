@@ -35,6 +35,7 @@ export const makeSelectPlayerOptions = () => {
     showCards: options.showCards,
     showGoals: options.showGoals,
     showAssists: options.showAssists,
+    showSubstitution: options.showSubstitutions,
   }));
 };
 

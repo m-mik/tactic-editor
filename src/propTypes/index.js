@@ -61,6 +61,8 @@ const tacticOptions = {
   showCards: PropTypes.bool.isRequired,
   showGoals: PropTypes.bool.isRequired,
   showAssists: PropTypes.bool.isRequired,
+  showSubstitutions: PropTypes.bool.isRequired,
+  showMinutes: PropTypes.bool.isRequired,
 };
 
 const propTypes = {

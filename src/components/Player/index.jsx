@@ -84,6 +84,7 @@ export default class Player extends Component {
     );
 
     const renderSubstitution = () => {
+      if (!this.props.options.showSubstitution) return null;
       const existsInSubs = subPlayerIds.has(playerId);
       const on = existsInSubs && isOnBench(position);
       const off = existsInSubs && isOnField(position);
@@ -141,6 +142,7 @@ Player.defaultProps = {
     showCards: false,
     showGoals: false,
     showAssists: false,
+    showSubstitution: false,
   },
   className: '',
 };

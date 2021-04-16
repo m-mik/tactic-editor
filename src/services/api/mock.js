@@ -59,6 +59,8 @@ const mockApi = () => {
       showCards: true,
       showGoals: true,
       showAssists: true,
+      showSubstitutions: true,
+      showMinutes: true,
     },
   }]);
 

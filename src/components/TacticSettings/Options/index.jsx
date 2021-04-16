@@ -14,6 +14,8 @@ const Options = (props) => {
     { key: 'showGoals', label: 'Goals', toggled: options.showGoals },
     { key: 'showAssists', label: 'Assists', toggled: options.showAssists },
     { key: 'showName', label: 'Names', toggled: options.showName },
+    { key: 'showSubstitutions', label: 'Subs', toggled: options.showSubstitutions },
+    { key: 'showMinutes', label: 'Minutes', toggled: options.showMinutes },
   ];
 
   return (

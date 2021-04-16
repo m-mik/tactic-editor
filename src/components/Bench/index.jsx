@@ -78,9 +78,7 @@ const Bench = (props) => {
       id={`team-${team.id}-bench`}
       onContextMenu={event => event.preventDefault()}
     >
-      <div className={styles.teamName}>
-        {team.name}&nbsp;
-      </div>
+      <div className={styles.teamName}>{team.name}</div>
       <div className={styles.players}>
         {renderPlayerList()}
       </div>
