@@ -4,6 +4,7 @@ import { List, ListItem, makeSelectable } from 'material-ui/List';
 
 import LoadingIndicator from '../LoadingIndicator';
 import CreateTacticContainer from '../../containers/CreateTacticContainer';
+import styles from './TacticList.scss';
 import pt from '../../propTypes';
 
 const SelectableList = makeSelectable(List);
@@ -14,6 +15,7 @@ const TacticList = props => (
     <SelectableList
       value={props.activeTacticId}
       onChange={props.onSelectTactic}
+      className={styles.list}
     >
       {props.fetching && <LoadingIndicator />}
       {props.tactics.map(tactic =>

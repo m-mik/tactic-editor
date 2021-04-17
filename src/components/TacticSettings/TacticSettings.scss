@@ -2,6 +2,7 @@
   background: #fff;
   margin-bottom: 20px;
   padding: 20px;
+  overflow-y: auto;
 }
 
 .options {
@@ -11,12 +12,19 @@
   > div {
     padding: 8px !important;
     width: 50% !important;
+    min-width: 130px;
   }
 }
 
 .buttons {
   display: flex;
+  flex-wrap: wrap;
+
   > div {
     padding: 10px;
+  }
+
+  button {
+    min-width: 120px !important;
   }
 }

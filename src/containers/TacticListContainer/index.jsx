@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Paper } from 'material-ui';
 
 import { selectActiveTacticId } from '../App/selectors';
 import { selectTacticsArray, selectIsFetching } from '../../data/tactics/selectors';
@@ -18,12 +19,14 @@ class TacticListContainer extends PureComponent {
   render() {
     const { tactics, fetching, activeTacticId } = this.props;
     return (
-      <TacticList
-        tactics={tactics}
-        activeTacticId={activeTacticId}
-        fetching={fetching}
-        onSelectTactic={(event, id) => this.props.selectTactic(id)}
-      />
+      <Paper zDepth={3}>
+        <TacticList
+          tactics={tactics}
+          activeTacticId={activeTacticId}
+          fetching={fetching}
+          onSelectTactic={(event, id) => this.props.selectTactic(id)}
+        />
+      </Paper>
     );
   }
 }

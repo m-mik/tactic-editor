@@ -7,7 +7,7 @@ export const makeSelectTeamInfo = () => {
   const selectTeamPlayers = makeSelectTeamPlayers({ filter: 'field' });
   return createSelector([selectTeam, selectTeamPlayers],
     (team, players) => {
-      if (!team) return null;
+      if (!team) return undefined;
       return ({ ...team, players });
     });
 };

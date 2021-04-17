@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Paper } from 'material-ui';
+
 import styles from './Main.scss';
 
 const Main = props => (
   <div className={styles.wrapper}>
-    <Paper zDepth={3}>
-      {props.children}
-    </Paper>
+    {props.children}
   </div>
 );
 

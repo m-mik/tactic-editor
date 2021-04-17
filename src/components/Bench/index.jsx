@@ -10,17 +10,18 @@ import TileContainer from '../../containers/TileContainer';
 import SubstitutionOnIcon from '../SubstitutionOnIcon';
 import SubstitutionOffIcon from '../SubstitutionOffIcon';
 import RemoveButton from '../RemoveButton';
+import defaultTeam from '../../lib/footballField/defaultTeam.json';
 
 const Bench = (props) => {
   const {
     players,
     team,
-    denormalizedSubstitutions,
+    // denormalizedSubstitutions,
     onSubstitutionRemove,
     onBenchPlayerAdd,
   } = props;
-  denormalizedSubstitutions.sort((s1, s2) => s1.minute - s2.minute);
-  if (!team) return null;
+
+  /* denormalizedSubstitutions.sort((s1, s2) => s1.minute - s2.minute);*/
 
   const renderSubstitutionList = () => (
     <ul className={styles.list}>
@@ -65,7 +66,9 @@ const Bench = (props) => {
       })}
       <li className={`${styles.item} ${styles.addPlayer}`}>
         <FloatingActionButton mini>
-          <PersonAddIcon onTouchTap={() => onBenchPlayerAdd(team.id)} />
+          <PersonAddIcon
+            onTouchTap={() => onBenchPlayerAdd(team.id)}
+          />
         </FloatingActionButton>
       </li>
     </ul>
@@ -80,19 +83,23 @@ const Bench = (props) => {
     >
       <div className={styles.teamName}>{team.name}</div>
       <div className={styles.players}>
-        {renderPlayerList()}
-      </div>
-      <div className={styles.substitutions}>
-        {renderSubstitutionList()}
+        {team.id && renderPlayerList()}
       </div>
     </Paper>
   );
 };
 
+Bench.defaultProps = {
+  team: {
+    name: defaultTeam.name,
+    players: [],
+  },
+};
+
 Bench.propTypes = {
   players: pt.playersByPos.isRequired,
-  team: pt.team.isRequired,
-  denormalizedSubstitutions: pt.denormalizedSubstitutions.isRequired,
+  team: pt.team,
+  // denormalizedSubstitutions: pt.denormalizedSubstitutions.isRequired,
   onSubstitutionRemove: PropTypes.func.isRequired,
   onBenchPlayerAdd: PropTypes.func.isRequired,
 };

@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import { Paper } from 'material-ui';
 
 import TeamGridList from '../../components/TeamGridList';
 import TeamInfoContainer from '../TeamInfoContainer';
 import PlayerPopoverContainer from '../PlayerPopoverContainer';
-import BenchListContainer from '../BenchListContainer';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import FootballField from '../../components/FootballField';
 import EditTeamDialog from '../../components/EditTeamDialog';
@@ -35,6 +35,7 @@ import {
 import styles from './TacticPage.scss';
 import pt from '../../propTypes';
 import ReplacePlayerPopover from '../../components/ReplacePlayerPopover';
+import BenchListContainer from '../BenchListContainer';
 
 class TacticPage extends PureComponent {
   static renderErrorMessage() {
@@ -100,13 +101,13 @@ class TacticPage extends PureComponent {
   render() {
     const { teams, hasError, isFetching, tacticDetail } = this.props;
 
-    const teamIds = get(tacticDetail, 'teams') || [];
+    const teamIds = get(tacticDetail, 'teams') || [undefined, undefined];
     const showGoals = get(tacticDetail, 'options.showGoals');
     const goals = matchScore(...teams);
 
     return (
       <section className={styles.wrapper}>
-        <div style={{ flex: 3, display: 'flex', flexDirection: 'column' }}>
+        <Paper zDepth={3}>
           <TeamInfoContainer teamId={teamIds[0]} goals={goals[0]} showGoals={showGoals} />
           <FootballField>
             {teams.length && <TeamGridList teamIds={teamIds} />}
@@ -117,9 +118,9 @@ class TacticPage extends PureComponent {
           {this.renderPlayerPopover()}
           {this.renderReplacePlayerPopover()}
           {this.renderTeamDialog()}
-        </div>
-        <div style={{ flex: 1 }}>
-          {teams.length && <BenchListContainer />}
+        </Paper>
+        <div>
+          {<BenchListContainer />}
         </div>
       </section>
     );

@@ -109,8 +109,6 @@ export default class TeamInfo extends Component {
 
   render() {
     const { team, showGoals } = this.props;
-    if (!team) return null;
-
     const color = Color(team.shirt.backgroundColor);
     const background = `linear-gradient(to bottom, ${color}, ${color.darken(0.8)})`;
 
@@ -119,8 +117,8 @@ export default class TeamInfo extends Component {
         <form className={styles.form} onSubmit={this.disableEditing}>
           {showGoals && this.renderGoals()}
           {this.renderTeamName()}
-          {this.renderIcons()}
-          {this.renderTacticList()}
+          {team && this.renderIcons()}
+          {team && this.renderTacticList()}
         </form>
       </div>
     );

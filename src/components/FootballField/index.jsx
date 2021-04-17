@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import Overlay from './Overlay';
 import styles from './FootballField.scss';
 
-const FootballField = props => (
-  <div className={styles.wrapper}>
+const FootballField = ({ children, ...rest }) => (
+  <div className={styles.wrapper} {...rest}>
     <div className={styles.body}>
       <Overlay />
-      {props.children}
+      {children}
     </div>
   </div>
   );

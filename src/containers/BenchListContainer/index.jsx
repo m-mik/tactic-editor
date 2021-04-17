@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import get from 'lodash/get';
 
 import styles from './BenchListContainer.scss';
 import BenchContainer from '../BenchContainer';
@@ -9,11 +10,12 @@ import pt from '../../propTypes';
 class BenchListContainer extends Component {
   render() {
     const { tacticDetail } = this.props;
-    const teams = (tacticDetail && tacticDetail.teams) || [];
+    const teamIds = get(tacticDetail, 'teams') || [-1, -1];
 
     return (
       <div className={styles.wrapper}>
-        {teams.map(teamId => <BenchContainer key={teamId} teamId={teamId} />)}
+        <BenchContainer teamId={teamIds[0]} />
+        <BenchContainer teamId={teamIds[1]} />
       </div>
     );
   }

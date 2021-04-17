@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import SaveIcon from 'material-ui/svg-icons/content/save';
+import { Paper } from 'material-ui';
 
 import { isValid } from '../../shared/validation/tactic';
 import Options from './Options';
@@ -29,7 +30,7 @@ class TacticSettings extends PureComponent {
     if (!tactic) return null;
 
     return (
-      <div className={styles.wrapper}>
+      <Paper zDepth={3} className={styles.wrapper}>
         <TextField
           floatingLabelText="Tactic name" value={tactic.name}
           onChange={this.handleTacticNameChange}
@@ -47,7 +48,7 @@ class TacticSettings extends PureComponent {
             <DeleteTacticContainer />
           </div>
         </div>
-      </div>
+      </Paper>
     );
   }
 }

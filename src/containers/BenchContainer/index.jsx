@@ -11,7 +11,7 @@ const makeMapStateToProps = () => {
 
   return (state, ownProps) => ({
     players: selectTeamBenchPlayers(state, ownProps),
-    denormalizedSubstitutions: selectDenormalizedSubstitutions(state, ownProps),
+    // denormalizedSubstitutions: selectDenormalizedSubstitutions(state, ownProps),
     team: selectTeam(state, ownProps),
   });
 };

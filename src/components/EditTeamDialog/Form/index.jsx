@@ -57,7 +57,7 @@ class Form extends Component {
 
     return (
       <div className={styles.playerPreview}>
-        <FootballField>
+        <FootballField style={{ width: '100%', height: '100%' }}>
           {textColor && <Player
             className={styles.player} team={{
               substitutions: [],
