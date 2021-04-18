@@ -4,7 +4,7 @@ import pick from 'lodash/pick';
 import times from 'lodash/times';
 import MockAdapter from 'axios-mock-adapter';
 import tactics from './tactics.json';
-import defaultTeam from '../../lib/footballField/defaultTeam.json';
+import defaultTeam from '../lib/footballField/defaultTeam.json';
 
 const mockApi = () => {
   const mock = new MockAdapter(axios, { delayResponse: 500 });

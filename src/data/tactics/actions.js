@@ -10,7 +10,7 @@ import {
   closeCreateTacticDialog,
   closeDeleteTacticDialog,
 } from '../../containers/App/actions';
-import { updateFormation } from '../../containers/TacticPage/actions';
+import { updateFormation } from '../../pages/TacticPage/actions';
 import { updateTacticDetail } from '../tacticDetails/actions';
 import { selectTactics } from './selectors';
 import history from '../../history';

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import TeamInfo from '../../components/TeamInfo';
 import { updateTeam } from '../../data/teams/actions';
-import { openEditTeamDialog, updateFormation } from '../TacticPage/actions';
+import { openEditTeamDialog, updateFormation } from '../../pages/TacticPage/actions';
 import { makeSelectTeamInfo } from './selectors';
 
 const makeMapStateToProps = () => {

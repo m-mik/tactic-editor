@@ -66,28 +66,31 @@
     width: $corner-width;
     height: $corner-height;
     position: absolute;
-    border-radius: 50%;
     border: $line-border;
   }
 
   > div:nth-child(1) {
     left: $corner-offset-x;
     top: $corner-offset-y;
+    border-radius: 0 0 100px 0;
   }
 
   > div:nth-child(2) {
     right: $corner-offset-x;
     top: $corner-offset-y;
+    border-radius: 0 0 0 100px;
   }
 
   > div:nth-child(3) {
     right: $corner-offset-x;
     bottom: $corner-offset-y;
+    border-radius: 100px 0 0 0;
   }
 
   > div:nth-child(4) {
     left: $corner-offset-x;
     bottom: $corner-offset-y;
+    border-radius: 0 100px 0 0;
   }
 }
 

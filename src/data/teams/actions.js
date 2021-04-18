@@ -4,7 +4,7 @@ import {
   UPDATE_TEAM, UPDATE_TEAM_STAT,
 } from './constants';
 import teamSchema from './schema';
-import { selectPlayer, setPlayersToReplace } from '../../containers/TacticPage/actions';
+import { selectPlayer, setPlayersToReplace } from '../../pages/TacticPage/actions';
 import { updatePlayer } from '../players/actions';
 import { findFirstAvailableBenchPos, isOnBench } from '../../lib/footballField';
 

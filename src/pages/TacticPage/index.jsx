@@ -6,12 +6,12 @@ import get from 'lodash/get';
 import { Paper } from 'material-ui';
 
 import TeamGridList from '../../components/TeamGridList';
-import TeamInfoContainer from '../TeamInfoContainer';
-import PlayerPopoverContainer from '../PlayerPopoverContainer';
+import TeamInfoContainer from '../../containers/TeamInfoContainer';
+import PlayerPopoverContainer from '../../containers/PlayerPopoverContainer';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import FootballField from '../../components/FootballField';
 import EditTeamDialog from '../../components/EditTeamDialog';
-import { findPlayerElement, getTeamForPlayer, matchScore } from '../../lib/footballField/index';
+import { findPlayerElement, getTeamForPlayer, matchScore } from '../../lib/footballField';
 import { selectActivePlayer, selectEditedTeam, selectPlayersToReplace } from './selectors';
 import {
   makeSelectTacticDetail,
@@ -35,7 +35,7 @@ import {
 import styles from './TacticPage.scss';
 import pt from '../../propTypes';
 import ReplacePlayerPopover from '../../components/ReplacePlayerPopover';
-import BenchListContainer from '../BenchListContainer';
+import BenchListContainer from '../../containers/BenchListContainer';
 
 class TacticPage extends PureComponent {
   static renderErrorMessage() {

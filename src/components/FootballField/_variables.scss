@@ -10,9 +10,9 @@ $middle-circle-height: $middle-circle-width / $aspect-ratio;
 $middle-circle-dot-width: 7%;
 $middle-circle-dot-height: $middle-circle-dot-width / $aspect-ratio;
 
-$corner-width: 8%;
+$corner-width: 3%;
 $corner-height: $corner-width / $aspect-ratio;
-$corner-offset-x: -5%;
+$corner-offset-x: -1px;
 $corner-offset-y: $corner-offset-x / $aspect-ratio;
 
 $goal-width: 24%;

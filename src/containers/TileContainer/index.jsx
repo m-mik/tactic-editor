@@ -14,7 +14,7 @@ import {
   selectPlayer,
   setPlayersToReplace,
   swapPlayers,
-} from '../TacticPage/actions';
+} from '../../pages/TacticPage/actions';
 import withDragDropContext from '../../lib/withDragDropContext';
 import { makeSelectPlayerOptions } from '../../data/tacticDetails/selectors';
 import { makeSelectPlayerStats } from '../../data/players/selectors';

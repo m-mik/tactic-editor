@@ -7,7 +7,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import Root from './components/Root';
 import configureStore from './store/configureStore';
-import mockApi from './services/api/mock';
+import mockApi from './api/mock';
 import './assets/styles/base.scss';
 
 injectTapEventPlugin();
@@ -34,7 +34,7 @@ if (module.hot) {
 
 if (DEVELOPMENT) {
   const Perf = require('react-addons-perf');
-  //const { whyDidYouUpdate } = require('why-did-you-update');
-  //whyDidYouUpdate(React, { include: /^TileContainer/ });
+  // const { whyDidYouUpdate } = require('why-did-you-update');
+  // whyDidYouUpdate(React, { include: /^TileContainer/ });
   window.Perf = Perf;
 }

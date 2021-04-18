@@ -11,7 +11,7 @@ import history from '../history';
 import App from '../containers/App';
 import Sidebar from './Sidebar';
 import Main from './Main';
-import TacticPage from '../containers/TacticPage';
+import TacticPage from '../pages/TacticPage';
 import TacticListContainer from '../containers/TacticListContainer';
 import TacticSettingsContainer from '../containers/TacticSettingsContainer';
 
