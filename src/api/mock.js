@@ -53,7 +53,7 @@ const mockApi = () => {
     teams: times(2, generateTeam),
     options: {
       showGrid: false,
-      showName: true,
+      showNames: true,
       showRatings: true,
       showNumbers: true,
       showCards: true,
@@ -61,6 +61,7 @@ const mockApi = () => {
       showAssists: true,
       showSubstitutions: true,
       showMinutes: true,
+      showSummary: true,
     },
   }]);
 

@@ -1,0 +1,128 @@
+$fadedColor: #a7a7a7;
+
+.wrapper {
+  margin-bottom: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  min-width: 400px;
+}
+
+.event {
+  padding: 5px 0;
+}
+
+.matchScoreWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+
+  .score {
+    width: 30%;
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  .teamName {
+    width: 35%;
+    text-align: center;
+  }
+
+  .goals {
+    margin: 0 10px;
+  }
+}
+
+.substitution {
+  display: flex;
+
+  .name {
+    padding: 0 5px;
+  }
+
+  .off {
+    color: $fadedColor;
+  }
+
+  > div {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.minute {
+  font-weight: 600;
+  min-width: 16px;
+
+  &:after {
+    content: "'"
+  }
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+
+  .playerName {
+    padding: 0 10px;
+  }
+
+  .assist {
+    color: $fadedColor;
+  }
+}
+
+.smallIcon {
+  font-size: 1rem !important;
+  display: inline-block;
+  height: 20px;
+  width: 14px;
+}
+
+.home {
+  composes: event;
+  margin-right: auto;
+
+  .minute {
+    margin-right: 10px;
+  }
+
+  .on, .off {
+    position: relative !important;
+    left: -5px !important;
+  }
+}
+
+.away {
+  composes: event;
+  margin-left: auto;
+
+  .minute {
+    margin-left: 10px;
+    order: 3;
+  }
+
+  .on, .icon {
+    order: 2;
+  }
+
+  .off, .playerName {
+    order: 1;
+  }
+
+  .on, .off {
+    display: flex;
+    position: relative !important;
+    left: 5px !important;
+
+    > .name {
+      order: 1;
+    }
+
+    > .subIcon {
+      order: 2;
+    }
+  }
+}

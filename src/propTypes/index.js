@@ -57,12 +57,14 @@ const team = {
 const tacticOptions = {
   showGrid: PropTypes.bool.isRequired,
   showNumbers: PropTypes.bool.isRequired,
+  showNames: PropTypes.bool.isRequired,
   showRatings: PropTypes.bool.isRequired,
   showCards: PropTypes.bool.isRequired,
   showGoals: PropTypes.bool.isRequired,
   showAssists: PropTypes.bool.isRequired,
   showSubstitutions: PropTypes.bool.isRequired,
   showMinutes: PropTypes.bool.isRequired,
+  showSummary: PropTypes.bool.isRequired,
 };
 
 const propTypes = {
@@ -126,6 +128,10 @@ const propTypes = {
     ownGoals: PropTypes.number,
     assists: PropTypes.number,
     cards: PropTypes.number,
+  }),
+  summary: PropTypes.shape({
+    events: PropTypes.arrayOf(PropTypes.object),
+    teams: PropTypes.arrayOf(PropTypes.shape(team)),
   }),
 };
 

@@ -29,35 +29,3 @@
   }
 }
 
-.substitutions {
-  .list {
-    list-style-type: none;
-    margin-top: 10px;
-
-    & > li {
-      margin-bottom: 10px;
-    }
-
-    .item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .minute {
-      font-weight: 600;
-      width: 30px;
-    }
-
-    .players {
-      display: flex;
-      flex-direction: column;
-      flex-basis: 150px;
-    }
-
-    .players > span {
-      display: flex;
-      align-items: center;
-    }
-  }
-}

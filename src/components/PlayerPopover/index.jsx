@@ -120,7 +120,7 @@ export default class PlayerPopover extends Component {
       statData: {
         id: nanoid(),
         playerId: this.props.player.id,
-        minute: 1,
+        minute: 45,
         assistedBy: 0,
         ownGoal,
       },
@@ -133,7 +133,7 @@ export default class PlayerPopover extends Component {
       statData: {
         id: nanoid(),
         playerId: this.props.player.id,
-        minute: 1,
+        minute: 45,
       },
     });
   }

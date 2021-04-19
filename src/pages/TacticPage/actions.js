@@ -64,19 +64,21 @@ export const updateFormation = (team, formation) => (dispatch) => {
   const { players } = team;
   const playerData = [];
   const subCount = 7;
-  let benchPos = TILES_COUNT;
-  Object.keys(players).sort((a, b) => a - b).forEach((pos, i) => {
-    const player = players[pos];
-    let targetPos = formation.positions[i];
-    if (typeof targetPos === 'undefined') {
-      targetPos = i - 11 < subCount ? (benchPos += 1) : -1;
-    }
-    if (player.position !== targetPos) {
-      playerData.push({
-        player: { ...player, team: { id: team.id } },
-        targetPos,
-      });
-    }
-  });
+  let benchPos = TILES_COUNT - 1;
+  Object.keys(players)
+    .sort((a, b) => a - b)
+    .forEach((pos, i) => {
+      const player = players[pos];
+      let targetPos = formation.positions[i];
+      if (typeof targetPos === 'undefined') {
+        targetPos = i - 11 < subCount ? (benchPos += 1) : -1;
+      }
+      if (player.position !== targetPos) {
+        playerData.push({
+          player: { ...player, team: { id: team.id } },
+          targetPos,
+        });
+      }
+    });
   dispatch(movePlayers(playerData));
 };

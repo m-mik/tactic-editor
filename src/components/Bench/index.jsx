@@ -5,48 +5,16 @@ import { FloatingActionButton, Paper } from 'material-ui';
 
 import styles from './Bench.scss';
 import pt from '../../propTypes';
-import { getBenchPosition, isFieldPlayer } from '../../lib/footballField';
+import { getBenchPosition } from '../../lib/footballField';
 import TileContainer from '../../containers/TileContainer';
-import SubstitutionOnIcon from '../SubstitutionOnIcon';
-import SubstitutionOffIcon from '../SubstitutionOffIcon';
-import RemoveButton from '../RemoveButton';
 import defaultTeam from '../../lib/footballField/defaultTeam.json';
 
 const Bench = (props) => {
   const {
     players,
     team,
-    // denormalizedSubstitutions,
-    onSubstitutionRemove,
     onBenchPlayerAdd,
   } = props;
-
-  /* denormalizedSubstitutions.sort((s1, s2) => s1.minute - s2.minute);*/
-
-  const renderSubstitutionList = () => (
-    <ul className={styles.list}>
-      {denormalizedSubstitutions.map((sub) => {
-        const subPlayers = sub.players;
-        subPlayers.sort((p1, p2) => isFieldPlayer(p1) - isFieldPlayer(p2));
-        const [p1, p2] = subPlayers;
-        return (
-          <li className={styles.item} key={sub.id} >
-            <div className={styles.minute}>{sub.minute}&apos;</div>
-            <div className={styles.players}>
-              <span><SubstitutionOnIcon /> {p1.name}</span>
-              <span><SubstitutionOffIcon /> {p2.name}</span>
-            </div>
-            <div>
-              <RemoveButton
-                tooltip="Remove substitution"
-                onTouchTap={() => onSubstitutionRemove(team.id, sub.id)}
-              />
-            </div>
-          </li>
-        );
-      })}
-    </ul>
-  );
 
   const renderPlayerList = () => (
     <ul className={styles.list}>
@@ -99,8 +67,6 @@ Bench.defaultProps = {
 Bench.propTypes = {
   players: pt.playersByPos.isRequired,
   team: pt.team,
-  // denormalizedSubstitutions: pt.denormalizedSubstitutions.isRequired,
-  onSubstitutionRemove: PropTypes.func.isRequired,
   onBenchPlayerAdd: PropTypes.func.isRequired,
 };
 

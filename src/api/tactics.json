@@ -4,14 +4,15 @@
     "name": "Barcelona vs Real M.",
     "options": {
       "showGrid": false,
-      "showName": true,
+      "showNames": true,
       "showRatings": true,
       "showNumbers": true,
       "showCards": true,
       "showGoals": true,
       "showAssists": true,
       "showSubstitutions": true,
-      "showMinutes": true
+      "showMinutes": true,
+      "showSummary": true
     },
     "teams": [
       {
@@ -102,12 +103,29 @@
             "number": 17,
             "position": 30,
             "rating": 5
+          },
+          {
+            "id": 55,
+            "name": "Player",
+            "number": 17,
+            "position": 36,
+            "rating": 5
           }
         ],
-        "goals": [],
+        "goals": [{
+          "id": "f8StGXR8_Z5jdHzB-myD",
+          "playerId": 11,
+          "minute": 32,
+          "assistedBy": 9,
+          "ownGoal": false
+        }],
         "yellowCards": [],
         "redCards": [],
-        "substitutions": []
+        "substitutions": [{
+          "id": "Y1StdgR8_Z5jdHi6B-myD",
+          "players": [11, 55],
+          "minute": 22
+        }]
       },
       {
         "id": 2,
