@@ -17,7 +17,10 @@ import styles from './PlayerPopover.scss';
 import pt from '../../propTypes';
 import OwnGoalIcon from '../OwnGoalIcon';
 import RemoveButton from '../RemoveButton';
-import { isBenchPlayer } from '../../lib/footballField';
+import { isBenchPlayer, isFieldPlayer } from '../../lib/footballField';
+import SubstitutionOnIcon from '../SubstitutionOnIcon';
+import SubstitutionOffIcon from '../SubstitutionOffIcon';
+import SubstitutionIcon from '../SubstitutionIcon';
 
 export default class PlayerPopover extends Component {
   static isValid(statName, value) {
@@ -37,6 +40,7 @@ export default class PlayerPopover extends Component {
 
   static renderIcon(statName, stat) {
     const icons = {
+      substitutions: <SubstitutionIcon className={styles.smallSubIcon} />,
       yellowCards: <YellowCardIcon className={styles.smallCard} />,
       redCards: <RedCardIcon className={styles.smallCard} />,
       goals: stat.ownGoal
@@ -92,7 +96,6 @@ export default class PlayerPopover extends Component {
     window.removeEventListener('keydown', this.handleKeyDown);
   }
 
-
   handlePlayerChange(statName, value) {
     const { player } = this.props;
     if (PlayerPopover.isValid(statName, value)) {
@@ -144,9 +147,33 @@ export default class PlayerPopover extends Component {
     }
   }
 
+  renderSubstitution(sub) {
+    const { team } = this.props;
+    const players = sub.players.map(
+        (playerId, i) => team.players.find(p => p.id === sub.players[i]),
+      );
+    players.sort((p1, p2) => isFieldPlayer(p1) - isFieldPlayer(p2));
+    const [p1, p2] = players;
+
+    return (
+      <div key={sub.id} className={styles.substitution}>
+        <div className={styles.on}>
+          <SubstitutionOnIcon className={styles.subIcon} />
+          <span className={styles.name}>{p1.name}</span>
+        </div>
+        <div className={styles.off}>
+          <SubstitutionOffIcon className={styles.subIcon} />
+          <span className={styles.name}>{p2.name}</span>
+        </div>
+      </div>
+    );
+  }
+
   renderStats(statName) {
     const selectedPlayerStats = s => s.playerId === this.props.player.id;
-    const data = this.props.team[statName].filter(selectedPlayerStats);
+    const data = statName === 'substitutions'
+    ? this.props.team[statName].filter(sub => sub.players.includes(this.props.player.id))
+    : this.props.team[statName].filter(selectedPlayerStats);
 
     if (statName === 'goals') data.sort((g1, g2) => g1.ownGoal - g2.ownGoal);
 
@@ -161,7 +188,6 @@ export default class PlayerPopover extends Component {
               <div className={styles.minute}>
                 <TextField
                   className={styles.minuteField}
-                  id="minute-field"
                   value={stat.minute}
                   type="number"
                   hintText="minute"
@@ -174,9 +200,10 @@ export default class PlayerPopover extends Component {
                 />
                 min.
               </div>
-              <div className={styles.players}>
-                {statName === 'goals' && !stat.ownGoal && this.renderPlayersMenu(stat)}
-              </div>
+              {statName === 'substitutions' && this.renderSubstitution(stat)}
+              {statName === 'goals' && !stat.ownGoal && <div className={styles.players}>
+                {this.renderPlayersMenu(stat)}
+              </div>}
               <div className={styles.button}>
                 <RemoveButton onTouchTap={() => this.handleTeamStatRemove(statName, stat.id)} />
               </div>
@@ -231,6 +258,7 @@ export default class PlayerPopover extends Component {
         canAutoPosition
         useLayerForClickAway
       >
+        {this.renderStats('substitutions')}
         {this.renderStats('yellowCards')}
         {this.renderStats('redCards')}
         {this.renderStats('goals')}

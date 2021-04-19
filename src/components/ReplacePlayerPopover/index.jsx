@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import Popover from 'material-ui/Popover';
-import SwapVerticalCircleIcon from 'material-ui/svg-icons/action/swap-vertical-circle';
 import ScheduleIcon from 'material-ui/svg-icons/action/schedule';
 import SwapHorizIcon from 'material-ui/svg-icons/action/swap-horiz';
 import AddIcon from 'material-ui/svg-icons/content/add';
 
 import { Menu, MenuItem, RaisedButton, TextField } from 'material-ui';
+import SubstitutionIcon from '../SubstitutionIcon';
 import styles from './ReplacePlayerPopover.scss';
 import pt from '../../propTypes';
 
@@ -50,7 +50,7 @@ export default class ReplacePlayerPopover extends React.Component {
     return (
       <Menu>
         <MenuItem
-          primaryText="Substitute player" leftIcon={<SwapVerticalCircleIcon />}
+          primaryText="Substitute player" leftIcon={<SubstitutionIcon />}
           onTouchTap={() => this.setState({ showSubstitutionMinute: true })}
         />
         <MenuItem
