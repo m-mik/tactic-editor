@@ -14,3 +14,8 @@ export const DELETE_TACTIC = 'tactic-editor/App/DELETE_TACTIC';
 export const DELETE_TACTIC_PENDING = 'tactic-editor/App/DELETE_TACTIC_PENDING';
 export const DELETE_TACTIC_FULFILLED = 'tactic-editor/App/DELETE_TACTIC_FULFILLED';
 export const DELETE_TACTIC_REJECTED = 'tactic-editor/App/DELETE_TACTIC_REJECTED';
+
+export const SAVE_TACTIC = 'tactic-editor/App/SAVE_TACTIC';
+export const SAVE_TACTIC_PENDING = 'tactic-editor/App/SAVE_TACTIC_PENDING';
+export const SAVE_TACTIC_FULFILLED = 'tactic-editor/App/SAVE_TACTIC_FULFILLED';
+export const SAVE_TACTIC_REJECTED = 'tactic-editor/App/SAVE_TACTIC_REJECTED';

@@ -9,9 +9,11 @@ import Root from './components/Root';
 import configureStore from './store/configureStore';
 import mockApi from './api/mock';
 import './assets/styles/base.scss';
+import { setLastVisit } from './api/localStorage';
 
 injectTapEventPlugin();
 mockApi();
+setLastVisit();
 
 const store = configureStore();
 
@@ -32,9 +34,11 @@ if (module.hot) {
   });
 }
 
+/*
 if (DEVELOPMENT) {
   const Perf = require('react-addons-perf');
-  // const { whyDidYouUpdate } = require('why-did-you-update');
-  // whyDidYouUpdate(React, { include: /^TileContainer/ });
+  const { whyDidYouUpdate } = require('why-did-you-update');
+  whyDidYouUpdate(React, { include: /^TileContainer/ });
   window.Perf = Perf;
 }
+*/

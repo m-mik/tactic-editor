@@ -34,7 +34,7 @@ const Options = (props) => {
 };
 
 Options.propTypes = {
-  tactic: pt.tacticWithOptions.isRequired,
+  tactic: pt.denormalizedTactic.isRequired,
   onSettingChange: PropTypes.func.isRequired,
 };
 

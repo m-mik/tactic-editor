@@ -19,6 +19,7 @@
 .buttons {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 
   > div {
     padding: 10px;

@@ -1,8 +1,4 @@
 import { createSelector } from 'reselect';
-import { denormalize } from 'normalizr';
-import mapValues from 'lodash/mapValues';
-
-import teamSchema from './schema';
 
 const selectPlayers = state => state.data.players;
 export const selectTeams = state => state.data.teams;
@@ -13,18 +9,6 @@ export const selectTeamPlayerItems = (state, props) => {
   const team = selectTeam(state, props);
   return team ? team.players : [];
 };
-
-export const selectDenormalizedTeams = createSelector(
-  [selectTeams, selectPlayers],
-  (teams, players) => {
-    const data = { teams, players };
-    return denormalize(
-      Object.keys(teams.byId),
-      [teamSchema],
-      { ...mapValues(data, value => value.byId) },
-    );
-  },
-);
 
 export const selectDenormalizedSubstitutions = createSelector(
   [selectTeam, selectPlayers],

@@ -14,12 +14,12 @@ import EditTeamDialog from '../../components/EditTeamDialog';
 import { findPlayerElement, getTeamForPlayer, matchScore } from '../../lib/footballField';
 import { selectActivePlayer, selectEditedTeam, selectPlayersToReplace } from './selectors';
 import {
+  selectDenormalizedTeams,
   makeSelectTacticDetail,
   makeSelectTacticDetailTeams,
   selectHasError,
   selectIsFetching,
 } from '../../data/tacticDetails/selectors';
-import { selectDenormalizedTeams } from '../../data/teams/selectors';
 import { fetchTacticIfNeeded } from '../../data/tacticDetails/actions';
 
 import { addSubstitution, removeSubstitution, updateTeam } from '../../data/teams/actions';

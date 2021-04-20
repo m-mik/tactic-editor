@@ -1,20 +1,34 @@
 import { reset } from 'redux-form';
 import axios from 'axios';
-import { CREATE_TACTIC, UPDATE_TACTIC, DELETE_TACTIC, FETCH_TACTICS } from './constants';
+import {
+  CREATE_TACTIC,
+  DELETE_TACTIC,
+  FETCH_TACTICS,
+  SAVE_TACTIC,
+  UPDATE_TACTIC,
+} from './constants';
 import tacticSchema from './schema';
 import teamSchema from '../teams/schema';
 import {
-  receiveEntity,
-  selectTactic,
-  handleError,
   closeCreateTacticDialog,
   closeDeleteTacticDialog,
+  handleError,
+  receiveEntity,
+  selectTactic,
 } from '../../containers/App/actions';
 import { updateFormation } from '../../pages/TacticPage/actions';
 import { updateTacticDetail } from '../tacticDetails/actions';
 import { selectTactics } from './selectors';
 import history from '../../history';
 import formations from '../../lib/footballField/formations.json';
+
+export const saveTactic = tactic => (dispatch) => {
+  dispatch({
+    type: SAVE_TACTIC,
+    payload: axios.put(`/tactics/${tactic.id}`, tactic),
+    meta: { id: tactic.id },
+  }).catch(error => dispatch(handleError(error)));
+};
 
 export const createTactic = data => dispatch =>
   dispatch({

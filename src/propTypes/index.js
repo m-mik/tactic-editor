@@ -54,6 +54,11 @@ const team = {
   substitutions: PropTypes.arrayOf(PropTypes.shape(substitution)),
 };
 
+const denormalizedTeam = {
+  ...team,
+  players: PropTypes.arrayOf(PropTypes.shape(player)),
+};
+
 const tacticOptions = {
   showGrid: PropTypes.bool.isRequired,
   showNumbers: PropTypes.bool.isRequired,
@@ -106,10 +111,10 @@ const propTypes = {
     options: PropTypes.shape(tacticOptions),
     teams: PropTypes.arrayOf(PropTypes.number),
   }),
-  tacticWithOptions: PropTypes.shape({
+  denormalizedTactic: PropTypes.shape({
     ...tactic,
     options: PropTypes.shape(tacticOptions),
-    teams: PropTypes.arrayOf(PropTypes.number),
+    teams: PropTypes.arrayOf(PropTypes.shape(denormalizedTeam)),
   }),
   tacticOptions: PropTypes.shape(tacticOptions),
   tactics: PropTypes.arrayOf(PropTypes.shape(tactic)),

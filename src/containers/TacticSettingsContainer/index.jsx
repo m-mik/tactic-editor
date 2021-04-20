@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import TacticSettings from '../../components/TacticSettings';
-import { updateTactic } from '../../data/tactics/actions';
+import { saveTactic, updateTactic } from '../../data/tactics/actions';
 import { makeSelectFullTacticDetail } from '../../data/tacticDetails/selectors';
 
 const makeMapStateToProps = () => {
@@ -13,6 +13,7 @@ const makeMapStateToProps = () => {
 
 const mapDispatchToProps = {
   onSettingChange: updateTactic,
+  onTacticSave: saveTactic,
 };
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(TacticSettings);

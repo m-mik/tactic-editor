@@ -42,7 +42,11 @@ class TacticSettings extends PureComponent {
         />
         <div className={styles.buttons}>
           <div>
-            <RaisedButton label="Save" primary icon={<SaveIcon />} />
+            <RaisedButton
+              label="Save"
+              primary icon={<SaveIcon />}
+              onTouchTap={() => this.props.onTacticSave(tactic)}
+            />
           </div>
           <div>
             <DeleteTacticContainer />
@@ -58,8 +62,9 @@ TacticSettings.defaultProps = {
 };
 
 TacticSettings.propTypes = {
-  tactic: pt.tacticWithOptions,
+  tactic: pt.denormalizedTactic,
   onSettingChange: PropTypes.func.isRequired,
+  onTacticSave: PropTypes.func.isRequired,
 };
 
 export default TacticSettings;
