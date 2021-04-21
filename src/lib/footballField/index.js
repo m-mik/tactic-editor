@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 export const TEAM_GRID_ID_PREFIX = 'team-grid';
 export const TILES_COUNT = 36;
 export const TILES_PER_LINE = (TILES_COUNT - 1) / 5;
+export const INITIAL_FIELD_PLAYER_POS = 18;
 
 export const isOnField = position => position >= 0 && position < TILES_COUNT;
 export const isOnBench = position => position >= TILES_COUNT;

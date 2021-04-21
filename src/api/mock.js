@@ -7,11 +7,16 @@ import MockAdapter from 'axios-mock-adapter';
 import defaultTactics from './tactics.json';
 import defaultTeam from '../lib/footballField/defaultTeam.json';
 import {
-  deleteTactic, isNewUser,
+  deleteTactic,
+  isNewUser,
   loadTactics,
   saveTactic,
   saveTactics,
 } from './localStorage';
+import formations from '../lib/footballField/formations.json';
+import { TILES_COUNT } from '../lib/footballField';
+
+const DEFAULT_SUB_COUNT = 7;
 
 if (isNewUser()) saveTactics(defaultTactics);
 
@@ -34,11 +39,21 @@ const mockApi = () => {
     return lastIdByEntity[key];
   };
 
+  const position = (index, formation) => {
+    const positions = formation.positions;
+    if (index < positions.length) {
+      return positions[index];
+    } else if (index < (11 + DEFAULT_SUB_COUNT)) {
+      return (TILES_COUNT + index) - 11;
+    }
+    return -1;
+  };
+
   const generatePlayer = index => ({
     id: nextId('players'),
     name: 'Player',
     number: index + 1,
-    position: 18,
+    position: position(index, formations[1]),
     rating: 5,
   });
 
@@ -76,6 +91,7 @@ const mockApi = () => {
       },
       ...data,
     };
+    saveTactic(tactic);
     return [201, tactic];
   });
 

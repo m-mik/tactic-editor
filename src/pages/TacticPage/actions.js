@@ -1,4 +1,4 @@
-import { findTileOffset, TILES_COUNT } from '../../lib/footballField';
+import { findTileOffset, isFieldPlayer } from '../../lib/footballField';
 import { updatePlayer, updatePlayers } from '../../data/players/actions';
 import {
   ADD_PLAYER_TRANSITIONS,
@@ -62,23 +62,12 @@ export const selectPlayer = id => ({
 
 export const updateFormation = (team, formation) => (dispatch) => {
   const { players } = team;
-  const playerData = [];
-  const subCount = 7;
-  let benchPos = TILES_COUNT - 1;
-  Object.keys(players)
-    .sort((a, b) => a - b)
-    .forEach((pos, i) => {
-      const player = players[pos];
-      let targetPos = formation.positions[i];
-      if (typeof targetPos === 'undefined') {
-        targetPos = i - 11 < subCount ? (benchPos += 1) : -1;
-      }
-      if (player.position !== targetPos) {
-        playerData.push({
-          player: { ...player, team: { id: team.id } },
-          targetPos,
-        });
-      }
-    });
+  const playerData = Object.keys(players)
+    .map(pos => players[pos])
+    .filter(isFieldPlayer)
+    .map((player, i) => ({
+      player: { ...player, team: { id: team.id } },
+      targetPos: formation.positions[i],
+    }));
   dispatch(movePlayers(playerData));
 };

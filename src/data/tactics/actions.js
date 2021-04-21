@@ -21,6 +21,7 @@ import { updateTacticDetail } from '../tacticDetails/actions';
 import { selectTactics } from './selectors';
 import history from '../../history';
 import formations from '../../lib/footballField/formations.json';
+import { INITIAL_FIELD_PLAYER_POS } from '../../lib/footballField';
 
 export const saveTactic = tactic => (dispatch) => {
   dispatch({
@@ -37,11 +38,17 @@ export const createTactic = data => dispatch =>
     meta: { data },
   }).then(({ action }) => {
     const { id, teams } = action.payload.data;
-    dispatch(receiveEntity(teams, [teamSchema]));
+    const updatedTeams = teams.map(team => ({
+      ...team,
+      players: team.players.map((player, i) =>
+        (i < 11 ? ({ ...player, position: INITIAL_FIELD_PLAYER_POS }) : player)),
+    }));
+
+    dispatch(receiveEntity(updatedTeams, [teamSchema]));
     dispatch(selectTactic(id));
     dispatch(closeCreateTacticDialog());
     dispatch(reset('createTacticForm'));
-    teams.forEach(team => dispatch(updateFormation(team, formations[1])));
+    updatedTeams.forEach(team => dispatch(updateFormation(team, formations[1])));
   }).catch(error => dispatch(handleError(error)));
 
 export const fetchTactics = () => dispatch =>
