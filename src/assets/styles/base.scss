@@ -33,12 +33,14 @@ body {
 }
 
 :global {
+  //noinspection CssUnusedSymbol
   .slideUp {
     :local {
       animation: slideUp 0.5s ease;
     }
   }
 
+  //noinspection CssUnusedSymbol
   .fadeIn {
     :local {
       animation: fadeIn 0.5s ease;

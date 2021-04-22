@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Paper } from 'material-ui';
 
-import { selectActiveTacticId } from '../App/selectors';
-import { selectTacticsArray, selectIsFetching } from '../../data/tactics/selectors';
-import { selectTactic } from '../App/actions';
-import { fetchTactics } from '../../data/tactics/actions';
 import TacticList from '../../components/TacticList';
+import { selectTacticsArray, selectIsFetching } from '../../data/tactics/selectors';
+import { fetchTactics } from '../../data/tactics/actions';
+import { selectActiveTacticId } from '../../pages/TacticPage/selectors';
+import { selectTactic } from '../../pages/TacticPage/actions';
 import pt from '../../propTypes';
 
 class TacticListContainer extends PureComponent {

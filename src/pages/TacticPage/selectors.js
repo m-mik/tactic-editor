@@ -4,7 +4,7 @@ import { selectTeams } from '../../data/teams/selectors';
 import { selectPlayers } from '../../data/players/selectors';
 
 export const selectEditedTeamId = state => state.editor.editedTeamId;
-
+export const selectActiveTacticId = state => state.editor.activeTacticId;
 export const selectActivePlayerId = state => state.editor.activePlayerId;
 export const selectPlayersToReplace = state => state.editor.playersToReplace;
 
@@ -15,3 +15,8 @@ export const selectEditedTeam = createSelector(
 export const selectActivePlayer = createSelector(
   [selectPlayers, selectActivePlayerId], (players, activePlayerId) => players.byId[activePlayerId],
 );
+
+export const selectIsDeleteTacticDialogOpen = state => state.editor.isDeleteTacticDialogOpen;
+// noinspection JSUnusedGlobalSymbols
+export const selectIsCreateTacticDialogOpen = state => state.editor.isCreateTacticDialogOpen;
+

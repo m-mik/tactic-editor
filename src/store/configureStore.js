@@ -7,9 +7,12 @@ import promiseMiddleware from 'redux-promise-middleware';
 import normalizeMiddleware from '../middlewares/normalizeMiddleware';
 import reducers from './reducers';
 
+// noinspection JSUnresolvedVariable
 const composeEnhancers = (DEVELOPMENT && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
-const configureStore = preloadedState => createStore(reducers,
+// noinspection JSValidateTypes
+const configureStore = preloadedState => createStore(
+  reducers,
   preloadedState,
   composeEnhancers(
     applyMiddleware(thunkMiddleware),

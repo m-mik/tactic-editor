@@ -15,6 +15,7 @@ import MatchSummaryContainer from '../containers/MatchSummaryContainer';
 import TacticListContainer from '../containers/TacticListContainer';
 import TacticSettingsContainer from '../containers/TacticSettingsContainer';
 
+// noinspection JSValidateTypes
 const Root = ({ store }) => (
   <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
     <Provider store={store}>

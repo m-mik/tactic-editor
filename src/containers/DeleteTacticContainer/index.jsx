@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 
 import DeleteTactic from '../../components/DeleteTactic';
-import { openDeleteTacticDialog, closeDeleteTacticDialog } from '../App/actions';
 import { makeSelectTactic, selectIsDeleting } from '../../data/tactics/selectors';
-import { selectIsDeleteTacticDialogOpen } from '../App/selectors';
 import { deleteTactic } from '../../data/tactics/actions';
+import { closeDeleteTacticDialog, openDeleteTacticDialog } from '../../pages/TacticPage/actions';
+import { selectIsDeleteTacticDialogOpen } from '../../pages/TacticPage/selectors';
 
 const makeMapStateToProps = () => {
   const selectTactic = makeSelectTactic();

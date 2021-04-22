@@ -1,3 +1,5 @@
+// noinspection JSUnresolvedFunction
+
 import axios from 'axios';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';

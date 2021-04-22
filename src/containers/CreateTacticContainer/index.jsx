@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 
 import CreateTactic from '../../components/CreateTactic';
-import { openCreateTacticDialog, closeCreateTacticDialog } from '../App/actions';
 import { createTactic } from '../../data/tactics/actions';
+import { closeCreateTacticDialog, openCreateTacticDialog } from '../../pages/TacticPage/actions';
 
 const mapStateToProps = state => ({
-  open: state.app.isCreateTacticDialogOpen,
+  open: state.editor.isCreateTacticDialogOpen,
   pending: state.data.tactics.status.isCreating,
 });
 

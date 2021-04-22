@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+// eslint-disable-next-line import/extensions
 import { nanoid } from 'nanoid';
 import Popover from 'material-ui/Popover';
 import ScheduleIcon from 'material-ui/svg-icons/action/schedule';

@@ -4,22 +4,24 @@ import classNames from 'classnames';
 import styles from './Overlay.scss';
 
 export default class Overlay extends Component {
-  shouldComponentUpdate() {
-    return false;
-  }
-
-  renderPenaltyBoxes() {
+  static renderPenaltyBoxes() {
     return times(2, (index) => {
       const className = classNames({
         [styles.homePenaltyBox]: index === 0,
         [styles.awayPenaltyBox]: index === 1,
       });
-      return <div key={index} className={className}>
-        <div className={styles.rect} />
-        <div className={styles.circle} />
-        <div className={styles.dot} />
-      </div>;
+      return (
+        <div key={index} className={className}>
+          <div className={styles.rect} />
+          <div className={styles.circle} />
+          <div className={styles.dot} />
+        </div>
+      );
     });
+  }
+
+  shouldComponentUpdate() {
+    return false;
   }
 
   render() {
@@ -33,8 +35,8 @@ export default class Overlay extends Component {
         <div className={styles.goals} >
           {times(2, index => <div key={index} />)}
         </div>
-        <div className={styles.penaltyBoxes}>
-          {this.renderPenaltyBoxes()}
+        <div>
+          {Overlay.renderPenaltyBoxes()}
         </div>
       </div>
     );

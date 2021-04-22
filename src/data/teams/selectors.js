@@ -10,6 +10,7 @@ export const selectTeamPlayerItems = (state, props) => {
   return team ? team.players : [];
 };
 
+// noinspection JSUnusedGlobalSymbols
 export const selectDenormalizedSubstitutions = createSelector(
   [selectTeam, selectPlayers],
   (team, players) => team.substitutions.map(sub => ({

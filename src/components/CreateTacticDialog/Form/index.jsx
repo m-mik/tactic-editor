@@ -4,7 +4,8 @@ import { reduxForm, Field, propTypes } from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
 import { validate } from '../../../shared/validation/tactic';
 
-class Form extends Component { // eslint-disable-line react/prefer-stateless-functions
+// eslint-disable-next-line react/prefer-stateless-function
+class Form extends Component {
   render() {
     const { onSubmit, pending, handleSubmit } = this.props;
     return (

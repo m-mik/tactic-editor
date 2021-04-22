@@ -7,7 +7,19 @@ import {
   REMOVE_PLAYER_TRANSITIONS,
   SELECT_PLAYER,
   SET_PLAYERS_TO_REPLACE,
+  OPEN_CREATE_TACTIC_DIALOG,
+  CLOSE_CREATE_TACTIC_DIALOG,
+  CLOSE_DELETE_TACTIC_DIALOG,
+  OPEN_DELETE_TACTIC_DIALOG, SELECT_TACTIC,
 } from './constants';
+import history from '../../history';
+
+export const selectTactic = id => (dispatch) => {
+  if (!isNaN(id)) {
+    history.push(`/tactics/${id}`);
+    dispatch({ type: SELECT_TACTIC, id });
+  }
+};
 
 export const openEditTeamDialog = teamId => ({ type: OPEN_EDIT_TEAM_DIALOG, payload: teamId });
 export const closeEditTeamDialog = () => ({ type: CLOSE_EDIT_TEAM_DIALOG });
@@ -71,3 +83,8 @@ export const updateFormation = (team, formation) => (dispatch) => {
     }));
   dispatch(movePlayers(playerData));
 };
+
+export const openCreateTacticDialog = () => ({ type: OPEN_CREATE_TACTIC_DIALOG });
+export const closeCreateTacticDialog = () => ({ type: CLOSE_CREATE_TACTIC_DIALOG });
+export const openDeleteTacticDialog = () => ({ type: OPEN_DELETE_TACTIC_DIALOG });
+export const closeDeleteTacticDialog = () => ({ type: CLOSE_DELETE_TACTIC_DIALOG });

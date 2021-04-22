@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { selectActiveTacticId } from '../../containers/App/selectors';
+import { selectActiveTacticId } from '../../pages/TacticPage/selectors';
 
 export const selectTactics = state => state.data.tactics;
 export const selectIsFetching = state => state.data.tactics.status.isFetching;

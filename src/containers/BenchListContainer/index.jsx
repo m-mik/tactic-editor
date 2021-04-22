@@ -7,6 +7,7 @@ import BenchContainer from '../BenchContainer';
 import { makeSelectTacticDetail } from '../../data/tacticDetails/selectors';
 import pt from '../../propTypes';
 
+// eslint-disable-next-line react/prefer-stateless-function
 class BenchListContainer extends Component {
   render() {
     const { tacticDetail } = this.props;

@@ -64,6 +64,7 @@ class TileContainer extends Component {
   }
 }
 
+// noinspection JSUnusedGlobalSymbols
 const tileTarget = {
   canDrop(props, monitor) {
     const player = monitor.getItem();
@@ -71,6 +72,7 @@ const tileTarget = {
   },
 
   drop(props, monitor, component) {
+    // noinspection JSUnresolvedFunction
     return monitor.didDrop() ? undefined : { component };
   },
 };

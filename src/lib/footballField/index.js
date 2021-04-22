@@ -1,5 +1,3 @@
-import { findDOMNode } from 'react-dom';
-
 export const TEAM_GRID_ID_PREFIX = 'team-grid';
 export const TILES_COUNT = 36;
 export const TILES_PER_LINE = (TILES_COUNT - 1) / 5;
@@ -54,13 +52,6 @@ export function getTileCoordsForPos(position, teamId) {
   return element.getBoundingClientRect();
 }
 
-export function getNodeOffset(sourceNode, targetNode) {
-  return {
-    left: targetNode.offsetLeft - sourceNode.offsetLeft,
-    top: targetNode.offsetTop - sourceNode.offsetTop,
-  };
-}
-
 export function findTileOffsets(tilePositions, teamId) {
   return tilePositions.reduce((result, pos) => {
     const { from, to } = pos;
@@ -84,10 +75,6 @@ export function findTileOffset(tilePosition, teamId) {
   } catch (e) {
     return null;
   }
-}
-
-export function getCompOffset(sourceComp, targetComp) {
-  return getNodeOffset(findDOMNode(sourceComp), findDOMNode(targetComp));
 }
 
 export function getTeamForPlayer(denormalizedTeams, player) {

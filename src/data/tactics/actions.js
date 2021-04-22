@@ -10,13 +10,14 @@ import {
 import tacticSchema from './schema';
 import teamSchema from '../teams/schema';
 import {
-  closeCreateTacticDialog,
-  closeDeleteTacticDialog,
   handleError,
   receiveEntity,
-  selectTactic,
 } from '../../containers/App/actions';
-import { updateFormation } from '../../pages/TacticPage/actions';
+import {
+  closeCreateTacticDialog,
+  closeDeleteTacticDialog, selectTactic,
+  updateFormation,
+} from '../../pages/TacticPage/actions';
 import { updateTacticDetail } from '../tacticDetails/actions';
 import { selectTactics } from './selectors';
 import history from '../../history';

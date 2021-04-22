@@ -10,6 +10,7 @@ import { selectTeam } from '../../data/teams/selectors';
 const makeMapStateToProps = () => {
   const selectTeamBenchPlayers = makeSelectTeamPlayers({ filter: 'bench' });
 
+  // noinspection JSCheckFunctionSignatures
   return (state, ownProps) => ({
     players: selectTeamBenchPlayers(state, ownProps),
     team: selectTeam(state, ownProps),

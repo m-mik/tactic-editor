@@ -1,5 +1,7 @@
 /* global PRODUCTION, DEVELOPMENT */
 /* eslint-disable global-require */
+// noinspection JSCheckFunctionSignatures
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';

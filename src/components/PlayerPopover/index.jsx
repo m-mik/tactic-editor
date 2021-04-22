@@ -158,11 +158,11 @@ export default class PlayerPopover extends Component {
     return (
       <div key={sub.id} className={styles.substitution}>
         <div className={styles.on}>
-          <SubstitutionOnIcon className={styles.subIcon} />
+          <SubstitutionOnIcon />
           <span className={styles.name}>{p1.name}</span>
         </div>
         <div className={styles.off}>
-          <SubstitutionOffIcon className={styles.subIcon} />
+          <SubstitutionOffIcon />
           <span className={styles.name}>{p2.name}</span>
         </div>
       </div>

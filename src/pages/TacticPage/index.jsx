@@ -157,6 +157,7 @@ TacticPage.propTypes = {
 const makeMapStateToProps = () => {
   const selectTacticDetailTeams = makeSelectTacticDetailTeams();
   const selectTacticDetail = makeSelectTacticDetail();
+  // noinspection JSCheckFunctionSignatures
   return (state, ownProps) => ({
     selectedPlayer: selectActivePlayer(state),
     playersToReplace: selectPlayersToReplace(state),

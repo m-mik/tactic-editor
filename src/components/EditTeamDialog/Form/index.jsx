@@ -14,8 +14,8 @@ import Player from '../../Player';
 import styles from './Form.scss';
 
 class Form extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.handleShirtColorOptionChange = this.handleShirtColorOptionChange.bind(this);
     this.handleShirtStyleChange = this.handleShirtStyleChange.bind(this);

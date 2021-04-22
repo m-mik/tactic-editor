@@ -1,12 +1,14 @@
+// noinspection JSUnresolvedVariable
+
 import { createSelector } from 'reselect';
 import { denormalize } from 'normalizr';
 import mapValues from 'lodash/mapValues';
 
 import teamSchema from '../teams/schema';
-import { selectActiveTacticId } from '../../containers/App/selectors';
 import { selectTactics } from '../tactics/selectors';
 import { selectTeams } from '../teams/selectors';
 import { selectPlayers } from '../players/selectors';
+import { selectActiveTacticId } from '../../pages/TacticPage/selectors';
 
 export const selectTacticDetails = state => state.data.tacticDetails;
 export const selectFetchingItems = state => state.data.tacticDetails.status.fetching;

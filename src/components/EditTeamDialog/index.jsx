@@ -5,7 +5,6 @@ import FlatButton from 'material-ui/FlatButton';
 
 import pt from '../../propTypes';
 import Form from './Form';
-import styles from './EditTeamDialog.scss';
 
 // todo: rwd
 const EditTeamDialog = (props) => {

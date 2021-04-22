@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+
 const TACTICS_KEY = 'tactics';
 const LAST_VISIT_KEY = 'last_visit';
 
@@ -12,6 +13,7 @@ export const loadTactics = () => {
   return [];
 };
 
+// noinspection JSUnusedGlobalSymbols
 export const loadTactic = (id) => {
   const tactics = loadTactics();
   return tactics.find(tactic => tactic.id === id);
@@ -44,4 +46,4 @@ export const deleteTactic = (id) => {
 };
 
 export const isNewUser = () => localStorage.getItem(LAST_VISIT_KEY) === null;
-export const setLastVisit = () => localStorage.setItem(LAST_VISIT_KEY, Date.now());
+export const setLastVisit = () => localStorage.setItem(LAST_VISIT_KEY, String(Date.now()));

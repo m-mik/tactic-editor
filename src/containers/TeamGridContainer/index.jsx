@@ -11,6 +11,7 @@ import TeamGrid from '../../components/TeamGrid';
 const makeMapStateToProps = () => {
   const selectOptions = makeSelectOptions();
   const selectTeamPlayers = makeSelectTeamPlayers({ filter: 'field' });
+  // noinspection JSCheckFunctionSignatures
   return (state, ownProps) => ({
     id: `${TEAM_GRID_ID_PREFIX}-${ownProps.teamId}`,
     tilesCount: TILES_COUNT,
