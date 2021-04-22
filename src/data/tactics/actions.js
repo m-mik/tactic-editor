@@ -88,9 +88,9 @@ export const deleteTactic = id => (dispatch, getState) => {
   }).then(() => {
     dispatch(closeDeleteTacticDialog());
     const tactics = selectTactics(getState());
-    const firstTacticId = tactics[0] ? tactics[0].id : null;
-    if (firstTacticId) {
-      dispatch(selectTactic(firstTacticId));
+    const latestTacticId = Math.max(0, ...tactics.items);
+    if (latestTacticId) {
+      dispatch(selectTactic(latestTacticId));
     } else {
       history.push('/tactics');
     }
