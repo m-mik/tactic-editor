@@ -19,3 +19,5 @@ export const SAVE_TACTIC = 'tactic-editor/App/SAVE_TACTIC';
 export const SAVE_TACTIC_PENDING = 'tactic-editor/App/SAVE_TACTIC_PENDING';
 export const SAVE_TACTIC_FULFILLED = 'tactic-editor/App/SAVE_TACTIC_FULFILLED';
 export const SAVE_TACTIC_REJECTED = 'tactic-editor/App/SAVE_TACTIC_REJECTED';
+
+export const CLONE_TACTIC = 'tactic-editor/App/CLONE_TACTIC';

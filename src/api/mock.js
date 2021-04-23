@@ -8,21 +8,14 @@ import times from 'lodash/times';
 import MockAdapter from 'axios-mock-adapter';
 import defaultTactics from './tactics.json';
 import defaultTeam from '../lib/footballField/defaultTeam.json';
-import {
-  deleteTactic,
-  isNewUser,
-  loadTactics,
-  saveTactic,
-  saveTactics,
-} from './localStorage';
+import * as storage from './localStorage';
 import formations from '../lib/footballField/formations.json';
 import { TILES_COUNT } from '../lib/footballField';
 
 const DEFAULT_SUB_COUNT = 7;
 
-if (isNewUser()) saveTactics(defaultTactics);
-
-const tactics = loadTactics();
+if (storage.isNewUser()) storage.saveTactics(defaultTactics);
+const tactics = storage.loadTactics();
 
 const mockApi = () => {
   const mock = new MockAdapter(axios, { delayResponse: 400 });
@@ -33,7 +26,7 @@ const mockApi = () => {
     tactics: get(lastTactic, 'id', 0),
     teams: get(lastTactic, 'teams[1].id', 0),
     players: get(lastTactic, 'teams[1].players', [{ id: 0 }]).reduce((maxId, player) =>
-       Math.max(player.id, maxId), 0),
+      Math.max(player.id, maxId), 0),
   };
 
   const nextId = (key) => {
@@ -63,6 +56,24 @@ const mockApi = () => {
     ...defaultTeam, id: nextId('teams'), players: times(22, generatePlayer),
   });
 
+  const generateTactic = data => ({
+    id: nextId('tactics'),
+    teams: times(2, generateTeam),
+    options: {
+      showGrid: false,
+      showNames: true,
+      showRatings: true,
+      showNumbers: true,
+      showCards: true,
+      showGoals: true,
+      showAssists: true,
+      showSubstitutions: true,
+      showMinutes: true,
+      showSummary: true,
+    },
+    ...data,
+  });
+
   mock.onGet('/tactics').reply(() => [200, tactics.map(tactic => omit(tactic, ['teams', 'options']))]);
 
   mock.onGet(/\/tactics\/\d+/).reply((config) => {
@@ -74,38 +85,30 @@ const mockApi = () => {
     return [200, pick(tactic, ['id', 'teams', 'options'])];
   });
 
-  mock.onPost('/tactics').reply((config) => {
+  mock.onPost(/\/tactics(\?clone=true)?/).reply((config) => {
     const data = JSON.parse(config.data);
-    const tactic = {
-      id: nextId('tactics'),
-      teams: times(2, generateTeam),
-      options: {
-        showGrid: false,
-        showNames: true,
-        showRatings: true,
-        showNumbers: true,
-        showCards: true,
-        showGoals: true,
-        showAssists: true,
-        showSubstitutions: true,
-        showMinutes: true,
-        showSummary: true,
-      },
-      ...data,
-    };
-    saveTactic(tactic);
-    return [201, tactic];
+    const url = config.url;
+    const newTactic = generateTactic(data);
+
+    if (url.includes('?clone=true')) {
+      console.log('clone tactic');
+      const tacticToClone = storage.loadTactic(data.id);
+      console.log(tacticToClone);
+    }
+
+    storage.saveTactic(newTactic);
+    return [201, newTactic];
   });
 
   mock.onDelete(/\/tactics\/\d+/).reply((config) => {
     const id = +config.url.split('/').pop();
-    deleteTactic(id);
+    storage.deleteTactic(id);
     return [204];
   });
 
   mock.onPut(/\/tactics\/\d+/).reply((config) => {
     const tactic = JSON.parse(config.data);
-    saveTactic(tactic);
+    storage.saveTactic(tactic);
     return [200];
   });
 };

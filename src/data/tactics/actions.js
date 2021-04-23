@@ -1,6 +1,7 @@
 import { reset } from 'redux-form';
 import axios from 'axios';
 import {
+  CLONE_TACTIC,
   CREATE_TACTIC,
   DELETE_TACTIC,
   FETCH_TACTICS,
@@ -29,27 +30,26 @@ export const saveTactic = tactic => dispatch => dispatch({
   payload: axios.put(`/tactics/${tactic.id}`, tactic),
   meta: { id: tactic.id },
 })
-  .then(({ action }) => dispatch(removeUnsavedTactic(action.meta.id)))
-  .catch(error => dispatch(handleError(error)));
+    .then(({ action }) => dispatch(removeUnsavedTactic(action.meta.id)))
+    .catch(error => dispatch(handleError(error)));
 
-export const createTactic = data => dispatch =>
-  dispatch({
-    type: CREATE_TACTIC,
-    payload: axios.post('/tactics', data),
-    meta: { data },
-  }).then(({ action }) => {
-    const { id, teams } = action.payload.data;
-    const updatedTeams = teams.map(team => ({
-      ...team,
-      players: team.players.map((player, i) =>
+export const createTactic = ({ data, clone = false }) => dispatch => dispatch({
+  type: CREATE_TACTIC,
+  payload: axios.post(`/tactics${clone ? '?clone=true' : ''}`, data),
+  meta: { data },
+}).then(({ action }) => {
+  const { id, teams } = action.payload.data;
+  const updatedTeams = teams.map(team => ({
+    ...team,
+    players: team.players.map((player, i) =>
         (i < 11 ? ({ ...player, position: INITIAL_FIELD_PLAYER_POS }) : player)),
-    }));
-    dispatch(receiveEntity(updatedTeams, [teamSchema]));
-    dispatch(selectTactic(id));
-    dispatch(closeCreateTacticDialog());
-    dispatch(reset('createTacticForm'));
-    updatedTeams.forEach(team => dispatch(updateFormation(team, formations[1])));
-  }).catch(error => dispatch(handleError(error)));
+  }));
+  dispatch(receiveEntity(updatedTeams, [teamSchema]));
+  dispatch(selectTactic(id));
+  dispatch(closeCreateTacticDialog());
+  dispatch(reset('createTacticForm'));
+  updatedTeams.forEach(team => dispatch(updateFormation(team, formations[1])));
+}).catch(error => dispatch(handleError(error)));
 
 export const fetchTactics = () => dispatch =>
   dispatch({
@@ -96,3 +96,7 @@ export const deleteTactic = id => (dispatch, getState) => {
     }
   }).catch(error => dispatch(handleError(error)));
 };
+
+export const cloneTactic = tactic => dispatch =>
+  dispatch(saveTactic(tactic)
+    .then(() => dispatch(createTactic({ data: { id: tactic.id }, clone: true }))));

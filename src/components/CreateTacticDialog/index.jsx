@@ -39,7 +39,7 @@ class CreateTacticDialog extends Component {
         <Form
           ref={(form) => { this.form = form; }}
           open={open}
-          onSubmit={onCreate}
+          onSubmit={data => onCreate({ data })}
           pending={pending}
         />
       </Dialog>

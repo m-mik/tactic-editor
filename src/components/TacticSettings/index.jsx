@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import SaveIcon from 'material-ui/svg-icons/content/save';
+import ContentCopyIcon from 'material-ui/svg-icons/content/content-copy';
 import { Paper, Snackbar } from 'material-ui';
 
 import { isValid } from '../../shared/validation/tactic';
@@ -78,6 +79,13 @@ class TacticSettings extends PureComponent {
           <div>
             <DeleteTacticContainer />
           </div>
+          <div>
+            <RaisedButton
+              label="Clone"
+              icon={<ContentCopyIcon />}
+              onTouchTap={() => this.props.onTacticClone(tactic)}
+            />
+          </div>
         </div>
         <Snackbar
           open={this.state.open}
@@ -99,6 +107,7 @@ TacticSettings.propTypes = {
   tactic: pt.denormalizedTactic,
   onSettingChange: PropTypes.func.isRequired,
   onTacticSave: PropTypes.func.isRequired,
+  onTacticClone: PropTypes.func.isRequired,
   isSavingTactic: PropTypes.bool.isRequired,
   unsavedTacticIds: pt.unsavedTacticIds.isRequired,
 };

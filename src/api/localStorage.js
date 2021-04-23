@@ -13,7 +13,6 @@ export const loadTactics = () => {
   return [];
 };
 
-// noinspection JSUnusedGlobalSymbols
 export const loadTactic = (id) => {
   const tactics = loadTactics();
   return tactics.find(tactic => tactic.id === id);
