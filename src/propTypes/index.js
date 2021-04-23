@@ -138,6 +138,7 @@ const propTypes = {
     events: PropTypes.arrayOf(PropTypes.object),
     teams: PropTypes.arrayOf(PropTypes.shape(team)),
   }),
+  unsavedTacticIds: PropTypes.instanceOf(Set),
 };
 
 export default propTypes;

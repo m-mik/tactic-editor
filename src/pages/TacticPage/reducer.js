@@ -1,6 +1,7 @@
 import omit from 'lodash/omit';
 import {
   ADD_PLAYER_TRANSITIONS,
+  ADD_UNSAVED_TACTIC,
   CLOSE_CREATE_TACTIC_DIALOG,
   CLOSE_DELETE_TACTIC_DIALOG,
   CLOSE_EDIT_TEAM_DIALOG,
@@ -8,19 +9,27 @@ import {
   OPEN_DELETE_TACTIC_DIALOG,
   OPEN_EDIT_TEAM_DIALOG,
   REMOVE_PLAYER_TRANSITIONS,
+  REMOVE_UNSAVED_TACTIC,
   SELECT_PLAYER,
   SELECT_TACTIC,
   SET_PLAYERS_TO_REPLACE,
 } from './constants';
+import {
+  SAVE_TACTIC_FULFILLED,
+  SAVE_TACTIC_PENDING,
+  SAVE_TACTIC_REJECTED,
+} from '../../data/tactics/constants';
 
 const initialState = {
   activeTacticId: 0,
   activePlayerId: 0,
-  playersToReplace: null,
   editedTeamId: 0,
+  unsavedTacticIds: new Set(),
+  playersToReplace: null,
   playerTransitions: {},
   isCreateTacticDialogOpen: false,
   isDeleteTacticDialogOpen: false,
+  isSavingTactic: false,
 };
 
 const playerTransitions = (state = initialState.playerTransitions, action) => {
@@ -60,6 +69,25 @@ const editor = (state = initialState, action) => {
       return { ...state, isDeleteTacticDialogOpen: true };
     case CLOSE_DELETE_TACTIC_DIALOG:
       return { ...state, isDeleteTacticDialogOpen: false };
+    case ADD_UNSAVED_TACTIC: {
+      return {
+        ...state,
+        unsavedTacticIds: new Set([...state.unsavedTacticIds, action.payload]),
+      };
+    }
+    case REMOVE_UNSAVED_TACTIC: {
+      return {
+        ...state,
+        unsavedTacticIds: new Set(
+          Array.from(state.unsavedTacticIds).filter(id => id !== action.payload),
+        ),
+      };
+    }
+    case SAVE_TACTIC_PENDING:
+      return { ...state, isSavingTactic: true };
+    case SAVE_TACTIC_FULFILLED:
+    case SAVE_TACTIC_REJECTED:
+      return { ...state, isSavingTactic: false };
     default:
       return state;
   }

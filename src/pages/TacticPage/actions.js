@@ -10,7 +10,7 @@ import {
   OPEN_CREATE_TACTIC_DIALOG,
   CLOSE_CREATE_TACTIC_DIALOG,
   CLOSE_DELETE_TACTIC_DIALOG,
-  OPEN_DELETE_TACTIC_DIALOG, SELECT_TACTIC,
+  OPEN_DELETE_TACTIC_DIALOG, SELECT_TACTIC, ADD_UNSAVED_TACTIC, REMOVE_UNSAVED_TACTIC,
 } from './constants';
 import history from '../../history';
 
@@ -88,3 +88,6 @@ export const openCreateTacticDialog = () => ({ type: OPEN_CREATE_TACTIC_DIALOG }
 export const closeCreateTacticDialog = () => ({ type: CLOSE_CREATE_TACTIC_DIALOG });
 export const openDeleteTacticDialog = () => ({ type: OPEN_DELETE_TACTIC_DIALOG });
 export const closeDeleteTacticDialog = () => ({ type: CLOSE_DELETE_TACTIC_DIALOG });
+
+export const addUnsavedTactic = id => ({ type: ADD_UNSAVED_TACTIC, payload: id });
+export const removeUnsavedTactic = id => ({ type: REMOVE_UNSAVED_TACTIC, payload: id });

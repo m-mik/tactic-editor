@@ -15,7 +15,7 @@ import {
 } from '../../containers/App/actions';
 import {
   closeCreateTacticDialog,
-  closeDeleteTacticDialog, selectTactic,
+  closeDeleteTacticDialog, removeUnsavedTactic, selectTactic,
   updateFormation,
 } from '../../pages/TacticPage/actions';
 import { updateTacticDetail } from '../tacticDetails/actions';
@@ -24,13 +24,13 @@ import history from '../../history';
 import formations from '../../lib/footballField/formations.json';
 import { INITIAL_FIELD_PLAYER_POS } from '../../lib/footballField';
 
-export const saveTactic = tactic => (dispatch) => {
-  dispatch({
-    type: SAVE_TACTIC,
-    payload: axios.put(`/tactics/${tactic.id}`, tactic),
-    meta: { id: tactic.id },
-  }).catch(error => dispatch(handleError(error)));
-};
+export const saveTactic = tactic => dispatch => dispatch({
+  type: SAVE_TACTIC,
+  payload: axios.put(`/tactics/${tactic.id}`, tactic),
+  meta: { id: tactic.id },
+})
+  .then(({ action }) => dispatch(removeUnsavedTactic(action.meta.id)))
+  .catch(error => dispatch(handleError(error)));
 
 export const createTactic = data => dispatch =>
   dispatch({
@@ -44,7 +44,6 @@ export const createTactic = data => dispatch =>
       players: team.players.map((player, i) =>
         (i < 11 ? ({ ...player, position: INITIAL_FIELD_PLAYER_POS }) : player)),
     }));
-
     dispatch(receiveEntity(updatedTeams, [teamSchema]));
     dispatch(selectTactic(id));
     dispatch(closeCreateTacticDialog());

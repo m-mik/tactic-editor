@@ -13,3 +13,6 @@ export const OPEN_CREATE_TACTIC_DIALOG = 'tactic-editor/Editor/OPEN_CREATE_TACTI
 export const CLOSE_CREATE_TACTIC_DIALOG = 'tactic-editor/Editor/CLOSE_CREATE_TACTIC_DIALOG';
 export const OPEN_DELETE_TACTIC_DIALOG = 'tactic-editor/Editor/OPEN_DELETE_TACTIC_DIALOG';
 export const CLOSE_DELETE_TACTIC_DIALOG = 'tactic-editor/Editor/CLOSE_DELETE_TACTIC_DIALOG';
+
+export const ADD_UNSAVED_TACTIC = 'tactic-editor/Editor/ADD_UNSAVED_TACTIC';
+export const REMOVE_UNSAVED_TACTIC = 'tactic-editor/Editor/REMOVE_UNSAVED_TACTIC';

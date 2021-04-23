@@ -6,7 +6,7 @@ import { Paper } from 'material-ui';
 import TacticList from '../../components/TacticList';
 import { selectTacticsArray, selectIsFetching } from '../../data/tactics/selectors';
 import { fetchTactics } from '../../data/tactics/actions';
-import { selectActiveTacticId } from '../../pages/TacticPage/selectors';
+import { selectActiveTacticId, selectUnsavedTacticIds } from '../../pages/TacticPage/selectors';
 import { selectTactic } from '../../pages/TacticPage/actions';
 import pt from '../../propTypes';
 
@@ -17,12 +17,14 @@ class TacticListContainer extends PureComponent {
   }
 
   render() {
-    const { tactics, fetching, activeTacticId } = this.props;
+    const { tactics, fetching, activeTacticId, unsavedTacticIds } = this.props;
+
     return (
       <Paper zDepth={3}>
         <TacticList
           tactics={tactics}
           activeTacticId={activeTacticId}
+          unsavedTacticIds={unsavedTacticIds}
           fetching={fetching}
           onSelectTactic={(event, id) => this.props.selectTactic(id)}
         />
@@ -33,6 +35,7 @@ class TacticListContainer extends PureComponent {
 
 TacticListContainer.propTypes = {
   tactics: PropTypes.arrayOf(pt.tactic).isRequired,
+  unsavedTacticIds: pt.unsavedTacticIds.isRequired,
   selectTactic: PropTypes.func.isRequired,
   fetchTactics: PropTypes.func.isRequired,
   activeTacticId: PropTypes.number.isRequired,
@@ -42,6 +45,7 @@ TacticListContainer.propTypes = {
 
 const mapStateToProps = state => ({
   tactics: selectTacticsArray(state),
+  unsavedTacticIds: selectUnsavedTacticIds(state),
   activeTacticId: selectActiveTacticId(state),
   fetching: selectIsFetching(state),
 });
