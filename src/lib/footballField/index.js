@@ -115,6 +115,10 @@ export function getFormationText(formation) {
   return Object.keys(formation).map(key => formation[key]).join('-');
 }
 
+export function getFormationArray(players) {
+  return players.filter(isFieldPlayer).map(player => player.position);
+}
+
 export function findFirstAvailableBenchPos(positions) {
   const sortedPos = positions.sort((pos1, pos2) => pos1 - pos2);
   for (let i = 0; i < sortedPos.length; i += 1) {
@@ -133,4 +137,12 @@ export function matchScore(team1, team2) {
       ownGoals: team.goals.filter(goal => goal.ownGoal).length,
     }));
   return [t1.goals + t2.ownGoals, t2.goals + t1.ownGoals];
+}
+
+export function changeTeamPlayersPos(team, position, playerFilter) {
+  return {
+    ...team,
+    players: team.players.map(player =>
+      (playerFilter && playerFilter(player) ? ({ ...player, position }) : player)),
+  };
 }

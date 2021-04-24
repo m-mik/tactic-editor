@@ -81,9 +81,10 @@ class TacticSettings extends PureComponent {
           </div>
           <div>
             <RaisedButton
-              label="Clone"
+              label="Copy"
               icon={<ContentCopyIcon />}
-              onTouchTap={() => this.props.onTacticClone(tactic)}
+              onTouchTap={() => this.props.onTacticCopy(tactic)}
+              disabled={isSavingTactic}
             />
           </div>
         </div>
@@ -107,7 +108,7 @@ TacticSettings.propTypes = {
   tactic: pt.denormalizedTactic,
   onSettingChange: PropTypes.func.isRequired,
   onTacticSave: PropTypes.func.isRequired,
-  onTacticClone: PropTypes.func.isRequired,
+  onTacticCopy: PropTypes.func.isRequired,
   isSavingTactic: PropTypes.bool.isRequired,
   unsavedTacticIds: pt.unsavedTacticIds.isRequired,
 };

@@ -15,12 +15,11 @@ import { TILES_COUNT } from '../lib/footballField';
 const DEFAULT_SUB_COUNT = 7;
 
 if (storage.isNewUser()) storage.saveTactics(defaultTactics);
-const tactics = storage.loadTactics();
 
 const mockApi = () => {
   const mock = new MockAdapter(axios, { delayResponse: 400 });
 
-  const lastTactic = tactics[tactics.length - 1];
+  const lastTactic = storage.loadLastTactic();
 
   const lastIdByEntity = {
     tactics: get(lastTactic, 'id', 0),
@@ -56,7 +55,7 @@ const mockApi = () => {
     ...defaultTeam, id: nextId('teams'), players: times(22, generatePlayer),
   });
 
-  const generateTactic = data => ({
+  const generateTactic = (data = {}) => ({
     id: nextId('tactics'),
     teams: times(2, generateTeam),
     options: {
@@ -74,10 +73,35 @@ const mockApi = () => {
     ...data,
   });
 
-  mock.onGet('/tactics').reply(() => [200, tactics.map(tactic => omit(tactic, ['teams', 'options']))]);
+  const copyTactic = (id) => {
+    const tacticToCopy = storage.loadTactic(id);
+    return {
+      ...tacticToCopy,
+      id: nextId('tactics'),
+      name: `Copy of ${tacticToCopy.name}`.substr(0, 30),
+      teams: tacticToCopy.teams.map(team => ({
+        ...team,
+        id: nextId('teams'),
+        players: team.players.map(player => ({
+          ...player,
+          id: nextId('players'),
+        })),
+        substitutions: [],
+        goals: [],
+        yellowCards: [],
+        redCards: [],
+      })),
+    };
+  };
+
+  mock.onGet('/tactics').reply(() => {
+    const tactics = storage.loadTactics();
+    return [200, tactics.map(tactic => omit(tactic, ['teams', 'options']))];
+  });
 
   mock.onGet(/\/tactics\/\d+/).reply((config) => {
     const id = +config.url.split('/').pop();
+    const tactics = storage.loadTactics();
     const tactic = tactics.find(t => t.id === id);
     if (!tactic) {
       return [404, []];
@@ -85,17 +109,11 @@ const mockApi = () => {
     return [200, pick(tactic, ['id', 'teams', 'options'])];
   });
 
-  mock.onPost(/\/tactics(\?clone=true)?/).reply((config) => {
+  mock.onPost(/\/tactics(\?copy=true)?/).reply((config) => {
     const data = JSON.parse(config.data);
     const url = config.url;
-    const newTactic = generateTactic(data);
-
-    if (url.includes('?clone=true')) {
-      console.log('clone tactic');
-      const tacticToClone = storage.loadTactic(data.id);
-      console.log(tacticToClone);
-    }
-
+    const shouldCopyTactic = url.includes('?copy=true');
+    const newTactic = shouldCopyTactic ? copyTactic(data.id) : generateTactic(data);
     storage.saveTactic(newTactic);
     return [201, newTactic];
   });

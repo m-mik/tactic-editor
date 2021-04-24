@@ -18,6 +18,11 @@ export const loadTactic = (id) => {
   return tactics.find(tactic => tactic.id === id);
 };
 
+export const loadLastTactic = () => {
+  const tactics = loadTactics();
+  return tactics[tactics.length - 1];
+};
+
 export const saveTactic = (tactic) => {
   const tactics = loadTactics();
   try {

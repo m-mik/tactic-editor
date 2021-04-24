@@ -17,8 +17,8 @@ import {
 const byId = (state = {}, action) => {
   switch (action.type) {
     case CREATE_TACTIC_FULFILLED: {
-      const id = action.payload.data.id;
-      return { ...state, [id]: { id, ...action.meta.data } };
+      const { id, name } = action.payload.data;
+      return { ...state, [id]: { id, name } };
     }
     default: {
       if (get(action, 'payload.entities.tactics')) {
