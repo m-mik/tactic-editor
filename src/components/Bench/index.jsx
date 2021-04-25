@@ -16,6 +16,8 @@ const Bench = (props) => {
     onBenchPlayerAdd,
   } = props;
 
+  const benchPlayersCount = Object.keys(players).length || 0;
+
   const renderPlayerList = () => (
     <ul className={styles.list}>
       {Object.keys(players).map((playerPos, index) => {
@@ -32,13 +34,16 @@ const Bench = (props) => {
             />
           </li>);
       })}
-      <li className={`${styles.item} ${styles.addPlayer}`}>
+      {benchPlayersCount < 11 && <li
+        className={`${styles.item} ${styles.addPlayer}`}
+        id={`bench-${team.id}-add-player`}
+      >
         <FloatingActionButton mini>
           <PersonAddIcon
             onTouchTap={() => onBenchPlayerAdd(team.id)}
           />
         </FloatingActionButton>
-      </li>
+      </li>}
     </ul>
   );
 

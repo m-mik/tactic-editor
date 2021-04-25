@@ -66,13 +66,15 @@ export default class TeamInfo extends Component {
     </span>);
   }
 
-  renderTacticList() { // eslint-disable-line class-methods-use-this
+  renderTacticList() {
     if (!this.props.team.id) return null;
+    const { id } = this.props.team;
     const currentFormation = getFormation(this.props.team.players);
     const formationText = getFormationText(currentFormation);
 
     return (
       <SelectField
+        id={`team-${id}-formation`}
         onChange={this.handleTacticChange}
         labelStyle={{ color: '#fff' }}
         className={styles.tacticSelect}
@@ -94,10 +96,14 @@ export default class TeamInfo extends Component {
     );
   }
 
-  renderIcons() {
+  renderEditIcon() {
     if (!this.props.team.id) return null;
+    const { id } = this.props.team;
     return (
-      <IconButton onTouchTap={() => this.props.onEditTeamTouchTap(this.props.team.id)}>
+      <IconButton
+        onTouchTap={() => this.props.onEditTeamTouchTap(id)}
+        id={`edit-team-${id}`}
+      >
         <EditIcon color={white} />
       </IconButton>
     );
@@ -117,7 +123,7 @@ export default class TeamInfo extends Component {
         <form className={styles.form} onSubmit={this.disableEditing}>
           {showGoals && this.renderGoals()}
           {this.renderTeamName()}
-          {team && this.renderIcons()}
+          {team && this.renderEditIcon()}
           {team && this.renderTacticList()}
         </form>
       </div>

@@ -98,7 +98,7 @@ const MatchSummary = (props) => {
   });
 
   return (
-    <Paper zDepth={3} className={styles.wrapper}>
+    <Paper id="match-summary" zDepth={3} className={styles.wrapper}>
       {renderMatchScore()}
       {renderEvents()}
     </Paper>

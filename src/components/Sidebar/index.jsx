@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './Sidebar.scss';
 
-const Sidebar = props => <div className={styles.wrapper}>{props.children}</div>;
+const Sidebar = props => <div className={styles.wrapper} id="sidebar">{props.children}</div>;
 
 Sidebar.defaultProps = {
   children: null,

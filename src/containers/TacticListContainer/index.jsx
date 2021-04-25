@@ -20,7 +20,7 @@ class TacticListContainer extends PureComponent {
     const { tactics, fetching, activeTacticId, unsavedTacticIds } = this.props;
 
     return (
-      <Paper zDepth={3}>
+      <Paper id="tactic-list" zDepth={3}>
         <TacticList
           tactics={tactics}
           activeTacticId={activeTacticId}

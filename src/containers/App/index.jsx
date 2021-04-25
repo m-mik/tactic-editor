@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './App.scss';
 
 const App = props => (
-  <div className={styles.wrapper}>
+  <div id="content" className={styles.wrapper}>
     {props.children}
   </div>
 );

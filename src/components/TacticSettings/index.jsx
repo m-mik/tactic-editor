@@ -4,6 +4,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import SaveIcon from 'material-ui/svg-icons/content/save';
 import ContentCopyIcon from 'material-ui/svg-icons/content/content-copy';
+import ImageIcon from 'material-ui/svg-icons/image/image';
 import { Paper, Snackbar } from 'material-ui';
 
 import { isValid } from '../../shared/validation/tactic';
@@ -12,6 +13,7 @@ import DeleteTacticContainer from '../../containers/DeleteTacticContainer';
 import styles from './TacticSettings.scss';
 import pt from '../../propTypes';
 import AnimatedSaveIcon from '../AnimatedSaveIcon';
+import { generateTacticImages } from '../../lib/generateImage';
 
 class TacticSettings extends PureComponent {
   constructor(props) {
@@ -23,6 +25,7 @@ class TacticSettings extends PureComponent {
 
     this.handleTacticNameChange = this.handleTacticNameChange.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
+    this.handleGenerateImage = this.handleGenerateImage.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -42,7 +45,7 @@ class TacticSettings extends PureComponent {
     this.setState({ open: false });
   }
 
-  handleRequestSave(tactic) {
+  handleSave(tactic) {
     this.props.onTacticSave(tactic)
       .then(() => {
         if (!this.props.unsavedTacticIds.has(tactic.id)) {
@@ -51,12 +54,18 @@ class TacticSettings extends PureComponent {
       });
   }
 
+  handleGenerateImage() {
+    const { options } = this.props.tactic;
+    generateTacticImages(options.showSummary);
+  }
+
   render() {
     const { onSettingChange, tactic, isSavingTactic } = this.props;
     if (!tactic) return null;
 
+    // noinspection JSUnresolvedVariable
     return (
-      <Paper zDepth={3} className={styles.wrapper}>
+      <Paper id="tactic-settings" zDepth={3} className={styles.wrapper}>
         <TextField
           floatingLabelText="Tactic name" value={tactic.name}
           onChange={this.handleTacticNameChange}
@@ -72,7 +81,7 @@ class TacticSettings extends PureComponent {
               label="Save"
               primary
               icon={isSavingTactic ? <AnimatedSaveIcon /> : <SaveIcon />}
-              onTouchTap={() => this.handleRequestSave(tactic)}
+              onTouchTap={() => this.handleSave(tactic)}
               disabled={isSavingTactic}
             />
           </div>
@@ -85,6 +94,13 @@ class TacticSettings extends PureComponent {
               icon={<ContentCopyIcon />}
               onTouchTap={() => this.props.onTacticCopy(tactic)}
               disabled={isSavingTactic}
+            />
+          </div>
+          <div>
+            <RaisedButton
+              label="Generate image"
+              icon={<ImageIcon />}
+              onTouchTap={this.handleGenerateImage}
             />
           </div>
         </div>

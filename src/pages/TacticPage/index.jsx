@@ -14,9 +14,9 @@ import EditTeamDialog from '../../components/EditTeamDialog';
 import { findPlayerElement, getTeamForPlayer, matchScore } from '../../lib/footballField';
 import { selectActivePlayer, selectEditedTeam, selectPlayersToReplace } from './selectors';
 import {
-  selectDenormalizedTeams,
   makeSelectTacticDetail,
   makeSelectTacticDetailTeams,
+  selectDenormalizedTeams,
   selectHasError,
   selectIsFetching,
 } from '../../data/tacticDetails/selectors';
@@ -106,7 +106,7 @@ class TacticPage extends PureComponent {
     const goals = matchScore(...teams);
 
     return (
-      <section className={styles.wrapper}>
+      <section className={styles.wrapper} id="tactic-page">
         <Paper zDepth={3}>
           <TeamInfoContainer teamId={teamIds[0]} goals={goals[0]} showGoals={showGoals} />
           <FootballField>
