@@ -244,7 +244,7 @@ export default class PlayerPopover extends Component {
 
   render() {
     const { name, number, rating } = this.state;
-    const { playerStats, player, team } = this.props;
+    const { playerStats, player, team, center } = this.props;
     const { goals, yellowCards, redCards } = playerStats;
 
     return (
@@ -252,8 +252,8 @@ export default class PlayerPopover extends Component {
         className={styles.wrapper}
         open={!!this.props.player}
         anchorEl={this.props.anchorEl}
-        anchorOrigin={{ horizontal: 'middle', vertical: 'bottom' }}
-        targetOrigin={{ horizontal: 'middle', vertical: 'top' }}
+        anchorOrigin={center ? { horizontal: 'middle', vertical: 'bottom' } : undefined}
+        targetOrigin={center ? { horizontal: 'middle', vertical: 'top' } : undefined}
         onRequestClose={this.props.onRequestClose}
         canAutoPosition
         useLayerForClickAway
@@ -263,19 +263,19 @@ export default class PlayerPopover extends Component {
         {this.renderStats('redCards')}
         {this.renderStats('goals')}
         <ul className={styles.list}>
-          <li>
+          <li className={styles.iconItem}>
             <GoalIcon className={styles.ball} />
             {PlayerPopover.renderAddButton('goals', goals, 'Add Goal', this.handleGoalAdd)}
           </li>
-          <li>
+          <li className={styles.iconItem}>
             <OwnGoalIcon className={styles.ball} />
             {PlayerPopover.renderAddButton('goals', goals, 'Add Own Goal', this.handleOwnGoalAdd)}
           </li>
-          <li>
+          <li className={styles.iconItem}>
             <YellowCardIcon className={styles.card} />
             {PlayerPopover.renderAddButton('yellowCards', yellowCards, 'Add Yellow Card', this.handleYellowCardAdd)}
           </li>
-          <li>
+          <li className={styles.iconItem}>
             <RedCardIcon className={styles.card} />
             {PlayerPopover.renderAddButton('redCards', redCards, 'Add Red Card', this.handleRedCardAdd)}
           </li>
@@ -326,6 +326,7 @@ export default class PlayerPopover extends Component {
 
 PlayerPopover.defaultProps = {
   anchorEl: null,
+  center: false,
 };
 
 PlayerPopover.propTypes = {
@@ -339,4 +340,5 @@ PlayerPopover.propTypes = {
   onTeamStatRemove: PropTypes.func.isRequired,
   onTeamStatChange: PropTypes.func.isRequired,
   anchorEl: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  center: PropTypes.bool,
 };

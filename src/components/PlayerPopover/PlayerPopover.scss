@@ -51,6 +51,12 @@
     width: 80px;
   }
 
+  > .iconItem {
+    width: 25%;
+    line-break: strict;
+    height: 40px;
+  }
+
   .fullWidth {
     width: 100%;
   }
@@ -112,7 +118,7 @@
 }
 
 .minuteField {
-  width: 50px !important;
+  width: 45px !important;
   margin-right: 10px;
 
   input {

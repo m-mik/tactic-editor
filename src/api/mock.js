@@ -73,7 +73,7 @@ const mockApi = () => {
     ...data,
   });
 
-  const copyTactic = (id) => {
+  const cloneTactic = (id) => {
     const tacticToCopy = storage.loadTactic(id);
     return {
       ...tacticToCopy,
@@ -109,11 +109,11 @@ const mockApi = () => {
     return [200, pick(tactic, ['id', 'teams', 'options'])];
   });
 
-  mock.onPost(/\/tactics(\?copy=true)?/).reply((config) => {
+  mock.onPost(/\/tactics(\?clone=true)?/).reply((config) => {
     const data = JSON.parse(config.data);
     const url = config.url;
-    const shouldCopyTactic = url.includes('?copy=true');
-    const newTactic = shouldCopyTactic ? copyTactic(data.id) : generateTactic(data);
+    const shouldCloneTactic = url.includes('?clone=true');
+    const newTactic = shouldCloneTactic ? cloneTactic(data.id) : generateTactic(data);
     storage.saveTactic(newTactic);
     return [201, newTactic];
   });

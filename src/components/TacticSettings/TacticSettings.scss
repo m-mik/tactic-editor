@@ -1,8 +1,19 @@
+@import '../../assets/styles/media';
+
 .wrapper {
   background: #fff;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding: 20px;
   overflow-y: auto;
+
+  @include rwd(640) {
+    flex: 0 0 50%;
+  }
+
+  @include xl() {
+    flex: 0 0 100%;
+    margin-bottom: 20px;
+  }
 }
 
 .options {
@@ -19,13 +30,28 @@
 .buttons {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
 
   > div {
     padding: 10px;
+    width: 100%;
+
+    @include rwd(475) {
+      width: 50%;
+    }
+
+    @include rwd(640) {
+      width: 100%;
+    }
+
+    @include rwd(1390) {
+      width: 50%;
+    }
   }
 
-  button {
-    min-width: 120px !important;
+  :global {
+    .btn-action {
+      width: 100% !important;
+    }
   }
 }

@@ -34,9 +34,9 @@ export const saveTactic = tactic => dispatch => dispatch({
 }).then(({ action }) => dispatch(removeUnsavedTactic(action.meta.id)))
   .catch(error => dispatch(handleError(error)));
 
-export const createTactic = ({ data, copy = false }) => dispatch => dispatch({
+export const createTactic = ({ data, clone = false }) => dispatch => dispatch({
   type: CREATE_TACTIC,
-  payload: axios.post(`/tactics${copy ? '?copy=true' : ''}`, data),
+  payload: axios.post(`/tactics${clone ? '?clone=true' : ''}`, data),
   meta: { data },
 }).then(({ action }) => {
   const { id, teams } = action.payload.data;
@@ -97,9 +97,9 @@ export const deleteTactic = id => (dispatch, getState) => {
   }).catch(error => dispatch(handleError(error)));
 };
 
-export const copyTactic = tactic => dispatch =>
+export const cloneTactic = tactic => dispatch =>
   dispatch(saveTactic(tactic))
     .then(() => dispatch(createTactic({
       data: { id: tactic.id },
-      copy: true,
+      clone: true,
     })));

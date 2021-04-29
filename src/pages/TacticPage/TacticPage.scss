@@ -1,12 +1,71 @@
-@mixin absoluteCenter() {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+@import '../../assets/styles/media';
+@import '../../assets/styles/mixins';
 
 .wrapper {
   display: flex;
+  flex-direction: column;
+
+  @include rwd(820) {
+    flex-wrap: wrap;
+    height: calc(100vw * 1.35);
+    width: 100%;
+  }
+
+  @include xl() {
+    flex-wrap: nowrap;
+  }
+
+  @include landscape() {
+    height: calc(100vh - 60px);
+    flex-wrap: wrap;
+  }
+}
+
+.content {
+  @include rwd(820) {
+    flex: 0 0 100%;
+    width: 75%;
+  }
+
+  @include xl() {
+    width: 100%;
+    order: initial;
+  }
+
+  @include landscape() {
+    height: calc(100vh - 210px);
+    width: 100vh * 0.55;
+  }
+
+  .footballField {
+     @include rwd(820) {
+      height: calc(100% - 120px);
+      width: 100%;
+    }
+  }
+}
+
+.bench {
+  @include rwd(820) {
+    order: 2;
+    flex: 0 0 50%;
+    width: calc(25% - 10px);
+    margin: 0 10px;
+  }
+
+  @include xl() {
+    flex: initial;
+    order: initial;
+    width: 100%;
+    margin: 0;
+  }
+
+  @include landscape() {
+    flex: 0 0 50%;
+    order: 2;
+    max-width: 200px;
+    margin: 0;
+  }
 }
 
 .loadingIndicator {

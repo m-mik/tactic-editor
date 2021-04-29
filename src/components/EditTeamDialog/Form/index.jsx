@@ -59,7 +59,9 @@ class Form extends Component {
       <div className={styles.playerPreview}>
         <FootballField style={{ width: '100%', height: '100%' }}>
           {textColor && <Player
-            className={styles.player} team={{
+            style={{ width: 75, height: 75 }}
+            className={styles.player}
+            team={{
               substitutions: [],
               shirt: {
                 border: { style: borderStyle, color: borderColor },
@@ -107,6 +109,7 @@ class Form extends Component {
       floatingLabelText="Shirt style"
       floatingLabelFixed
       onChange={this.handleShirtStyleChange}
+      fullWidth
     >
       {this.renderShirtStyleItems()}
     </Field>);
@@ -122,13 +125,11 @@ class Form extends Component {
         </div>
         <div>
           {this.renderShirtColorOptions()}
-          <div className={styles.colorPicker}>
-            {this.renderColorPicker()}
-            {this.renderPreview()}
-          </div>
         </div>
-        <div>
-          {this.renderShirtStyle()}
+        {this.renderShirtStyle()}
+        <div className={styles.colorPicker}>
+          {this.renderColorPicker()}
+          {this.renderPreview()}
         </div>
       </form>
     );

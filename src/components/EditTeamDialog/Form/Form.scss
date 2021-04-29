@@ -1,4 +1,10 @@
+@import '../../../assets/styles/media';
+
 .wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
   & > div {
     margin-bottom: 2%;
   }
@@ -6,8 +12,12 @@
 
 .shirtColorOptions {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   margin: 4% 0;
+
+  @include rwd(500) {
+    flex-direction: row;
+  }
 
   & > div {
     width: auto !important;
@@ -16,19 +26,34 @@
 }
 
 .player {
-  width: 100px;
-  height: 100px;
+  min-width: 75px;
+  min-height: 75px;
   padding: 0;
   z-index: 2;
-  margin: 75px auto;
+  margin: 70px auto;
+}
+
+:global {
+  .chrome-picker {
+    width: 100% !important;
+    margin: 10px !important;
+
+    @include rwd(575) {
+      width: 50% !important;
+    }
+  }
 }
 
 .playerPreview {
   width: 150px;
-  margin-left: 5px;
+  height: 200px;
   box-shadow: rgba(0, 0, 0, 0.3) 0 0 2px, rgba(0, 0, 0, 0.3) 0 4px 8px;
+  margin: 10px;
 }
 
 .colorPicker {
   display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  justify-content: center;
 }

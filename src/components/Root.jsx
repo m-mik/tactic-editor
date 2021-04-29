@@ -10,10 +10,11 @@ import history from '../history';
 import App from '../containers/App';
 import Sidebar from './Sidebar';
 import Main from './Main';
-import TacticPage from '../pages/TacticPage';
 import MatchSummaryContainer from '../containers/MatchSummaryContainer';
 import TacticListContainer from '../containers/TacticListContainer';
 import TacticSettingsContainer from '../containers/TacticSettingsContainer';
+import TacticPage from '../pages/TacticPage';
+import HomePage from '../pages/HomePage';
 
 // noinspection JSValidateTypes
 const Root = ({ store }) => (
@@ -27,6 +28,7 @@ const Root = ({ store }) => (
             <Route path="/tactics/:id" component={MatchSummaryContainer} />
           </Sidebar>
           <Main>
+            <Route exact path="/" component={HomePage} />
             <Route path="/tactics/:id" component={TacticPage} />
           </Main>
         </App>

@@ -2,11 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-
 import pt from '../../propTypes';
 import Form from './Form';
 
-// todo: rwd
 const EditTeamDialog = (props) => {
   const { onConfirm, onClose, team } = props;
 
@@ -39,12 +37,13 @@ const EditTeamDialog = (props) => {
 
   return (
     <Dialog
+      contentStyle={{ maxWidth: 450 }}
       title="Edit Team"
       actions={actions}
       onRequestClose={onClose}
       modal
       open
-      contentStyle={{ width: 420 }}
+      autoScrollBodyContent
     >
       <Form
         ref={(form) => { this.form = form; }}

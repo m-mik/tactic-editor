@@ -1,9 +1,10 @@
 @import '../../assets/styles/media';
 
 .wrapper {
-  margin-bottom: 30px;
+  flex: 0 0 100%;
+  margin-bottom: 10px;
 
   @include xl() {
-    flex: 2;
+    margin-bottom: 20px;
   }
 }

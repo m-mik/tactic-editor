@@ -1,11 +1,21 @@
+@import '../../assets/styles/media';
+
 $fadedColor: #a7a7a7;
 
 .wrapper {
-  margin-bottom: 20px;
+  flex: 0 0 100%;
+  margin-bottom: 10px;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  min-width: 400px;
+
+  @include rwd(640) {
+    flex: 0 0 50%;
+  }
+
+  @include xl() {
+    flex: 0 0 100%;
+  }
 }
 
 .event {
@@ -16,13 +26,18 @@ $fadedColor: #a7a7a7;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   margin-bottom: 10px;
+
+  @include xl() {
+    margin-bottom: 20px;
+  }
 
   .score {
     width: 30%;
     display: flex;
     flex-wrap: nowrap;
+    justify-content: center;
   }
 
   .teamName {

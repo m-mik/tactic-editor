@@ -35,7 +35,7 @@ import {
 import styles from './TacticPage.scss';
 import pt from '../../propTypes';
 import ReplacePlayerPopover from '../../components/ReplacePlayerPopover';
-import BenchListContainer from '../../containers/BenchListContainer';
+import BenchContainer from '../../containers/BenchContainer';
 
 class TacticPage extends PureComponent {
   static renderErrorMessage() {
@@ -58,11 +58,13 @@ class TacticPage extends PureComponent {
   renderPlayerPopover() {
     const { selectedPlayer, denormalizedTeams } = this.props;
     if (!selectedPlayer) return null;
+    const center = window.matchMedia('(min-width: 1500px)').matches;
     const anchorEl = findPlayerElement(denormalizedTeams, selectedPlayer);
     const team = getTeamForPlayer(denormalizedTeams, selectedPlayer);
 
     return (
       <PlayerPopoverContainer
+        center={center}
         player={selectedPlayer}
         team={team}
         anchorEl={anchorEl}
@@ -107,9 +109,10 @@ class TacticPage extends PureComponent {
 
     return (
       <section className={styles.wrapper} id="tactic-page">
-        <Paper zDepth={3}>
+        <BenchContainer className={styles.bench} teamId={teamIds[0]} />
+        <Paper className={styles.content} zDepth={3}>
           <TeamInfoContainer teamId={teamIds[0]} goals={goals[0]} showGoals={showGoals} />
-          <FootballField>
+          <FootballField className={styles.footballField}>
             {teams.length && <TeamGridList teamIds={teamIds} />}
             {hasError && TacticPage.renderErrorMessage()}
             {isFetching && <LoadingIndicator className={styles.loadingIndicator} />}
@@ -119,9 +122,7 @@ class TacticPage extends PureComponent {
           {this.renderReplacePlayerPopover()}
           {this.renderTeamDialog()}
         </Paper>
-        <div>
-          {<BenchListContainer />}
-        </div>
+        <BenchContainer className={styles.bench} teamId={teamIds[1]} />
       </section>
     );
   }

@@ -9,6 +9,7 @@ import { fetchTactics } from '../../data/tactics/actions';
 import { selectActiveTacticId, selectUnsavedTacticIds } from '../../pages/TacticPage/selectors';
 import { selectTactic } from '../../pages/TacticPage/actions';
 import pt from '../../propTypes';
+import styles from './TacticListContainer.scss';
 
 class TacticListContainer extends PureComponent {
   componentDidMount() {
@@ -20,7 +21,7 @@ class TacticListContainer extends PureComponent {
     const { tactics, fetching, activeTacticId, unsavedTacticIds } = this.props;
 
     return (
-      <Paper id="tactic-list" zDepth={3}>
+      <Paper id="tactic-list" zDepth={3} className={styles.wrapper}>
         <TacticList
           tactics={tactics}
           activeTacticId={activeTacticId}

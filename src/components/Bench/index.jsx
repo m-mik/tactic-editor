@@ -14,12 +14,13 @@ const Bench = (props) => {
     players,
     team,
     onBenchPlayerAdd,
+    className,
   } = props;
 
   const benchPlayersCount = Object.keys(players).length || 0;
 
   const renderPlayerList = () => (
-    <ul className={styles.list}>
+    <ul className={styles.playerList}>
       {Object.keys(players).map((playerPos, index) => {
         const player = players[playerPos];
         return (
@@ -35,7 +36,7 @@ const Bench = (props) => {
           </li>);
       })}
       {benchPlayersCount < 11 && <li
-        className={`${styles.item} ${styles.addPlayer}`}
+        className={styles.addPlayer}
         id={`bench-${team.id}-add-player`}
       >
         <FloatingActionButton mini>
@@ -50,14 +51,12 @@ const Bench = (props) => {
   return (
     <Paper
       zDepth={3}
-      className={styles.wrapper}
+      className={`${className} ${styles.wrapper}`}
       id={`team-${team.id}-bench`}
       onContextMenu={event => event.preventDefault()}
     >
       <div className={styles.teamName}>{team.name}</div>
-      <div className={styles.players}>
-        {team.id && renderPlayerList()}
-      </div>
+      {team.id && renderPlayerList()}
     </Paper>
   );
 };
@@ -67,11 +66,13 @@ Bench.defaultProps = {
     name: defaultTeam.name,
     players: [],
   },
+  className: '',
 };
 
 Bench.propTypes = {
   players: pt.playersByPos.isRequired,
   team: pt.team,
+  className: PropTypes.string,
   onBenchPlayerAdd: PropTypes.func.isRequired,
 };
 

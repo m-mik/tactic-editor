@@ -78,6 +78,7 @@ class TacticSettings extends PureComponent {
         <div className={styles.buttons}>
           <div>
             <RaisedButton
+              className="btn-action"
               label="Save"
               primary
               icon={isSavingTactic ? <AnimatedSaveIcon /> : <SaveIcon />}
@@ -90,14 +91,16 @@ class TacticSettings extends PureComponent {
           </div>
           <div>
             <RaisedButton
-              label="Copy"
+              className="btn-action"
+              label="Clone"
               icon={<ContentCopyIcon />}
-              onTouchTap={() => this.props.onTacticCopy(tactic)}
+              onTouchTap={() => this.props.onTacticClone(tactic)}
               disabled={isSavingTactic}
             />
           </div>
           <div>
             <RaisedButton
+              className="btn-action"
               label="Generate image"
               icon={<ImageIcon />}
               onTouchTap={this.handleGenerateImage}
@@ -106,7 +109,7 @@ class TacticSettings extends PureComponent {
         </div>
         <Snackbar
           open={this.state.open}
-          message={`Tactic "${this.props.tactic.name}" has been saved`}
+          message="Tactic has been saved"
           autoHideDuration={3000}
           onRequestClose={this.handleRequestClose}
           contentStyle={{ textAlign: 'center' }}
@@ -124,7 +127,7 @@ TacticSettings.propTypes = {
   tactic: pt.denormalizedTactic,
   onSettingChange: PropTypes.func.isRequired,
   onTacticSave: PropTypes.func.isRequired,
-  onTacticCopy: PropTypes.func.isRequired,
+  onTacticClone: PropTypes.func.isRequired,
   isSavingTactic: PropTypes.bool.isRequired,
   unsavedTacticIds: pt.unsavedTacticIds.isRequired,
 };

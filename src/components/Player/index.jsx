@@ -124,7 +124,7 @@ export default class Player extends Component {
 }
 Player.defaultProps = {
   playerId: 0,
-  name: 'Player Name',
+  name: 'Player',
   number: 1,
   rating: 0,
   position: -1,
