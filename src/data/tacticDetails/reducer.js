@@ -9,7 +9,7 @@ import {
 } from './constants';
 import { CREATE_TACTIC_FULFILLED } from '../tactics/constants';
 
-const fetching = (state = [], action) => {
+export const fetching = (state = [], action) => {
   switch (action.type) {
     case FETCH_TACTIC_DETAIL_PENDING:
       return [...state, action.meta.data.id];
@@ -22,7 +22,7 @@ const fetching = (state = [], action) => {
   }
 };
 
-const errors = (state = [], action) => {
+export const errors = (state = [], action) => {
   switch (action.type) {
     case CREATE_TACTIC_FULFILLED:
       return [];
@@ -37,7 +37,7 @@ const errors = (state = [], action) => {
   }
 };
 
-const byId = (state = {}, action) => {
+export const byId = (state = {}, action) => {
   switch (action.type) {
     case CREATE_TACTIC_FULFILLED: {
       const { teams, id, options } = action.payload.data;
@@ -52,7 +52,7 @@ const byId = (state = {}, action) => {
   }
 };
 
-const status = (state = { fetching: [], errors: [] }, action) => {
+export const status = (state = { fetching: [], errors: [] }, action) => {
   switch (action.type) {
     case CREATE_TACTIC_FULFILLED:
     case FETCH_TACTIC_DETAIL_PENDING:

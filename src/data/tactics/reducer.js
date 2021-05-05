@@ -14,7 +14,7 @@ import {
   DELETE_TACTIC_REJECTED,
 } from './constants';
 
-const byId = (state = {}, action) => {
+export const byId = (state = {}, action) => {
   switch (action.type) {
     case CREATE_TACTIC_FULFILLED: {
       const { id, name } = action.payload.data;
@@ -29,7 +29,7 @@ const byId = (state = {}, action) => {
   }
 };
 
-const items = (state = [], action) => {
+export const items = (state = [], action) => {
   switch (action.type) {
     case CREATE_TACTIC_FULFILLED:
       return [action.payload.data.id, ...state];
@@ -49,8 +49,7 @@ const initialStatusState = {
   error: false,
 };
 
-// TODO: refactor
-const status = (state = initialStatusState, action) => {
+export const status = (state = initialStatusState, action) => {
   switch (action.type) {
     case FETCH_TACTICS_PENDING:
       return { ...state, isFetching: true };
