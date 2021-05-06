@@ -1,15 +1,16 @@
 export const TEAM_GRID_ID_PREFIX = 'team-grid';
 export const TILES_COUNT = 36;
+export const FIRST_BENCH_POS = TILES_COUNT;
 export const TILES_PER_LINE = (TILES_COUNT - 1) / 5;
 export const INITIAL_FIELD_PLAYER_POS = 18;
 
-export const isOnField = position => position >= 0 && position < TILES_COUNT;
-export const isOnBench = position => position >= TILES_COUNT;
+export const isOnField = position => position >= 0 && position < FIRST_BENCH_POS;
+export const isOnBench = position => position >= FIRST_BENCH_POS;
 export const isBenchPlayer = player => isOnBench(player.position);
 export const isFieldPlayer = player => isOnField(player.position);
 
 export function getBenchPosition(playerPos) {
-  return (playerPos - TILES_COUNT) + 1;
+  return (playerPos - FIRST_BENCH_POS) + 1;
 }
 
 export function findTeamGridElem(teamId) {
@@ -112,7 +113,7 @@ export function getFormation(players) {
 }
 
 export function getFormationText(formation) {
-  return Object.keys(formation).map(key => formation[key]).join('-');
+  return Object.values(formation).join('-');
 }
 
 export function getFormationArray(players) {
@@ -123,10 +124,10 @@ export function findFirstAvailableBenchPos(positions) {
   const sortedPos = positions.sort((pos1, pos2) => pos1 - pos2);
   for (let i = 0; i < sortedPos.length; i += 1) {
     const pos = sortedPos[i];
-    const expectedPos = TILES_COUNT + i;
+    const expectedPos = FIRST_BENCH_POS + i;
     if (expectedPos - pos !== 0) return expectedPos;
   }
-  return TILES_COUNT + positions.length;
+  return FIRST_BENCH_POS + positions.length;
 }
 
 export function matchScore(team1, team2) {
@@ -139,10 +140,12 @@ export function matchScore(team1, team2) {
   return [t1.goals + t2.ownGoals, t2.goals + t1.ownGoals];
 }
 
-export function changeTeamPlayersPos(team, position, playerFilter) {
+export function changeTeamPlayersPos(team, position, playerFilter = null) {
   return {
     ...team,
-    players: team.players.map(player =>
-      (playerFilter && playerFilter(player) ? ({ ...player, position }) : player)),
+    players: team.players.map((player) => {
+      if (playerFilter) return (playerFilter(player) ? { ...player, position } : player);
+      return { ...player, position };
+    }),
   };
 }
