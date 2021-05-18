@@ -1,7 +1,17 @@
-.wrapper {
+.content {
+  padding: 20px;
 
+  li {
+    margin-left: 20px;
+  }
+
+  h1, h4 {
+    text-align: center;
+  }
 }
 
-.content {
-  padding: 10px;
+.img {
+  display: block;
+  max-width: 100%;
+  margin: 20px 0;
 }
