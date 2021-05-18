@@ -20,7 +20,7 @@ const entry = PRODUCTION
   ];
 
 const prodPlugins = [
-  new webpack.optimize.UglifyJsPlugin(),
+  // new webpack.optimize.UglifyJsPlugin(),
   new ExtractTextPlugin('./[name].[contenthash].css'),
 ];
 
@@ -107,7 +107,7 @@ module.exports = {
   output: {
     filename: PRODUCTION ? 'bundle.[hash].min.js' : 'bundle.js',
     path: path.join(__dirname, 'dist'),
-    publicPath: '/',
+    publicPath: PRODUCTION ? './' : '/',
   },
   resolve: {
     extensions: ['.js', '.jsx'],
