@@ -1,7 +1,7 @@
 {
   "name": "tactic-editor",
   "version": "1.0.0",
-  "description": "",
+  "description": "A tool that allows you to create pre-match football tactics and summaries of already completed games, and convert them to PNG images",
   "main": "webpack.config.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server",
@@ -17,7 +17,7 @@
     "url": "git+https://github.com/m-mik/tactic-editor.git"
   },
   "author": "m-mik",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/m-mik/tactic-editor/issues"
   },
@@ -31,8 +31,6 @@
     "babel-preset-stage-0": "^6.24.1",
     "cross-env": "^4.0.0",
     "css-loader": "^0.28.0",
-    "enzyme": "^2.8.2",
-    "enzyme-to-json": "^1.5.1",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
@@ -88,7 +86,6 @@
     "redux-promise-middleware": "^4.2.0",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.0",
-    "save-dev": "0.0.1-security",
     "why-did-you-update": "0.0.8"
   }
 }
